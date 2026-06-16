@@ -3,49 +3,70 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz de Português - Desafio de 20 Segundos</title>
+    <title>Domínio da Língua · Quiz</title>
     <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="container" id="app">
-        <!-- CABEÇALHO -->
-        <div class="header">
-            <h1>📖 <span>Português</span> · Desafio</h1>
-            <div class="stats">
-                <span>✅ <span class="num acert" id="acertos">0</span></span>
-                <span>❌ <span class="num err" id="erros">0</span></span>
-                <span>⏱ <span class="num" id="questaoAtual">1</span>/<span id="totalQuestoes">20</span></span>
+    <div class="quiz-container">
+        <!-- HEADER -->
+        <div class="quiz-header">
+            <div class="quiz-title">
+                <span class="icon">📖</span>
+                <h1>Domínio da <span>Língua</span></h1>
+            </div>
+            <div class="quiz-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Acertos</span>
+                    <span class="stat-value" id="acertos">0</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-label">Erros</span>
+                    <span class="stat-value" id="erros">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-label">Questão <span id="questaoAtual">1</span> de <span id="totalQuestoes">20</span></span>
+                <span class="progress-percent" id="percentual">0%</span>
+            </div>
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progressBar"></div>
             </div>
         </div>
 
         <!-- TIMER -->
-        <div class="timer-container">
-            <span style="font-size:0.9rem; color:#4a5568; font-weight:500;">⏱</span>
-            <div class="timer-bar-bg">
-                <div class="timer-bar" id="timerBar"></div>
+        <div class="timer-section">
+            <div class="timer-bar-track">
+                <div class="timer-bar-fill" id="timerBar"></div>
             </div>
             <span class="timer-text" id="timerText">20s</span>
         </div>
 
-        <!-- PERGUNTA -->
+        <!-- BADGE -->
+        <div class="badge" id="badgeAno">4º Ano</div>
+
+        <!-- QUESTION -->
         <div class="question-area">
-            <div class="badge" id="badgeAno">4º Ano</div>
-            <div class="question-number" id="questaoNum">Questão 1 de 20</div>
-            <div class="question-text" id="pergunta">Carregando pergunta...</div>
+            <p class="question-text" id="pergunta">Carregando pergunta...</p>
         </div>
 
-        <!-- ALTERNATIVAS -->
-        <div class="options" id="opcoes"></div>
+        <!-- OPTIONS -->
+        <div class="options-grid" id="opcoes"></div>
 
         <!-- FEEDBACK -->
         <div class="feedback" id="feedback"></div>
 
-        <!-- BOTÃO PRÓXIMO -->
-        <button class="next-btn" id="btnProximo">→ Próxima questão</button>
+        <!-- NEXT BUTTON -->
+        <button class="next-btn" id="btnProximo">Próxima →</button>
 
-        <!-- RODAPÉ -->
-        <div class="footer">
-            <span class="progress-text"><strong id="percentual">0%</strong> concluído</span>
+        <!-- FOOTER -->
+        <div class="quiz-footer">
+            <span class="footer-label">Baseado na BNCC · Currículo PE</span>
             <button class="btn-reset" id="btnReset">↻ Reiniciar</button>
         </div>
     </div>
