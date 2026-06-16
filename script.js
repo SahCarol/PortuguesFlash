@@ -567,13 +567,11 @@ function iniciarJogo() {
         timerInterval = null;
     }
     
-    // Parar cronômetro geral se estiver rodando
     if (cronometroInterval) {
         clearInterval(cronometroInterval);
         cronometroInterval = null;
     }
 
-    // Reset stats por nível
     statsPorNivel = {
         '4º Ano': { acertos: 0, erros: 0 },
         '5º Ano': { acertos: 0, erros: 0 },
@@ -589,7 +587,6 @@ function iniciarJogo() {
     respostaSelecionada = false;
     tempoRestante = TEMPO_POR_QUESTAO;
     
-    // Iniciar cronômetro geral
     tempoInicio = Date.now();
     tempoTotalSegundos = 0;
     cronometroInterval = setInterval(() => {
@@ -926,13 +923,11 @@ function desenharGraficoPorNivel() {
 function exibirResultado() {
     jogoFinalizado = true;
     
-    // Parar cronômetro geral
     if (cronometroInterval) {
         clearInterval(cronometroInterval);
         cronometroInterval = null;
     }
     
-    // Atualizar tempo total final
     if (tempoInicio) {
         tempoTotalSegundos = Math.floor((Date.now() - tempoInicio) / 1000);
     }
@@ -954,7 +949,9 @@ function exibirResultado() {
     const fraseEscolhida = frasesInspiradoras[Math.floor(Math.random() * frasesInspiradoras.length)];
 
     elPergunta.textContent = '';
-    elBadge.className = 'badge';
+    
+    // 🔥 FINALIZADO em BRANCO
+    elBadge.className = 'badge finalizado';
     elBadge.textContent = 'FINALIZADO';
 
     // Formatar o tempo total
@@ -965,6 +962,7 @@ function exibirResultado() {
             <div class="sub-score">${mensagem}</div>
             <div class="big-score">${percentualAcertos}%</div>
             
+            <!-- 🔥 TEMPO em BRANCO -->
             <div class="result-time">
                 ⏱ Tempo total: <span class="time-value">${tempoFormatado}</span>
             </div>
@@ -1010,7 +1008,6 @@ function exibirResultado() {
         </div>
     `;
 
-    // Desenhar gráficos
     setTimeout(() => {
         desenharGraficoPizza(acertos, erros);
         desenharGraficoPorNivel();
