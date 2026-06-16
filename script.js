@@ -899,8 +899,10 @@ function exibirResultado() {
     const fraseEscolhida = frasesInspiradoras[Math.floor(Math.random() * frasesInspiradoras.length)];
 
     elPergunta.textContent = '';
+    
+    // 🔥 ALTERAÇÃO: apenas "FINALIZADO" em branco
     elBadge.className = 'badge';
-    elBadge.textContent = '🏁 FINALIZADO';
+    elBadge.textContent = 'FINALIZADO';
 
     elOpcoes.innerHTML = `
         <div class="result-area">
