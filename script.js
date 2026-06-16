@@ -39,7 +39,7 @@ function embaralharOpcoes(pergunta) {
 }
 
 // ================================================================
-//  FRASES ENCORAJADORAS
+//  FRASES ENCORAJADORAS DE GRANDES AUTORES/EDUCADORES
 // ================================================================
 
 const frasesInspiradoras = [
@@ -950,7 +950,9 @@ function exibirResultado() {
 
     elPergunta.textContent = '';
     
-    // 🔥 FINALIZADO em BRANCO
+    // ================================================================
+    //  🔥 FINALIZADO EM BRANCO PURO (#ffffff) COM BORDA BRANCA
+    // ================================================================
     elBadge.className = 'badge finalizado';
     elBadge.textContent = 'FINALIZADO';
 
@@ -962,7 +964,9 @@ function exibirResultado() {
             <div class="sub-score">${mensagem}</div>
             <div class="big-score">${percentualAcertos}%</div>
             
-            <!-- 🔥 TEMPO em BRANCO -->
+            <!-- ============================================================ -->
+            <!--  🔥 TEMPO TOTAL EM BRANCO PURO (#ffffff)                     -->
+            <!-- ============================================================ -->
             <div class="result-time">
                 ⏱ Tempo total: <span class="time-value">${tempoFormatado}</span>
             </div>
@@ -987,11 +991,11 @@ function exibirResultado() {
                 <div class="chart-legend">
                     <div class="legend-item">
                         <span class="legend-color" style="background: #4ade80;"></span>
-                        Acertos: ${acertos} (${total > 0 ? Math.round((acertos/total)*100) : 0}%)
+                        <span class="legend-text">Acertos: ${acertos} (${total > 0 ? Math.round((acertos/total)*100) : 0}%)</span>
                     </div>
                     <div class="legend-item">
                         <span class="legend-color" style="background: #f87171;"></span>
-                        Erros: ${erros} (${total > 0 ? Math.round((erros/total)*100) : 0}%)
+                        <span class="legend-text">Erros: ${erros} (${total > 0 ? Math.round((erros/total)*100) : 0}%)</span>
                     </div>
                 </div>
             </div>
