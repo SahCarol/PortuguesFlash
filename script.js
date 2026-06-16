@@ -20,6 +20,28 @@ function addP(ano, pergunta, opcoes, correta, explicacao) {
 }
 
 // ================================================================
+//  FUNÇÃO PARA EMBARALHAR OPÇÕES DE CADA PERGUNTA
+// ================================================================
+
+function embaralharOpcoes(pergunta) {
+    // Criar array com as opções e o índice da correta
+    const opcoesComIndex = pergunta.opcoes.map((texto, idx) => ({
+        texto: texto,
+        isCorreta: idx === pergunta.correta
+    }));
+
+    // Embaralhar
+    for (let i = opcoesComIndex.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [opcoesComIndex[i], opcoesComIndex[j]] = [opcoesComIndex[j], opcoesComIndex[i]];
+    }
+
+    // Atualizar a pergunta
+    pergunta.opcoes = opcoesComIndex.map(item => item.texto);
+    pergunta.correta = opcoesComIndex.findIndex(item => item.isCorreta);
+}
+
+// ================================================================
 //  FRASES ENCORAJADORAS DE GRANDES AUTORES/EDUCADORES
 // ================================================================
 
@@ -504,7 +526,7 @@ const badgeColors = {
 };
 
 // ================================================================
-//  SELECIONAR PERGUNTAS
+//  SELECIONAR PERGUNTAS (COM OPÇÕES EMBARALHADAS)
 // ================================================================
 
 function selecionarPerguntas() {
@@ -513,8 +535,13 @@ function selecionarPerguntas() {
 
     for (const ano of anos) {
         const questoes = perguntasPorAno[ano] || [];
+        // Embaralhar as perguntas do ano
         const shuffled = shuffle([...questoes]);
         const selecionadasAno = shuffled.slice(0, PERGUNTAS_POR_ANO);
+        
+        // 🔥 EMBARALHAR AS OPÇÕES DE CADA PERGUNTA SELECIONADA
+        selecionadasAno.forEach(q => embaralharOpcoes(q));
+        
         selecionadas = [...selecionadas, ...selecionadasAno];
     }
 
@@ -825,12 +852,6 @@ function desenharGraficoPorNivel() {
     if (!container) return;
 
     const anos = ['4º Ano', '5º Ano', '6º Ano', '7º Ano'];
-    const cores = {
-        '4º Ano': '#22c55e',
-        '5º Ano': '#3b82f6',
-        '6º Ano': '#eab308',
-        '7º Ano': '#f97316'
-    };
     const labels = {
         '4º Ano': '4º',
         '5º Ano': '5º',
@@ -899,8 +920,6 @@ function exibirResultado() {
     const fraseEscolhida = frasesInspiradoras[Math.floor(Math.random() * frasesInspiradoras.length)];
 
     elPergunta.textContent = '';
-    
-    // 🔥 ALTERAÇÃO: apenas "FINALIZADO" em branco
     elBadge.className = 'badge';
     elBadge.textContent = 'FINALIZADO';
 
