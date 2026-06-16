@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz de Português - Desafio de 20 Segundos</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- CABEÇALHO -->
+        <div class="header">
+            <h1>📖 <span>Português</span> · Desafio</h1>
+            <div class="stats">
+                <span>✅ <span class="num acert" id="acertos">0</span></span>
+                <span>❌ <span class="num err" id="erros">0</span></span>
+                <span>⏱ <span class="num" id="questaoAtual">1</span>/<span id="totalQuestoes">20</span></span>
+            </div>
+        </div>
+
+        <!-- TIMER -->
+        <div class="timer-container">
+            <span style="font-size:0.9rem; color:#4a5568; font-weight:500;">⏱</span>
+            <div class="timer-bar-bg">
+                <div class="timer-bar" id="timerBar"></div>
+            </div>
+            <span class="timer-text" id="timerText">20s</span>
+        </div>
+
+        <!-- PERGUNTA -->
+        <div class="question-area">
+            <div class="badge" id="badgeAno">4º Ano</div>
+            <div class="question-number" id="questaoNum">Questão 1 de 20</div>
+            <div class="question-text" id="pergunta">Carregando pergunta...</div>
+        </div>
+
+        <!-- ALTERNATIVAS -->
+        <div class="options" id="opcoes"></div>
+
+        <!-- FEEDBACK -->
+        <div class="feedback" id="feedback"></div>
+
+        <!-- BOTÃO PRÓXIMO -->
+        <button class="next-btn" id="btnProximo">→ Próxima questão</button>
+
+        <!-- RODAPÉ -->
+        <div class="footer">
+            <span class="progress-text"><strong id="percentual">0%</strong> concluído</span>
+            <button class="btn-reset" id="btnReset">↻ Reiniciar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
