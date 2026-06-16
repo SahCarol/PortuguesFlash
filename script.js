@@ -24,25 +24,22 @@ function addP(ano, pergunta, opcoes, correta, explicacao) {
 // ================================================================
 
 function embaralharOpcoes(pergunta) {
-    // Criar array com as opções e o índice da correta
     const opcoesComIndex = pergunta.opcoes.map((texto, idx) => ({
         texto: texto,
         isCorreta: idx === pergunta.correta
     }));
 
-    // Embaralhar
     for (let i = opcoesComIndex.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [opcoesComIndex[i], opcoesComIndex[j]] = [opcoesComIndex[j], opcoesComIndex[i]];
     }
 
-    // Atualizar a pergunta
     pergunta.opcoes = opcoesComIndex.map(item => item.texto);
     pergunta.correta = opcoesComIndex.findIndex(item => item.isCorreta);
 }
 
 // ================================================================
-//  FRASES ENCORAJADORAS DE GRANDES AUTORES/EDUCADORES
+//  FRASES ENCORAJADORAS
 // ================================================================
 
 const frasesInspiradoras = [
@@ -493,6 +490,14 @@ let timerInterval = null;
 let respostaSelecionada = false;
 let jogoFinalizado = false;
 
+// ================================================================
+//  CRONÔMETRO GERAL
+// ================================================================
+
+let tempoInicio = null;
+let tempoTotalSegundos = 0;
+let cronometroInterval = null;
+
 // Estatísticas por nível
 let statsPorNivel = {
     '4º Ano': { acertos: 0, erros: 0 },
@@ -535,13 +540,9 @@ function selecionarPerguntas() {
 
     for (const ano of anos) {
         const questoes = perguntasPorAno[ano] || [];
-        // Embaralhar as perguntas do ano
         const shuffled = shuffle([...questoes]);
         const selecionadasAno = shuffled.slice(0, PERGUNTAS_POR_ANO);
-        
-        // 🔥 EMBARALHAR AS OPÇÕES DE CADA PERGUNTA SELECIONADA
         selecionadasAno.forEach(q => embaralharOpcoes(q));
-        
         selecionadas = [...selecionadas, ...selecionadasAno];
     }
 
@@ -565,6 +566,12 @@ function iniciarJogo() {
         clearInterval(timerInterval);
         timerInterval = null;
     }
+    
+    // Parar cronômetro geral se estiver rodando
+    if (cronometroInterval) {
+        clearInterval(cronometroInterval);
+        cronometroInterval = null;
+    }
 
     // Reset stats por nível
     statsPorNivel = {
@@ -581,6 +588,13 @@ function iniciarJogo() {
     jogoFinalizado = false;
     respostaSelecionada = false;
     tempoRestante = TEMPO_POR_QUESTAO;
+    
+    // Iniciar cronômetro geral
+    tempoInicio = Date.now();
+    tempoTotalSegundos = 0;
+    cronometroInterval = setInterval(() => {
+        tempoTotalSegundos = Math.floor((Date.now() - tempoInicio) / 1000);
+    }, 1000);
 
     elTotalQuestoes.textContent = TOTAL_PERGUNTAS;
     atualizarStats();
@@ -595,7 +609,6 @@ function exibirPergunta() {
 
     const q = perguntasJogo[indiceAtual];
     
-    // Aplicar classe de cor ao badge
     elBadge.className = 'badge';
     const corClasse = badgeColors[q.ano] || 'ano-4';
     elBadge.classList.add(corClasse);
@@ -683,7 +696,6 @@ function tempoEsgotado() {
     });
 
     erros++;
-    // Registrar erro por nível
     if (statsPorNivel[q.ano]) {
         statsPorNivel[q.ano].erros++;
     }
@@ -765,6 +777,16 @@ function atualizarStats() {
     const percentual = totalRespondidas > 0 ? Math.round((totalRespondidas / TOTAL_PERGUNTAS) * 100) : 0;
     elPercentual.textContent = `${percentual}%`;
     elProgressBar.style.width = `${percentual}%`;
+}
+
+// ================================================================
+//  FUNÇÃO PARA FORMATAR TEMPO (mm:ss)
+// ================================================================
+
+function formatarTempo(segundos) {
+    const mins = Math.floor(segundos / 60);
+    const secs = segundos % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
 // ================================================================
@@ -903,6 +925,18 @@ function desenharGraficoPorNivel() {
 
 function exibirResultado() {
     jogoFinalizado = true;
+    
+    // Parar cronômetro geral
+    if (cronometroInterval) {
+        clearInterval(cronometroInterval);
+        cronometroInterval = null;
+    }
+    
+    // Atualizar tempo total final
+    if (tempoInicio) {
+        tempoTotalSegundos = Math.floor((Date.now() - tempoInicio) / 1000);
+    }
+
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -923,10 +957,18 @@ function exibirResultado() {
     elBadge.className = 'badge';
     elBadge.textContent = 'FINALIZADO';
 
+    // Formatar o tempo total
+    const tempoFormatado = formatarTempo(tempoTotalSegundos);
+
     elOpcoes.innerHTML = `
         <div class="result-area">
             <div class="sub-score">${mensagem}</div>
             <div class="big-score">${percentualAcertos}%</div>
+            
+            <div class="result-time">
+                ⏱ Tempo total: <span class="time-value">${tempoFormatado}</span>
+            </div>
+            
             <div class="detail-stats">
                 <div>
                     <div class="label">Acertos</div>
