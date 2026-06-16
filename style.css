@@ -528,6 +528,91 @@ body {
     flex-shrink: 0;
 }
 
+/* ===== GRÁFICO POR NÍVEL (Barras) ===== */
+.level-chart {
+    margin: 20px 0 16px;
+    padding: 16px 20px;
+    background: #141414;
+    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+}
+
+.level-chart-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.level-bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.level-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.level-bar-label {
+    min-width: 60px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #aaaaaa;
+    text-align: right;
+}
+
+.level-bar-label .ano-4-label { color: #22c55e; }
+.level-bar-label .ano-5-label { color: #3b82f6; }
+.level-bar-label .ano-6-label { color: #eab308; }
+.level-bar-label .ano-7-label { color: #f97316; }
+
+.level-bar-track {
+    flex: 1;
+    height: 20px;
+    background: #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    position: relative;
+}
+
+.level-bar-fill-acertos {
+    height: 100%;
+    background: #4ade80;
+    border-radius: 10px 0 0 10px;
+    transition: width 0.6s ease;
+    min-width: 2px;
+}
+
+.level-bar-fill-erros {
+    height: 100%;
+    background: #f87171;
+    border-radius: 0 10px 10px 0;
+    transition: width 0.6s ease;
+    min-width: 2px;
+}
+
+.level-bar-numbers {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #888888;
+    min-width: 70px;
+    text-align: left;
+}
+
+.level-bar-numbers .acert-count {
+    color: #4ade80;
+}
+.level-bar-numbers .err-count {
+    color: #f87171;
+}
+
 /* ===== FRASE ENCORAJADORA ===== */
 .inspirational-quote {
     margin: 16px 0 8px;
@@ -561,6 +646,8 @@ body {
     .result-area .detail-stats { gap: 24px; }
     .chart-container { flex-direction: column; align-items: center; }
     .chart-legend { align-items: center; }
+    .level-bar-label { min-width: 45px; font-size: 0.65rem; }
+    .level-bar-numbers { min-width: 55px; font-size: 0.6rem; }
 }
 
 @media (max-width: 420px) {
