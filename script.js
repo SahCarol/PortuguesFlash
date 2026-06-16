@@ -20,6 +20,29 @@ function addP(ano, pergunta, opcoes, correta, explicacao) {
 }
 
 // ================================================================
+//  FRASES ENCORAJADORAS DE GRANDES AUTORES/EDUCADORES
+// ================================================================
+
+const frasesInspiradoras = [
+    { frase: 'A leitura é uma fonte inesgotável de prazer, mas por incrível que pareça, a quase totalidade não sente esta sede.', autor: 'Carlos Drummond de Andrade' },
+    { frase: 'Ler é sonhar pela mão de outrem. Ler mal e por alto é libertar-se da mão que nos conduz. A leitura superficial é a preguiça de sonhar.', autor: 'Fernando Pessoa' },
+    { frase: 'A educação é a arma mais poderosa que você pode usar para mudar o mundo.', autor: 'Nelson Mandela' },
+    { frase: 'Educar é semear com sabedoria e colher com paciência.', autor: 'Augusto Cury' },
+    { frase: 'O importante não é vencer todos os dias, mas lutar sempre.', autor: 'Waldemar Valle Martins' },
+    { frase: 'A mente que se abre a uma nova ideia jamais voltará ao seu tamanho original.', autor: 'Albert Einstein' },
+    { frase: 'O conhecimento é a única coisa que ninguém pode tirar de você.', autor: 'Sócrates' },
+    { frase: 'Não basta saber, é preciso aplicar. Não basta querer, é preciso fazer.', autor: 'Johann Wolfgang von Goethe' },
+    { frase: 'O verdadeiro analfabeto é aquele que não aprendeu a aprender.', autor: 'Paulo Freire' },
+    { frase: 'A educação não transforma o mundo. A educação muda as pessoas. Pessoas transformam o mundo.', autor: 'Paulo Freire' },
+    { frase: 'O homem que não lê bons livros não tem nenhuma vantagem sobre o homem que não sabe ler.', autor: 'Mark Twain' },
+    { frase: 'O conhecimento é poder. A informação é libertadora. A educação é a premissa do progresso.', autor: 'Kofi Annan' },
+    { frase: 'A leitura é para a mente o que o exercício é para o corpo.', autor: 'Joseph Addison' },
+    { frase: 'Os livros são os mais silenciosos e constantes amigos; os mais acessíveis e sábios conselheiros; e os mais pacientes professores.', autor: 'Charles W. Eliot' },
+    { frase: 'A educação é o movimento da escuridão para a luz.', autor: 'Allan Bloom' },
+    { frase: 'Aprender é a única coisa que a mente nunca se cansa, nunca tem medo e nunca se arrepende.', autor: 'Leonardo da Vinci' }
+];
+
+// ================================================================
 //  4º ANO – 40 perguntas
 // ================================================================
 addP('4º Ano', 'Qual gênero textual é usado para enviar um recado rápido a um amigo?',
@@ -464,6 +487,14 @@ const elTimerBar = document.getElementById('timerBar');
 const elTimerText = document.getElementById('timerText');
 const elProgressBar = document.getElementById('progressBar');
 
+// Mapeamento de cores para badges
+const badgeColors = {
+    '4º Ano': 'ano-4',
+    '5º Ano': 'ano-5',
+    '6º Ano': 'ano-6',
+    '7º Ano': 'ano-7'
+};
+
 // ================================================================
 //  SELECIONAR PERGUNTAS
 // ================================================================
@@ -520,7 +551,13 @@ function exibirPergunta() {
     }
 
     const q = perguntasJogo[indiceAtual];
-    elBadge.textContent = q.ano || '4º Ano';
+    
+    // Aplicar classe de cor ao badge
+    elBadge.className = 'badge';
+    const corClasse = badgeColors[q.ano] || 'ano-4';
+    elBadge.classList.add(corClasse);
+    elBadge.textContent = q.ano;
+
     elPergunta.textContent = q.pergunta;
 
     const letras = ['A', 'B', 'C', 'D'];
@@ -570,11 +607,9 @@ function atualizarTimerVisual() {
     elTimerBar.style.width = `${Math.max(0, percentual)}%`;
     elTimerText.textContent = `${tempoRestante}s`;
 
-    // Remover classes
     elTimerBar.className = 'timer-bar-fill';
     elTimerText.className = 'timer-text';
 
-    // Aplicar cores conforme o tempo
     if (tempoRestante <= 5) {
         elTimerBar.classList.add('red');
         elTimerText.classList.add('red');
@@ -678,6 +713,91 @@ function atualizarStats() {
     elProgressBar.style.width = `${percentual}%`;
 }
 
+// ================================================================
+//  GRÁFICO DE PIZZA
+// ================================================================
+
+function desenharGraficoPizza(acertos, erros) {
+    const canvas = document.getElementById('pizzaChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    const radius = Math.min(width, height) / 2 - 10;
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const total = acertos + erros;
+    if (total === 0) {
+        // Nenhuma questão respondida
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#333333';
+        ctx.fill();
+        ctx.fillStyle = '#888888';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Aguardando...', centerX, centerY);
+        return;
+    }
+
+    const acertosPercent = acertos / total;
+    const errosPercent = erros / total;
+
+    const startAngle = -Math.PI / 2;
+    const acertosAngle = acertosPercent * 2 * Math.PI;
+    const errosAngle = errosPercent * 2 * Math.PI;
+
+    // Desenhar fatia de acertos (verde)
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, startAngle + acertosAngle);
+    ctx.closePath();
+    ctx.fillStyle = '#4ade80';
+    ctx.fill();
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Desenhar fatia de erros (vermelho)
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle + acertosAngle, startAngle + acertosAngle + errosAngle);
+    ctx.closePath();
+    ctx.fillStyle = '#f87171';
+    ctx.fill();
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Borda branca ao redor
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = '#333333';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Porcentagem central
+    ctx.fillStyle = '#e8e8e8';
+    ctx.font = 'bold 22px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const percentualAcertos = Math.round(acertosPercent * 100);
+    ctx.fillText(`${percentualAcertos}%`, centerX, centerY - 6);
+
+    ctx.fillStyle = '#888888';
+    ctx.font = '11px Inter, sans-serif';
+    ctx.fillText('acertos', centerX, centerY + 20);
+}
+
+// ================================================================
+//  EXIBIR RESULTADO
+// ================================================================
+
 function exibirResultado() {
     jogoFinalizado = true;
     if (timerInterval) {
@@ -694,7 +814,11 @@ function exibirResultado() {
     else if (percentualAcertos >= 40) mensagem = '📚 Estude mais e tente novamente!';
     else mensagem = '💪 Não desista! Revisando os conteúdos você melhora!';
 
+    // Selecionar frase inspiradora aleatória
+    const fraseEscolhida = frasesInspiradoras[Math.floor(Math.random() * frasesInspiradoras.length)];
+
     elPergunta.textContent = '';
+    elBadge.className = 'badge';
     elBadge.textContent = '🏁 FINALIZADO';
 
     elOpcoes.innerHTML = `
@@ -711,13 +835,38 @@ function exibirResultado() {
                     <div class="value red">${erros}</div>
                 </div>
                 <div>
-                    <div class="label">Tempo</div>
-                    <div class="value yellow">20s</div>
+                    <div class="label">Total</div>
+                    <div class="value yellow">${total}</div>
                 </div>
             </div>
+            
+            <div class="chart-container">
+                <canvas id="pizzaChart" width="200" height="200"></canvas>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #4ade80;"></span>
+                        Acertos: ${acertos} (${total > 0 ? Math.round((acertos/total)*100) : 0}%)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #f87171;"></span>
+                        Erros: ${erros} (${total > 0 ? Math.round((erros/total)*100) : 0}%)
+                    </div>
+                </div>
+            </div>
+
+            <div class="inspirational-quote">
+                "${fraseEscolhida.frase}"
+                <span class="author">— ${fraseEscolhida.autor}</span>
+            </div>
+
             <div class="result-sub">${TOTAL_PERGUNTAS} questões · 5 de cada ano (4º ao 7º)</div>
         </div>
     `;
+
+    // Desenhar gráfico de pizza
+    setTimeout(() => {
+        desenharGraficoPizza(acertos, erros);
+    }, 50);
 
     elFeedback.className = 'feedback';
     elFeedback.textContent = '';
