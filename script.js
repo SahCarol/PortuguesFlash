@@ -1,6 +1,5 @@
 // ================================================================
 //  BANCO DE DADOS – PERGUNTAS POR ANO
-//  Baseado na BNCC e Currículo de Pernambuco
 // ================================================================
 
 const perguntasPorAno = {
@@ -437,7 +436,7 @@ addP('7º Ano', 'O que é um texto de opinião?',
 // ================================================================
 
 const TOTAL_PERGUNTAS = 20;
-const TEMPO_POR_QUESTAO = 20; // segundos
+const TEMPO_POR_QUESTAO = 20;
 const PERGUNTAS_POR_ANO = 5;
 
 let perguntasJogo = [];
@@ -449,6 +448,7 @@ let timerInterval = null;
 let respostaSelecionada = false;
 let jogoFinalizado = false;
 
+// Elementos DOM
 const elPergunta = document.getElementById('pergunta');
 const elOpcoes = document.getElementById('opcoes');
 const elFeedback = document.getElementById('feedback');
@@ -459,13 +459,13 @@ const elQuestaoAtual = document.getElementById('questaoAtual');
 const elTotalQuestoes = document.getElementById('totalQuestoes');
 const elPercentual = document.getElementById('percentual');
 const elBadge = document.getElementById('badgeAno');
-const elQuestaoNum = document.getElementById('questaoNum');
 const elBtnReset = document.getElementById('btnReset');
 const elTimerBar = document.getElementById('timerBar');
 const elTimerText = document.getElementById('timerText');
+const elProgressBar = document.getElementById('progressBar');
 
 // ================================================================
-//  SELECIONAR 5 PERGUNTAS ALEATÓRIAS DE CADA ANO
+//  SELECIONAR PERGUNTAS
 // ================================================================
 
 function selecionarPerguntas() {
@@ -495,7 +495,6 @@ function shuffle(array) {
 // ================================================================
 
 function iniciarJogo() {
-    // Reset
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -522,7 +521,6 @@ function exibirPergunta() {
 
     const q = perguntasJogo[indiceAtual];
     elBadge.textContent = q.ano || '4º Ano';
-    elQuestaoNum.textContent = `Questão ${indiceAtual + 1} de ${TOTAL_PERGUNTAS}`;
     elPergunta.textContent = q.pergunta;
 
     const letras = ['A', 'B', 'C', 'D'];
@@ -560,7 +558,6 @@ function iniciarTimer() {
         if (tempoRestante <= 0) {
             clearInterval(timerInterval);
             timerInterval = null;
-            // Tempo esgotado
             if (!respostaSelecionada) {
                 tempoEsgotado();
             }
@@ -570,19 +567,26 @@ function iniciarTimer() {
 
 function atualizarTimerVisual() {
     const percentual = (tempoRestante / TEMPO_POR_QUESTAO) * 100;
-    elTimerBar.style.width = `${percentual}%`;
+    elTimerBar.style.width = `${Math.max(0, percentual)}%`;
     elTimerText.textContent = `${tempoRestante}s`;
 
     // Remover classes
-    elTimerBar.classList.remove('warning', 'danger');
-    elTimerText.classList.remove('warning', 'danger');
+    elTimerBar.className = 'timer-bar-fill';
+    elTimerText.className = 'timer-text';
 
+    // Aplicar cores conforme o tempo
     if (tempoRestante <= 5) {
-        elTimerBar.classList.add('danger');
-        elTimerText.classList.add('danger');
+        elTimerBar.classList.add('red');
+        elTimerText.classList.add('red');
     } else if (tempoRestante <= 10) {
-        elTimerBar.classList.add('warning');
-        elTimerText.classList.add('warning');
+        elTimerBar.classList.add('orange');
+        elTimerText.classList.add('orange');
+    } else if (tempoRestante <= 15) {
+        elTimerBar.classList.add('yellow');
+        elTimerText.classList.add('yellow');
+    } else {
+        elTimerBar.classList.add('blue');
+        elTimerText.classList.add('blue');
     }
 }
 
@@ -593,7 +597,6 @@ function tempoEsgotado() {
     const q = perguntasJogo[indiceAtual];
     const opcoes = document.querySelectorAll('.option');
 
-    // Desabilitar e marcar como timeout
     opcoes.forEach((opt, i) => {
         opt.classList.add('disabled', 'timed-out');
         if (i === q.correta) {
@@ -621,7 +624,6 @@ function selecionarResposta(idx) {
     if (respostaSelecionada) return;
     respostaSelecionada = true;
 
-    // Parar o timer
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -673,6 +675,7 @@ function atualizarStats() {
     const totalRespondidas = acertos + erros;
     const percentual = totalRespondidas > 0 ? Math.round((totalRespondidas / TOTAL_PERGUNTAS) * 100) : 0;
     elPercentual.textContent = `${percentual}%`;
+    elProgressBar.style.width = `${percentual}%`;
 }
 
 function exibirResultado() {
@@ -693,7 +696,6 @@ function exibirResultado() {
 
     elPergunta.textContent = '';
     elBadge.textContent = '🏁 FINALIZADO';
-    elQuestaoNum.textContent = 'Resultado final';
 
     elOpcoes.innerHTML = `
         <div class="result-area">
@@ -709,13 +711,11 @@ function exibirResultado() {
                     <div class="value red">${erros}</div>
                 </div>
                 <div>
-                    <div class="label">Tempo médio</div>
-                    <div class="value yellow">${TEMPO_POR_QUESTAO}s</div>
+                    <div class="label">Tempo</div>
+                    <div class="value yellow">20s</div>
                 </div>
             </div>
-            <div style="font-size:0.9rem; color:#718096;">
-                ${TOTAL_PERGUNTAS} questões · 5 de cada ano (4º ao 7º)
-            </div>
+            <div class="result-sub">${TOTAL_PERGUNTAS} questões · 5 de cada ano (4º ao 7º)</div>
         </div>
     `;
 
@@ -723,6 +723,7 @@ function exibirResultado() {
     elFeedback.textContent = '';
     elBtnProximo.classList.remove('show');
     elPercentual.textContent = '100%';
+    elProgressBar.style.width = '100%';
 }
 
 // Eventos
