@@ -1,5 +1,5 @@
 // ================================================================
-//  BANCO DE DADOS – PERGUNTAS POR ANO (MESMO DE ONTEM)
+//  BANCO DE DADOS – PERGUNTAS POR ANO
 // ================================================================
 
 const perguntasPorAno = {
@@ -39,7 +39,7 @@ function embaralharOpcoes(pergunta) {
 }
 
 // ================================================================
-//  FRASES ENCORAJADORAS (MESMO DE ONTEM)
+//  FRASES ENCORAJADORAS
 // ================================================================
 
 const frasesInspiradoras = [
@@ -62,7 +62,7 @@ const frasesInspiradoras = [
 ];
 
 // ================================================================
-//  4º ANO – 40 perguntas (MESMO DE ONTEM)
+//  4º ANO – 40 perguntas
 // ================================================================
 addP('4º Ano', 'Qual gênero textual é usado para enviar um recado rápido a um amigo?',
     ['Bilhete', 'Notícia', 'Receita', 'Verbete'], 0, 'Bilhete é um gênero informal e breve.');
@@ -146,7 +146,7 @@ addP('4º Ano', 'Qual é o coletivo de "abelhas"?',
     ['Enxame', 'Colmeia', 'Cardume', 'Alcateia'], 0, 'Enxame é coletivo de abelhas.');
 
 // ================================================================
-//  5º ANO – 40 perguntas (MESMO DE ONTEM)
+//  5º ANO – 40 perguntas
 // ================================================================
 addP('5º Ano', 'O que caracteriza um texto narrativo?',
     ['Presença de enredo e personagens', 'Uso de dados e gráficos', 'Instruções passo a passo', 'Definições de palavras'], 0,
@@ -247,7 +247,7 @@ addP('5º Ano', 'Em "O livro que li é interessante", a palavra "que" é:',
     ['Pronome relativo', 'Conjunção', 'Preposição', 'Advérbio'], 0, '"Que" retoma "livro" (pronome relativo).');
 
 // ================================================================
-//  6º ANO – 40 perguntas (MESMO DE ONTEM)
+//  6º ANO – 40 perguntas
 // ================================================================
 addP('6º Ano', 'O que caracteriza um artigo de opinião?',
     ['Defesa de um ponto de vista', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
@@ -359,7 +359,7 @@ addP('6º Ano', 'Em "Ele trabalha e estuda", a conjunção "e" indica:',
     ['Adição', 'Oposição', 'Alternância', 'Conclusão'], 0, '"E" é aditiva.');
 
 // ================================================================
-//  7º ANO – 40 perguntas (MESMO DE ONTEM)
+//  7º ANO – 40 perguntas
 // ================================================================
 addP('7º Ano', 'O que caracteriza um texto argumentativo?',
     ['Defesa de uma tese com argumentos', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
@@ -474,7 +474,7 @@ addP('7º Ano', 'O que é um texto de opinião?',
     'Texto de opinião apresenta a visão do autor sobre um tema.');
 
 // ================================================================
-//  LÓGICA DO JOGO (MESMO DE ONTEM)
+//  LÓGICA DO JOGO (CORRIGIDA)
 // ================================================================
 
 const TOTAL_PERGUNTAS = 20;
@@ -506,7 +506,10 @@ let statsPorNivel = {
     '7º Ano': { acertos: 0, erros: 0 }
 };
 
-// Elementos DOM
+// ================================================================
+//  ELEMENTOS DOM (VERIFICAR SE EXISTEM)
+// ================================================================
+
 const elPergunta = document.getElementById('pergunta');
 const elOpcoes = document.getElementById('opcoes');
 const elFeedback = document.getElementById('feedback');
@@ -574,10 +577,13 @@ function shuffle(array) {
 }
 
 // ================================================================
-//  FUNÇÕES DO JOGO
+//  FUNÇÕES DO JOGO (CORRIGIDAS)
 // ================================================================
 
 function iniciarJogo() {
+    console.log('🔄 Iniciando jogo...');
+
+    // Limpar timers anteriores
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -588,6 +594,7 @@ function iniciarJogo() {
         cronometroInterval = null;
     }
 
+    // Resetar estatísticas
     statsPorNivel = {
         '4º Ano': { acertos: 0, erros: 0 },
         '5º Ano': { acertos: 0, erros: 0 },
@@ -595,7 +602,17 @@ function iniciarJogo() {
         '7º Ano': { acertos: 0, erros: 0 }
     };
 
+    // Selecionar perguntas
     perguntasJogo = selecionarPerguntas();
+    console.log(`📝 ${perguntasJogo.length} perguntas selecionadas`);
+
+    if (perguntasJogo.length === 0) {
+        console.error('❌ Nenhuma pergunta selecionada!');
+        elPergunta.textContent = 'Erro ao carregar perguntas. Recarregue a página.';
+        return;
+    }
+
+    // Resetar variáveis do jogo
     indiceAtual = 0;
     acertos = 0;
     erros = 0;
@@ -603,60 +620,95 @@ function iniciarJogo() {
     respostaSelecionada = false;
     tempoRestante = TEMPO_POR_QUESTAO;
     
+    // Iniciar cronômetro geral
     tempoInicio = Date.now();
     tempoTotalSegundos = 0;
     cronometroInterval = setInterval(() => {
         tempoTotalSegundos = Math.floor((Date.now() - tempoInicio) / 1000);
     }, 1000);
 
+    // Carregar dados do jogador
     carregarJogador();
+
+    // Atualizar interface e exibir primeira pergunta
     atualizarStats();
     exibirPergunta();
 }
 
 function exibirPergunta() {
+    console.log(`📌 Exibindo pergunta ${indiceAtual + 1}/${TOTAL_PERGUNTAS}`);
+
+    // Verificar se acabou o jogo
     if (indiceAtual >= perguntasJogo.length || jogoFinalizado) {
         exibirResultado();
         return;
     }
 
     const q = perguntasJogo[indiceAtual];
-    
-    elBadge.className = 'badge';
-    const corClasse = badgeColors[q.ano] || 'ano-4';
-    elBadge.classList.add(corClasse);
-    elBadge.textContent = q.ano;
+    if (!q) {
+        console.error('❌ Pergunta inválida!');
+        return;
+    }
 
-    elPergunta.textContent = q.pergunta;
+    // Atualizar badge com a cor do ano
+    if (elBadge) {
+        elBadge.className = 'badge';
+        const corClasse = badgeColors[q.ano] || 'ano-4';
+        elBadge.classList.add(corClasse);
+        elBadge.textContent = q.ano;
+    }
 
-    const letras = ['A', 'B', 'C', 'D'];
-    elOpcoes.innerHTML = '';
-    q.opcoes.forEach((texto, idx) => {
-        const div = document.createElement('div');
-        div.className = 'option';
-        div.dataset.index = idx;
-        div.innerHTML = `<span class="letter">${letras[idx]}</span> ${texto}`;
-        div.addEventListener('click', () => selecionarResposta(idx));
-        elOpcoes.appendChild(div);
-    });
+    // Atualizar pergunta
+    if (elPergunta) {
+        elPergunta.textContent = q.pergunta;
+    }
 
-    elFeedback.className = 'feedback';
-    elFeedback.textContent = '';
-    elBtnProximo.classList.remove('show');
+    // Renderizar opções
+    if (elOpcoes) {
+        const letras = ['A', 'B', 'C', 'D'];
+        elOpcoes.innerHTML = '';
+        
+        q.opcoes.forEach((texto, idx) => {
+            const div = document.createElement('div');
+            div.className = 'option';
+            div.dataset.index = idx;
+            div.innerHTML = `<span class="letter">${letras[idx]}</span> ${texto}`;
+            div.addEventListener('click', () => selecionarResposta(idx));
+            elOpcoes.appendChild(div);
+        });
+    }
+
+    // Resetar feedback
+    if (elFeedback) {
+        elFeedback.className = 'feedback';
+        elFeedback.textContent = '';
+    }
+
+    // Resetar botão próximo
+    if (elBtnProximo) {
+        elBtnProximo.classList.remove('show');
+    }
+
+    // Resetar estado
     respostaSelecionada = false;
     tempoRestante = TEMPO_POR_QUESTAO;
 
+    // Atualizar estatísticas e iniciar timer
     atualizarStats();
     iniciarTimer();
 }
 
 function iniciarTimer() {
+    // Limpar timer anterior
     if (timerInterval) {
         clearInterval(timerInterval);
+        timerInterval = null;
     }
 
+    // Atualizar visual do timer
     atualizarTimerVisual();
 
+    // Iniciar novo timer
     timerInterval = setInterval(() => {
         tempoRestante--;
         atualizarTimerVisual();
@@ -669,28 +721,46 @@ function iniciarTimer() {
             }
         }
     }, 1000);
+
+    console.log(`⏱ Timer iniciado: ${tempoRestante}s`);
 }
 
 function atualizarTimerVisual() {
     const percentual = (tempoRestante / TEMPO_POR_QUESTAO) * 100;
-    elTimerBar.style.width = `${Math.max(0, percentual)}%`;
-    elTimerText.textContent = `${tempoRestante}s`;
+    
+    if (elTimerBar) {
+        elTimerBar.style.width = `${Math.max(0, percentual)}%`;
+    }
+    
+    if (elTimerText) {
+        elTimerText.textContent = `${tempoRestante}s`;
+    }
 
-    elTimerBar.className = 'timer-bar-fill';
-    elTimerText.className = 'timer-text';
+    // Atualizar cores
+    if (elTimerBar) {
+        elTimerBar.className = 'timer-bar-fill';
+        if (tempoRestante <= 5) {
+            elTimerBar.classList.add('red');
+        } else if (tempoRestante <= 10) {
+            elTimerBar.classList.add('orange');
+        } else if (tempoRestante <= 15) {
+            elTimerBar.classList.add('yellow');
+        } else {
+            elTimerBar.classList.add('blue');
+        }
+    }
 
-    if (tempoRestante <= 5) {
-        elTimerBar.classList.add('red');
-        elTimerText.classList.add('red');
-    } else if (tempoRestante <= 10) {
-        elTimerBar.classList.add('orange');
-        elTimerText.classList.add('orange');
-    } else if (tempoRestante <= 15) {
-        elTimerBar.classList.add('yellow');
-        elTimerText.classList.add('yellow');
-    } else {
-        elTimerBar.classList.add('blue');
-        elTimerText.classList.add('blue');
+    if (elTimerText) {
+        elTimerText.className = 'timer-text';
+        if (tempoRestante <= 5) {
+            elTimerText.classList.add('red');
+        } else if (tempoRestante <= 10) {
+            elTimerText.classList.add('orange');
+        } else if (tempoRestante <= 15) {
+            elTimerText.classList.add('yellow');
+        } else {
+            elTimerText.classList.add('blue');
+        }
     }
 }
 
@@ -713,14 +783,20 @@ function tempoEsgotado() {
         statsPorNivel[q.ano].erros++;
     }
 
-    elFeedback.innerHTML = `
-        <span class="timeout-text">⏱ Tempo esgotado!</span><br>
-        <strong>Resposta correta:</strong> ${q.opcoes[q.correta]}.<br>
-        ${q.explicacao || ''}
-    `;
-    elFeedback.classList.add('show');
+    if (elFeedback) {
+        elFeedback.innerHTML = `
+            <span class="timeout-text">⏱ Tempo esgotado!</span><br>
+            <strong>Resposta correta:</strong> ${q.opcoes[q.correta]}.<br>
+            ${q.explicacao || ''}
+        `;
+        elFeedback.classList.add('show');
+    }
+
+    if (elBtnProximo) {
+        elBtnProximo.classList.add('show');
+    }
+
     atualizarStats();
-    elBtnProximo.classList.add('show');
 
     if (timerInterval) {
         clearInterval(timerInterval);
@@ -732,6 +808,7 @@ function selecionarResposta(idx) {
     if (respostaSelecionada) return;
     respostaSelecionada = true;
 
+    // Parar o timer
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -756,23 +833,34 @@ function selecionarResposta(idx) {
         if (statsPorNivel[q.ano]) {
             statsPorNivel[q.ano].acertos++;
         }
-        elFeedback.innerHTML = `
-            <span class="correct-text">✓ Correta!</span> ${q.explicacao || 'Boa!'}
-        `;
+        if (elFeedback) {
+            elFeedback.innerHTML = `
+                <span class="correct-text">✓ Correta!</span> ${q.explicacao || 'Boa!'}
+            `;
+        }
     } else {
         erros++;
         if (statsPorNivel[q.ano]) {
             statsPorNivel[q.ano].erros++;
         }
-        elFeedback.innerHTML = `
-            <span class="wrong-text">✗ Incorreta.</span><br>
-            <strong>Resposta correta:</strong> ${q.opcoes[correta]}.<br>
-            ${q.explicacao || ''}
-        `;
+        if (elFeedback) {
+            elFeedback.innerHTML = `
+                <span class="wrong-text">✗ Incorreta.</span><br>
+                <strong>Resposta correta:</strong> ${q.opcoes[correta]}.<br>
+                ${q.explicacao || ''}
+            `;
+        }
     }
-    elFeedback.classList.add('show');
+
+    if (elFeedback) {
+        elFeedback.classList.add('show');
+    }
+
+    if (elBtnProximo) {
+        elBtnProximo.classList.add('show');
+    }
+
     atualizarStats();
-    elBtnProximo.classList.add('show');
 }
 
 function proximaPergunta() {
@@ -782,14 +870,23 @@ function proximaPergunta() {
 }
 
 function atualizarStats() {
-    elAcertos.textContent = acertos;
-    elErros.textContent = erros;
-    elQuestaoAtual.textContent = Math.min(indiceAtual + 1, TOTAL_PERGUNTAS);
+    if (elAcertos) elAcertos.textContent = acertos;
+    if (elErros) elErros.textContent = erros;
+    
+    if (elQuestaoAtual) {
+        elQuestaoAtual.textContent = Math.min(indiceAtual + 1, TOTAL_PERGUNTAS);
+    }
 
     const totalRespondidas = acertos + erros;
     const percentual = totalRespondidas > 0 ? Math.round((totalRespondidas / TOTAL_PERGUNTAS) * 100) : 0;
-    elPercentual.textContent = `${percentual}%`;
-    elProgressBar.style.width = `${percentual}%`;
+    
+    if (elPercentual) {
+        elPercentual.textContent = `${percentual}%`;
+    }
+    
+    if (elProgressBar) {
+        elProgressBar.style.width = `${percentual}%`;
+    }
 }
 
 // ================================================================
@@ -974,6 +1071,7 @@ function desenharGraficoPorNivel() {
 // ================================================================
 
 function exibirResultado() {
+    console.log('🏁 Exibindo resultado final');
     jogoFinalizado = true;
     
     if (cronometroInterval) {
@@ -1004,75 +1102,90 @@ function exibirResultado() {
 
     const fraseEscolhida = frasesInspiradoras[Math.floor(Math.random() * frasesInspiradoras.length)];
 
-    elPergunta.textContent = '';
+    if (elPergunta) elPergunta.textContent = '';
     
     // FINALIZADO em BRANCO PURO
-    elBadge.className = 'badge finalizado';
-    elBadge.textContent = 'FINALIZADO';
+    if (elBadge) {
+        elBadge.className = 'badge finalizado';
+        elBadge.textContent = 'FINALIZADO';
+    }
 
     // Formatar o tempo total
     const tempoFormatado = formatarTempo(tempoTotalSegundos);
 
-    elOpcoes.innerHTML = `
-        <div class="result-area">
-            <div class="sub-score">${mensagem}</div>
-            <div class="big-score">${percentualAcertos}%</div>
-            
-            <div class="result-time">
-                ⏱ Tempo total: <span class="time-value">${tempoFormatado}</span>
-            </div>
-            
-            <div class="detail-stats">
-                <div>
-                    <div class="label">Acertos</div>
-                    <div class="value green">${acertos}</div>
+    if (elOpcoes) {
+        elOpcoes.innerHTML = `
+            <div class="result-area">
+                <div class="sub-score">${mensagem}</div>
+                <div class="big-score">${percentualAcertos}%</div>
+                
+                <div class="result-time">
+                    ⏱ Tempo total: <span class="time-value">${tempoFormatado}</span>
                 </div>
-                <div>
-                    <div class="label">Erros</div>
-                    <div class="value red">${erros}</div>
-                </div>
-                <div>
-                    <div class="label">Total</div>
-                    <div class="value yellow">${total}</div>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <canvas id="pizzaChart" width="200" height="200"></canvas>
-                <div class="chart-legend">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #4ade80;"></span>
-                        <span class="legend-text">Acertos: ${acertos} (${total > 0 ? Math.round((acertos/total)*100) : 0}%)</span>
+                
+                <div class="detail-stats">
+                    <div>
+                        <div class="label">Acertos</div>
+                        <div class="value green">${acertos}</div>
                     </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #f87171;"></span>
-                        <span class="legend-text">Erros: ${erros} (${total > 0 ? Math.round((erros/total)*100) : 0}%)</span>
+                    <div>
+                        <div class="label">Erros</div>
+                        <div class="value red">${erros}</div>
+                    </div>
+                    <div>
+                        <div class="label">Total</div>
+                        <div class="value yellow">${total}</div>
                     </div>
                 </div>
+                
+                <div class="chart-container">
+                    <canvas id="pizzaChart" width="200" height="200"></canvas>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #4ade80;"></span>
+                            <span class="legend-text">Acertos: ${acertos} (${total > 0 ? Math.round((acertos/total)*100) : 0}%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #f87171;"></span>
+                            <span class="legend-text">Erros: ${erros} (${total > 0 ? Math.round((erros/total)*100) : 0}%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRÁFICO POR NÍVEL -->
+                <div id="levelChartContainer"></div>
+
+                <div class="inspirational-quote">
+                    "${fraseEscolhida.frase}"
+                    <span class="author">— ${fraseEscolhida.autor}</span>
+                </div>
+
+                <div class="result-sub">${TOTAL_PERGUNTAS} questões · 5 de cada ano (4º ao 7º)</div>
             </div>
-
-            <!-- GRÁFICO POR NÍVEL -->
-            <div id="levelChartContainer"></div>
-
-            <div class="inspirational-quote">
-                "${fraseEscolhida.frase}"
-                <span class="author">— ${fraseEscolhida.autor}</span>
-            </div>
-
-            <div class="result-sub">${TOTAL_PERGUNTAS} questões · 5 de cada ano (4º ao 7º)</div>
-        </div>
-    `;
+        `;
+    }
 
     setTimeout(() => {
         desenharGraficoPizza(acertos, erros);
         desenharGraficoPorNivel();
     }, 50);
 
-    elFeedback.className = 'feedback';
-    elFeedback.textContent = '';
-    elBtnProximo.classList.remove('show');
-    elPercentual.textContent = '100%';
-    elProgressBar.style.width = '100%';
+    if (elFeedback) {
+        elFeedback.className = 'feedback';
+        elFeedback.textContent = '';
+    }
+
+    if (elBtnProximo) {
+        elBtnProximo.classList.remove('show');
+    }
+
+    if (elPercentual) {
+        elPercentual.textContent = '100%';
+    }
+
+    if (elProgressBar) {
+        elProgressBar.style.width = '100%';
+    }
 }
 
 // ================================================================
@@ -1086,13 +1199,35 @@ window.perguntasCompletas = perguntas;
 //  EVENTOS E INICIALIZAÇÃO
 // ================================================================
 
+console.log('🚀 Domínio da Língua - Inicializando...');
+
 // Garantir que as perguntas estejam disponíveis para o admin
 setTimeout(() => {
     window.perguntasCompletas = perguntas;
+    console.log(`📚 ${perguntas.length} perguntas carregadas`);
 }, 100);
 
-elBtnProximo.addEventListener('click', proximaPergunta);
-elBtnReset.addEventListener('click', iniciarJogo);
+// Verificar se os elementos existem
+console.log('✅ Elementos DOM:', {
+    pergunta: !!elPergunta,
+    opcoes: !!elOpcoes,
+    feedback: !!elFeedback,
+    btnProximo: !!elBtnProximo,
+    acertos: !!elAcertos,
+    erros: !!elErros,
+    badge: !!elBadge,
+    timerBar: !!elTimerBar,
+    timerText: !!elTimerText
+});
 
-// Iniciar
+// Event listeners
+if (elBtnProximo) {
+    elBtnProximo.addEventListener('click', proximaPergunta);
+}
+
+if (elBtnReset) {
+    elBtnReset.addEventListener('click', iniciarJogo);
+}
+
+// Iniciar o jogo
 iniciarJogo();
