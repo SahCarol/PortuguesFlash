@@ -1,4 +1,8 @@
 // ================================================================
+//  DOMÍNIO DA LÍNGUA - SCRIPT COMPLETO (VERSÃO CORRIGIDA)
+// ================================================================
+
+// ================================================================
 //  BANCO DE DADOS – PERGUNTAS POR ANO
 // ================================================================
 
@@ -20,7 +24,7 @@ function addP(ano, pergunta, opcoes, correta, explicacao) {
 }
 
 // ================================================================
-//  FUNÇÃO PARA EMBARALHAR OPÇÕES DE CADA PERGUNTA
+//  FUNÇÃO PARA EMBARALHAR OPÇÕES
 // ================================================================
 
 function embaralharOpcoes(pergunta) {
@@ -474,7 +478,7 @@ addP('7º Ano', 'O que é um texto de opinião?',
     'Texto de opinião apresenta a visão do autor sobre um tema.');
 
 // ================================================================
-//  LÓGICA DO JOGO (CORRIGIDA)
+//  VARIÁVEIS GLOBAIS DO JOGO
 // ================================================================
 
 const TOTAL_PERGUNTAS = 20;
@@ -490,15 +494,10 @@ let timerInterval = null;
 let respostaSelecionada = false;
 let jogoFinalizado = false;
 
-// ================================================================
-//  CRONÔMETRO GERAL
-// ================================================================
-
 let tempoInicio = null;
 let tempoTotalSegundos = 0;
 let cronometroInterval = null;
 
-// Estatísticas por nível
 let statsPorNivel = {
     '4º Ano': { acertos: 0, erros: 0 },
     '5º Ano': { acertos: 0, erros: 0 },
@@ -507,24 +506,13 @@ let statsPorNivel = {
 };
 
 // ================================================================
-//  ELEMENTOS DOM (VERIFICAR SE EXISTEM)
+//  REFERÊNCIAS DOM (CARREGADAS APÓS O DOM ESTAR PRONTO)
 // ================================================================
 
-const elPergunta = document.getElementById('pergunta');
-const elOpcoes = document.getElementById('opcoes');
-const elFeedback = document.getElementById('feedback');
-const elBtnProximo = document.getElementById('btnProximo');
-const elAcertos = document.getElementById('acertos');
-const elErros = document.getElementById('erros');
-const elQuestaoAtual = document.getElementById('questaoAtual');
-const elPercentual = document.getElementById('percentual');
-const elBadge = document.getElementById('badgeAno');
-const elBtnReset = document.getElementById('btnReset');
-const elTimerBar = document.getElementById('timerBar');
-const elTimerText = document.getElementById('timerText');
-const elProgressBar = document.getElementById('progressBar');
+let elPergunta, elOpcoes, elFeedback, elBtnProximo;
+let elAcertos, elErros, elQuestaoAtual, elPercentual;
+let elBadge, elBtnReset, elTimerBar, elTimerText, elProgressBar;
 
-// Mapeamento de cores para badges
 const badgeColors = {
     '4º Ano': 'ano-4',
     '5º Ano': 'ano-5',
@@ -533,8 +521,22 @@ const badgeColors = {
 };
 
 // ================================================================
-//  CARREGAR DADOS DO JOGADOR
+//  FUNÇÕES AUXILIARES
 // ================================================================
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function formatarTempo(segundos) {
+    const mins = Math.floor(segundos / 60);
+    const secs = segundos % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
 
 function carregarJogador() {
     const dados = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
@@ -550,7 +552,7 @@ function carregarJogador() {
 }
 
 // ================================================================
-//  SELECIONAR PERGUNTAS (COM OPÇÕES EMBARALHADAS)
+//  SELECIONAR PERGUNTAS
 // ================================================================
 
 function selecionarPerguntas() {
@@ -568,16 +570,40 @@ function selecionarPerguntas() {
     return shuffle(selecionadas);
 }
 
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+// ================================================================
+//  SALVAR RANKING
+// ================================================================
+
+function salvarRanking(acertos, erros, tempoTotal, percentual) {
+    const jogador = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
+    const dados = JSON.parse(localStorage.getItem('ranking') || '[]');
+
+    const mins = Math.floor(tempoTotal / 60);
+    const secs = tempoTotal % 60;
+    const tempoFormatado = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+    const registro = {
+        data: new Date().toISOString(),
+        apelido: jogador.apelido || 'Anônimo',
+        nome: jogador.nome || '',
+        serie: jogador.serie || '',
+        cidade: jogador.cidade || '',
+        estado: jogador.estado || '',
+        acertos: acertos,
+        erros: erros,
+        total: acertos + erros,
+        tempo: tempoFormatado,
+        tempoSegundos: tempoTotal,
+        percentual: percentual
+    };
+
+    dados.push(registro);
+    if (dados.length > 1000) dados.splice(0, dados.length - 1000);
+    localStorage.setItem('ranking', JSON.stringify(dados));
 }
 
 // ================================================================
-//  FUNÇÕES DO JOGO (CORRIGIDAS)
+//  FUNÇÕES DO JOGO
 // ================================================================
 
 function iniciarJogo() {
@@ -588,7 +614,6 @@ function iniciarJogo() {
         clearInterval(timerInterval);
         timerInterval = null;
     }
-    
     if (cronometroInterval) {
         clearInterval(cronometroInterval);
         cronometroInterval = null;
@@ -608,18 +633,18 @@ function iniciarJogo() {
 
     if (perguntasJogo.length === 0) {
         console.error('❌ Nenhuma pergunta selecionada!');
-        elPergunta.textContent = 'Erro ao carregar perguntas. Recarregue a página.';
+        if (elPergunta) elPergunta.textContent = 'Erro ao carregar perguntas. Recarregue a página.';
         return;
     }
 
-    // Resetar variáveis do jogo
+    // Resetar variáveis
     indiceAtual = 0;
     acertos = 0;
     erros = 0;
     jogoFinalizado = false;
     respostaSelecionada = false;
     tempoRestante = TEMPO_POR_QUESTAO;
-    
+
     // Iniciar cronômetro geral
     tempoInicio = Date.now();
     tempoTotalSegundos = 0;
@@ -630,7 +655,7 @@ function iniciarJogo() {
     // Carregar dados do jogador
     carregarJogador();
 
-    // Atualizar interface e exibir primeira pergunta
+    // Atualizar interface
     atualizarStats();
     exibirPergunta();
 }
@@ -650,7 +675,7 @@ function exibirPergunta() {
         return;
     }
 
-    // Atualizar badge com a cor do ano
+    // Atualizar badge
     if (elBadge) {
         elBadge.className = 'badge';
         const corClasse = badgeColors[q.ano] || 'ano-4';
@@ -890,54 +915,7 @@ function atualizarStats() {
 }
 
 // ================================================================
-//  FUNÇÃO PARA FORMATAR TEMPO (mm:ss)
-// ================================================================
-
-function formatarTempo(segundos) {
-    const mins = Math.floor(segundos / 60);
-    const secs = segundos % 60;
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-}
-
-// ================================================================
-//  SALVAR RESULTADO NO RANKING (COM DADOS DO JOGADOR)
-// ================================================================
-
-function salvarRanking(acertos, erros, tempoTotal, percentual) {
-    const jogador = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
-    const dados = JSON.parse(localStorage.getItem('ranking') || '[]');
-
-    const mins = Math.floor(tempoTotal / 60);
-    const secs = tempoTotal % 60;
-    const tempoFormatado = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-    const registro = {
-        data: new Date().toISOString(),
-        apelido: jogador.apelido || 'Anônimo',
-        nome: jogador.nome || '',
-        serie: jogador.serie || '',
-        cidade: jogador.cidade || '',
-        estado: jogador.estado || '',
-        acertos: acertos,
-        erros: erros,
-        total: acertos + erros,
-        tempo: tempoFormatado,
-        tempoSegundos: tempoTotal,
-        percentual: percentual
-    };
-
-    dados.push(registro);
-
-    // Manter apenas os últimos 1000 registros
-    if (dados.length > 1000) {
-        dados.splice(0, dados.length - 1000);
-    }
-
-    localStorage.setItem('ranking', JSON.stringify(dados));
-}
-
-// ================================================================
-//  GRÁFICO DE PIZZA (Geral)
+//  GRÁFICOS
 // ================================================================
 
 function desenharGraficoPizza(acertos, erros) {
@@ -1011,10 +989,6 @@ function desenharGraficoPizza(acertos, erros) {
     ctx.font = '11px Inter, sans-serif';
     ctx.fillText('acertos', centerX, centerY + 20);
 }
-
-// ================================================================
-//  GRÁFICO POR NÍVEL (Barras)
-// ================================================================
 
 function desenharGraficoPorNivel() {
     const container = document.getElementById('levelChartContainer');
@@ -1104,13 +1078,11 @@ function exibirResultado() {
 
     if (elPergunta) elPergunta.textContent = '';
     
-    // FINALIZADO em BRANCO PURO
     if (elBadge) {
         elBadge.className = 'badge finalizado';
         elBadge.textContent = 'FINALIZADO';
     }
 
-    // Formatar o tempo total
     const tempoFormatado = formatarTempo(tempoTotalSegundos);
 
     if (elOpcoes) {
@@ -1152,7 +1124,6 @@ function exibirResultado() {
                     </div>
                 </div>
 
-                <!-- GRÁFICO POR NÍVEL -->
                 <div id="levelChartContainer"></div>
 
                 <div class="inspirational-quote">
@@ -1189,45 +1160,57 @@ function exibirResultado() {
 }
 
 // ================================================================
-//  EXPORTAÇÃO DE PERGUNTAS PARA O ADMIN
+//  EXPORTAÇÃO PARA ADMIN
 // ================================================================
 
-// Exportar perguntas para uso no admin
 window.perguntasCompletas = perguntas;
 
 // ================================================================
-//  EVENTOS E INICIALIZAÇÃO
+//  INICIALIZAÇÃO
 // ================================================================
 
-console.log('🚀 Domínio da Língua - Inicializando...');
+function inicializar() {
+    console.log('🚀 Domínio da Língua - Inicializando...');
 
-// Garantir que as perguntas estejam disponíveis para o admin
-setTimeout(() => {
-    window.perguntasCompletas = perguntas;
-    console.log(`📚 ${perguntas.length} perguntas carregadas`);
-}, 100);
+    // Carregar referências DOM
+    elPergunta = document.getElementById('pergunta');
+    elOpcoes = document.getElementById('opcoes');
+    elFeedback = document.getElementById('feedback');
+    elBtnProximo = document.getElementById('btnProximo');
+    elAcertos = document.getElementById('acertos');
+    elErros = document.getElementById('erros');
+    elQuestaoAtual = document.getElementById('questaoAtual');
+    elPercentual = document.getElementById('percentual');
+    elBadge = document.getElementById('badgeAno');
+    elBtnReset = document.getElementById('btnReset');
+    elTimerBar = document.getElementById('timerBar');
+    elTimerText = document.getElementById('timerText');
+    elProgressBar = document.getElementById('progressBar');
 
-// Verificar se os elementos existem
-console.log('✅ Elementos DOM:', {
-    pergunta: !!elPergunta,
-    opcoes: !!elOpcoes,
-    feedback: !!elFeedback,
-    btnProximo: !!elBtnProximo,
-    acertos: !!elAcertos,
-    erros: !!elErros,
-    badge: !!elBadge,
-    timerBar: !!elTimerBar,
-    timerText: !!elTimerText
-});
+    console.log('✅ Elementos DOM carregados:', {
+        pergunta: !!elPergunta,
+        opcoes: !!elOpcoes,
+        feedback: !!elFeedback,
+        btnProximo: !!elBtnProximo,
+        badge: !!elBadge
+    });
 
-// Event listeners
-if (elBtnProximo) {
-    elBtnProximo.addEventListener('click', proximaPergunta);
+    // Event listeners
+    if (elBtnProximo) {
+        elBtnProximo.addEventListener('click', proximaPergunta);
+    }
+
+    if (elBtnReset) {
+        elBtnReset.addEventListener('click', iniciarJogo);
+    }
+
+    // Iniciar o jogo
+    iniciarJogo();
 }
 
-if (elBtnReset) {
-    elBtnReset.addEventListener('click', iniciarJogo);
+// Inicializar quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializar);
+} else {
+    inicializar();
 }
-
-// Iniciar o jogo
-iniciarJogo();
