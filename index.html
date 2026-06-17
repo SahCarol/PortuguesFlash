@@ -3,74 +3,529 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Domínio da Língua · Quiz</title>
+    <title>Domínio da Língua · Menu</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== ESTILOS DO MENU ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0d0d0d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .menu-container {
+            max-width: 780px;
+            width: 100%;
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 48px 40px 40px;
+            border: 1px solid #333333;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .menu-logo {
+            margin-bottom: 32px;
+        }
+
+        .menu-logo .icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .menu-logo h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #e8e8e8;
+            letter-spacing: -0.5px;
+        }
+
+        .menu-logo h1 span {
+            color: #4a9eff;
+        }
+
+        .menu-logo .subtitle {
+            color: #888888;
+            font-size: 0.95rem;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        .menu-divider {
+            width: 60px;
+            height: 2px;
+            background: #333333;
+            margin: 24px auto;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .menu-btn {
+            background: #252525;
+            border: 2px solid #333333;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #cccccc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+        }
+
+        .menu-btn:hover {
+            background: #2a2a2a;
+            border-color: #4a9eff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 158, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .menu-btn .btn-icon {
+            font-size: 1.3rem;
+        }
+
+        .menu-btn.primary {
+            background: #4a9eff;
+            border-color: #4a9eff;
+            color: #ffffff;
+        }
+
+        .menu-btn.primary:hover {
+            background: #3a8eef;
+            border-color: #3a8eef;
+            box-shadow: 0 6px 20px rgba(74, 158, 255, 0.3);
+        }
+
+        .menu-btn.secondary {
+            border-color: #4a9eff;
+            color: #4a9eff;
+        }
+
+        .menu-btn.secondary:hover {
+            background: #0a1a2a;
+            border-color: #4a9eff;
+            color: #4a9eff;
+        }
+
+        .menu-btn.admin {
+            border-color: #8b5cf6;
+            color: #8b5cf6;
+            font-size: 0.85rem;
+            padding: 10px 20px;
+            margin-top: 8px;
+        }
+
+        .menu-btn.admin:hover {
+            background: #1a0a2a;
+            border-color: #8b5cf6;
+            color: #a78bfa;
+        }
+
+        .menu-footer {
+            margin-top: 28px;
+            color: #555555;
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 520px;
+            width: 100%;
+            border: 1px solid #333333;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal::-webkit-scrollbar-track {
+            background: #141414;
+            border-radius: 10px;
+        }
+
+        .modal::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 10px;
+        }
+
+        .modal h2 {
+            color: #e8e8e8;
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .modal h2 span {
+            color: #4a9eff;
+        }
+
+        .modal .modal-sub {
+            color: #888888;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal .form-row .form-group {
+            flex: 1;
+        }
+
+        .modal .form-group {
+            margin-bottom: 14px;
+        }
+
+        .modal .form-group label {
+            display: block;
+            color: #888888;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .modal .form-group label .required {
+            color: #f87171;
+        }
+
+        .modal .form-group input,
+        .modal .form-group select {
+            width: 100%;
+            padding: 11px 16px;
+            background: #141414;
+            border: 1.5px solid #333333;
+            border-radius: 10px;
+            color: #e8e8e8;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+        }
+
+        .modal .form-group input:focus,
+        .modal .form-group select:focus {
+            outline: none;
+            border-color: #4a9eff;
+        }
+
+        .modal .form-group input::placeholder {
+            color: #555555;
+        }
+
+        .modal .form-group select option {
+            background: #1a1a1a;
+        }
+
+        .modal .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal .form-actions button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal .form-actions .btn-cancel {
+            background: #252525;
+            color: #888888;
+            border: 1.5px solid #333333;
+        }
+
+        .modal .form-actions .btn-cancel:hover {
+            background: #2a2a2a;
+            color: #cccccc;
+        }
+
+        .modal .form-actions .btn-start {
+            background: #4a9eff;
+            color: #ffffff;
+        }
+
+        .modal .form-actions .btn-start:hover {
+            background: #3a8eef;
+            box-shadow: 0 4px 16px rgba(74, 158, 255, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .menu-container { padding: 32px 20px; }
+            .menu-logo h1 { font-size: 1.6rem; }
+            .menu-logo .icon { font-size: 2.8rem; }
+            .menu-btn { font-size: 0.95rem; padding: 14px 18px; }
+            .modal { padding: 24px 18px; }
+            .modal .form-row { flex-direction: column; gap: 0; }
+        }
+    </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <!-- HEADER -->
-        <div class="quiz-header">
-            <div class="quiz-title">
-                <span class="icon">📖</span>
-                <h1>Domínio da <span>Língua</span></h1>
-            </div>
-            <div class="quiz-stats">
-                <div class="stat-item">
-                    <span class="stat-label">Acertos</span>
-                    <span class="stat-value acert" id="acertos">0</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <span class="stat-label">Erros</span>
-                    <span class="stat-value err" id="erros">0</span>
-                </div>
-            </div>
+    <div class="menu-container">
+        <!-- LOGO -->
+        <div class="menu-logo">
+            <span class="icon">📖</span>
+            <h1>Domínio da <span>Língua</span></h1>
+            <p class="subtitle">Quiz · 20 segundos · 20 questões</p>
         </div>
 
-        <!-- PROGRESS BAR -->
-        <div class="progress-section">
-            <div class="progress-info">
-                <span class="progress-label">Questão <span id="questaoAtual">1</span> de <span id="totalQuestoes">20</span></span>
-                <span class="progress-percent" id="percentual">0%</span>
-            </div>
-            <div class="progress-bar-track">
-                <div class="progress-bar-fill" id="progressBar"></div>
-            </div>
+        <div class="menu-divider"></div>
+
+        <!-- BOTÕES -->
+        <div class="menu-buttons">
+            <button class="menu-btn primary" onclick="abrirModal()">
+                <span class="btn-icon">▶</span> Jogar
+            </button>
+            <button class="menu-btn secondary" onclick="window.location.href='ranking.html'">
+                <span class="btn-icon">🏆</span> Ranking
+            </button>
+            <button class="menu-btn" onclick="mostrarTutorial()">
+                <span class="btn-icon">📚</span> Tutorial
+            </button>
+            <button class="menu-btn" onclick="mostrarCreditos()">
+                <span class="btn-icon">👨‍🏫</span> Créditos
+            </button>
+            <button class="menu-btn admin" onclick="window.location.href='admin.html'">
+                <span class="btn-icon">🔒</span> Área Administrativa
+            </button>
         </div>
 
-        <!-- TIMER -->
-        <div class="timer-section">
-            <div class="timer-bar-track">
-                <div class="timer-bar-fill" id="timerBar"></div>
-            </div>
-            <span class="timer-text" id="timerText">20s</span>
-        </div>
-
-        <!-- BADGE - COLORIDO POR ANO -->
-        <div class="badge" id="badgeAno">4º Ano</div>
-
-        <!-- QUESTION -->
-        <div class="question-area">
-            <p class="question-text" id="pergunta">Carregando pergunta...</p>
-        </div>
-
-        <!-- OPTIONS - FUNDO BRANCO -->
-        <div class="options-grid" id="opcoes"></div>
-
-        <!-- FEEDBACK -->
-        <div class="feedback" id="feedback"></div>
-
-        <!-- NEXT BUTTON -->
-        <button class="next-btn" id="btnProximo">Próxima →</button>
-
-        <!-- FOOTER -->
-        <div class="quiz-footer">
-            <span class="footer-label">Baseado na BNCC · Currículo PE</span>
-            <button class="btn-reset" id="btnReset">↻ Reiniciar</button>
+        <div class="menu-footer">
+            Baseado na BNCC · Currículo PE
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ===== MODAL DE CADASTRO ===== -->
+    <div class="modal-overlay" id="modalCadastro">
+        <div class="modal">
+            <h2>📝 <span>Cadastro</span></h2>
+            <p class="modal-sub">Preencha seus dados para começar o jogo</p>
+
+            <div class="form-group">
+                <label>Apelido <span class="required">*</span></label>
+                <input type="text" id="inputApelido" placeholder="Ex: GuerreiroLingua" maxlength="20" />
+            </div>
+
+            <div class="form-group">
+                <label>Nome Completo <span class="required">*</span></label>
+                <input type="text" id="inputNome" placeholder="Ex: João da Silva" />
+            </div>
+
+            <div class="form-group">
+                <label>Série Escolar <span class="required">*</span></label>
+                <select id="inputSerie">
+                    <option value="">Selecione...</option>
+                    <option value="4º Ano">4º Ano</option>
+                    <option value="5º Ano">5º Ano</option>
+                    <option value="6º Ano">6º Ano</option>
+                    <option value="7º Ano">7º Ano</option>
+                    <option value="8º Ano">8º Ano</option>
+                    <option value="9º Ano">9º Ano</option>
+                    <option value="1º EM">1º Ensino Médio</option>
+                    <option value="2º EM">2º Ensino Médio</option>
+                    <option value="3º EM">3º Ensino Médio</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Cidade <span class="required">*</span></label>
+                    <input type="text" id="inputCidade" placeholder="Ex: Recife" />
+                </div>
+                <div class="form-group">
+                    <label>Estado <span class="required">*</span></label>
+                    <select id="inputEstado">
+                        <option value="">Selecione</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+                <button class="btn-start" onclick="iniciarJogo()">▶ Jogar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  FUNÇÕES DO MENU
+        // ================================================================
+
+        function abrirModal() {
+            document.getElementById('modalCadastro').classList.add('active');
+        }
+
+        function fecharModal() {
+            document.getElementById('modalCadastro').classList.remove('active');
+        }
+
+        function iniciarJogo() {
+            const apelido = document.getElementById('inputApelido').value.trim();
+            const nome = document.getElementById('inputNome').value.trim();
+            const serie = document.getElementById('inputSerie').value;
+            const cidade = document.getElementById('inputCidade').value.trim();
+            const estado = document.getElementById('inputEstado').value;
+
+            if (!apelido || !nome || !serie || !cidade || !estado) {
+                alert('⚠️ Por favor, preencha todos os campos!');
+                return;
+            }
+
+            // Salvar dados do jogador no localStorage
+            const jogador = {
+                apelido: apelido,
+                nome: nome,
+                serie: serie,
+                cidade: cidade,
+                estado: estado,
+                dataCadastro: new Date().toISOString()
+            };
+
+            localStorage.setItem('jogadorAtual', JSON.stringify(jogador));
+
+            // Redirecionar para o jogo
+            window.location.href = 'jogo.html';
+        }
+
+        function mostrarTutorial() {
+            alert(
+                '📚 TUTORIAL\n\n' +
+                '🎯 Como jogar:\n' +
+                '• Você terá 20 perguntas de Língua Portuguesa\n' +
+                '• Cada pergunta tem 4 alternativas\n' +
+                '• Você tem 20 segundos para responder cada uma\n' +
+                '• Se errar ou o tempo acabar, a próxima questão aparece\n' +
+                '• Ao final, veja seu desempenho por nível!\n\n' +
+                '📖 Conteúdos:\n' +
+                '• 4º Ano: Gêneros textuais, ortografia, pontuação\n' +
+                '• 5º Ano: Textos narrativos, crase, conjunções\n' +
+                '• 6º Ano: Artigo de opinião, coesão, orações\n' +
+                '• 7º Ano: Argumentação, resenhas, sintaxe\n\n' +
+                '🏆 Boa sorte!'
+            );
+        }
+
+        function mostrarCreditos() {
+            alert(
+                '👨‍🏫 CRÉDITOS\n\n' +
+                '📖 Domínio da Língua\n' +
+                'Quiz interativo de Língua Portuguesa\n\n' +
+                '📚 Baseado na BNCC e Currículo de Pernambuco\n' +
+                '🎯 Conteúdos do 4º ao 7º ano\n\n' +
+                '💻 Desenvolvido com:\n' +
+                '• HTML5\n' +
+                '• CSS3\n' +
+                '• JavaScript\n\n' +
+                '📝 Frases inspiradoras de:\n' +
+                '• Carlos Drummond de Andrade\n' +
+                '• Fernando Pessoa\n' +
+                '• Paulo Freire\n' +
+                '• Nelson Mandela\n' +
+                '• E muitos outros!\n\n' +
+                '🔒 Admin: LL2026'
+            );
+        }
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModal();
+            }
+        });
+
+        // Fechar modal clicando fora
+        document.getElementById('modalCadastro').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModal();
+            }
+        });
+    </script>
 </body>
 </html>
