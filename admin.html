@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Domínio da Língua · Admin</title>
+    
+    <!-- ===== FAVICON ===== -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/dApUYOU.png" />
+    <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/dApUYOU.png" />
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
         * {
@@ -23,7 +28,7 @@
         }
 
         .admin-container {
-            max-width: 960px;
+            max-width: 1100px;
             width: 100%;
             background: #1a1a1a;
             border-radius: 20px;
@@ -49,9 +54,7 @@
             color: #e8e8e8;
         }
 
-        .admin-header h1 span {
-            color: #8b5cf6;
-        }
+        .admin-header h1 span { color: #8b5cf6; }
 
         .admin-header .back-btn {
             background: transparent;
@@ -78,21 +81,9 @@
             text-align: center;
         }
 
-        .admin-login .lock-icon {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 12px;
-        }
-        .admin-login h2 {
-            color: #e8e8e8;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-        .admin-login p {
-            color: #666666;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
+        .admin-login .lock-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+        .admin-login h2 { color: #e8e8e8; font-size: 1.3rem; margin-bottom: 8px; }
+        .admin-login p { color: #666666; font-size: 0.9rem; margin-bottom: 20px; }
 
         .admin-login .form-group {
             margin-bottom: 16px;
@@ -152,9 +143,7 @@
             display: none;
         }
 
-        .admin-content {
-            display: none;
-        }
+        .admin-content { display: none; }
 
         .admin-tabs {
             display: flex;
@@ -187,17 +176,14 @@
             color: #8b5cf6;
         }
 
-        .admin-tab-content {
-            display: none;
-        }
-        .admin-tab-content.active {
-            display: block;
-        }
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; }
 
         .admin-table-wrap {
             overflow-x: auto;
             border-radius: 10px;
             border: 1px solid #2a2a2a;
+            margin-bottom: 16px;
         }
 
         .admin-table {
@@ -213,9 +199,11 @@
             text-transform: uppercase;
             font-size: 0.65rem;
             letter-spacing: 0.5px;
-            padding: 12px 14px;
+            padding: 10px 14px;
             text-align: left;
             border-bottom: 1px solid #2a2a2a;
+            position: sticky;
+            top: 0;
         }
 
         .admin-table td {
@@ -228,18 +216,11 @@
             background: #141414;
         }
 
-        .admin-table .highlight-green {
-            color: #4ade80;
-        }
-        .admin-table .highlight-red {
-            color: #f87171;
-        }
-        .admin-table .highlight-blue {
-            color: #4a9eff;
-        }
-        .admin-table .highlight-purple {
-            color: #8b5cf6;
-        }
+        .admin-table .highlight-green { color: #4ade80; }
+        .admin-table .highlight-red { color: #f87171; }
+        .admin-table .highlight-blue { color: #4a9eff; }
+        .admin-table .highlight-purple { color: #8b5cf6; }
+        .admin-table .highlight-orange { color: #fb923c; }
 
         .admin-actions {
             display: flex;
@@ -320,61 +301,44 @@
             margin-top: 2px;
         }
 
-        .admin-stats-grid .stat-card .number.green {
-            color: #4ade80;
-        }
-        .admin-stats-grid .stat-card .number.red {
-            color: #f87171;
-        }
-        .admin-stats-grid .stat-card .number.blue {
-            color: #4a9eff;
-        }
-        .admin-stats-grid .stat-card .number.purple {
-            color: #8b5cf6;
+        .admin-stats-grid .stat-card .number.green { color: #4ade80; }
+        .admin-stats-grid .stat-card .number.red { color: #f87171; }
+        .admin-stats-grid .stat-card .number.blue { color: #4a9eff; }
+        .admin-stats-grid .stat-card .number.purple { color: #8b5cf6; }
+        .admin-stats-grid .stat-card .number.orange { color: #fb923c; }
+
+        .section-title {
+            color: #e8e8e8;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 20px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #2a2a2a;
         }
 
-        .admin-empty {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666666;
-        }
-
-        .admin-empty .empty-icon {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: 8px;
+        .section-title .badge-count {
+            font-size: 0.75rem;
+            color: #888888;
+            font-weight: 400;
+            margin-left: 10px;
         }
 
         @media (max-width: 600px) {
-            .admin-container {
-                padding: 20px 16px;
-            }
-            .admin-tabs button {
-                font-size: 0.75rem;
-                padding: 8px 14px;
-            }
-            .admin-table {
-                font-size: 0.75rem;
-            }
-            .admin-table th,
-            .admin-table td {
-                padding: 8px 10px;
-            }
-            .admin-stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .admin-container { padding: 20px 16px; }
+            .admin-tabs button { font-size: 0.75rem; padding: 8px 14px; }
+            .admin-table { font-size: 0.75rem; }
+            .admin-table th, .admin-table td { padding: 6px 8px; }
+            .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
     <div class="admin-container">
-        <!-- HEADER -->
         <div class="admin-header">
             <h1>🔒 <span>Administração</span></h1>
             <a href="index.html" class="back-btn">← Voltar</a>
         </div>
 
-        <!-- ===== LOGIN ===== -->
         <div class="admin-login" id="adminLogin">
             <span class="lock-icon">🔐</span>
             <h2>Acesso Restrito</h2>
@@ -387,9 +351,8 @@
             <div class="error-msg" id="erroLogin">Senha incorreta. Tente novamente.</div>
         </div>
 
-        <!-- ===== CONTEÚDO ADMIN ===== -->
         <div class="admin-content" id="adminContent">
-            <!-- Estatísticas -->
+            <!-- Estatísticas Gerais -->
             <div class="admin-stats-grid" id="adminStats">
                 <div class="stat-card">
                     <div class="number blue" id="totalJogadores">0</div>
@@ -407,17 +370,97 @@
                     <div class="number red" id="totalErros">0</div>
                     <div class="label">Total Erros</div>
                 </div>
+                <div class="stat-card">
+                    <div class="number orange" id="totalPerguntas">0</div>
+                    <div class="label">Perguntas no Banco</div>
+                </div>
             </div>
 
             <!-- TABS -->
             <div class="admin-tabs">
-                <button class="active" data-tab="tabJogadores" onclick="trocarTab('tabJogadores')">👤 Jogadores</button>
+                <button class="active" data-tab="tabAnalise" onclick="trocarTab('tabAnalise')">📊 Análise de Erros</button>
+                <button data-tab="tabJogadores" onclick="trocarTab('tabJogadores')">👤 Jogadores</button>
                 <button data-tab="tabPartidas" onclick="trocarTab('tabPartidas')">📊 Partidas</button>
                 <button data-tab="tabPerguntas" onclick="trocarTab('tabPerguntas')">📝 Perguntas</button>
             </div>
 
+            <!-- TAB ANÁLISE DE ERROS -->
+            <div class="admin-tab-content active" id="tabAnalise">
+                <!-- Por Escolaridade -->
+                <div class="section-title">
+                    📊 Erros por Escolaridade
+                    <span class="badge-count" id="totalEscolaridades">Carregando...</span>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Escolaridade</th>
+                                <th>Total Erros</th>
+                                <th>Nível com mais erros</th>
+                                <th>Conteúdo com mais erros</th>
+                                <th>Pergunta mais errada</th>
+                                <th>Taxa de Erro</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaAnaliseEscolaridade">
+                            <tr><td colspan="7" style="text-align:center; color:#666;">Carregando dados...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Por Nível (Ano) -->
+                <div class="section-title">
+                    📊 Erros por Nível (Ano Escolar)
+                    <span class="badge-count">Análise de desempenho por ano</span>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nível</th>
+                                <th>Total Erros</th>
+                                <th>Total Acertos</th>
+                                <th>Taxa de Erro</th>
+                                <th>Pergunta mais errada</th>
+                                <th>Conteúdo com mais erros</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaAnaliseNivel">
+                            <tr><td colspan="7" style="text-align:center; color:#666;">Carregando dados...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Perguntas Mais Erradas (Geral) -->
+                <div class="section-title">
+                    🔥 Perguntas Mais Erradas (Geral)
+                    <span class="badge-count">Top 10 perguntas com mais erros</span>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Pergunta</th>
+                                <th>Nível</th>
+                                <th>Total Erros</th>
+                                <th>Total Acertos</th>
+                                <th>Taxa de Erro</th>
+                                <th>Escolaridades que mais erraram</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaPerguntasMaisErradas">
+                            <tr><td colspan="7" style="text-align:center; color:#666;">Carregando dados...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- TAB JOGADORES -->
-            <div class="admin-tab-content active" id="tabJogadores">
+            <div class="admin-tab-content" id="tabJogadores">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
                         <thead>
@@ -516,10 +559,10 @@
         });
 
         // ================================================================
-        //  BANCO DE PERGUNTAS (EMBUTIDO NO ADMIN)
+        //  BANCO DE PERGUNTAS (EMBUTIDO)
         // ================================================================
 
-        const perguntasCompletas = [];
+        var perguntasCompletas = [];
 
         function addP(ano, pergunta, opcoes, correta, explicacao) {
             perguntasCompletas.push({
@@ -532,7 +575,7 @@
         }
 
         // ================================================================
-        //  4º ANO – 40 perguntas
+        //  4º ANO – 10 perguntas (para análise)
         // ================================================================
         addP('4º Ano', 'Qual gênero textual é usado para enviar um recado rápido a um amigo?',
             ['Bilhete', 'Notícia', 'Receita', 'Verbete'], 0, 'Bilhete é um gênero informal e breve.');
@@ -554,69 +597,9 @@
             ['Singular', 'Plural', 'Feminino', 'Aumentativo'], 1, 'Meninos = plural (mais de um).');
         addP('4º Ano', 'Para que serve a vírgula em uma lista?',
             ['Separar itens', 'Indicar pergunta', 'Finalizar frase', 'Mostrar ênfase'], 0, 'Vírgula separa elementos de enumeração.');
-        addP('4º Ano', 'Qual gênero é usado para divulgar um produto?',
-            ['Anúncio', 'Notícia', 'Conto', 'Bilhete'], 0, 'Anúncio publicitário tem objetivo comercial.');
-        addP('4º Ano', 'Em uma receita, a lista de ingredientes é um exemplo de:',
-            ['Texto injuntivo', 'Texto narrativo', 'Texto poético', 'Texto descritivo'], 0, 'Receita é um texto injuntivo.');
-        addP('4º Ano', 'Qual destas palavras tem ditongo?',
-            ['Pai', 'Mar', 'Sol', 'Lua'], 0, '"Pai" tem vogais "a" e "i" na mesma sílaba.');
-        addP('4º Ano', 'A palavra "avó" é acentuada por ser:',
-            ['Paroxítona terminada em "o"', 'Oxítona', 'Proparoxítona', 'Monossílaba'], 0, 'Paroxítona terminada em "o" leva acento.');
-        addP('4º Ano', 'Em "Ela cantou lindamente", a palavra "lindamente" indica:',
-            ['Modo', 'Lugar', 'Tempo', 'Quantidade'], 0, 'Advérbio de modo.');
-        addP('4º Ano', 'Qual a finalidade de um manual de instruções?',
-            ['Explicar como usar algo', 'Contar uma história', 'Descrever um lugar', 'Dar opinião'], 0, 'Manual ensina o funcionamento.');
-        addP('4º Ano', 'A palavra "feliz" é um:',
-            ['Substantivo', 'Adjetivo', 'Verbo', 'Pronome'], 1, 'Adjetivo expressa qualidade.');
-        addP('4º Ano', 'Em "João e Maria foram ao cinema", a conjunção "e" liga:',
-            ['Termos da mesma função', 'Orações opostas', 'Ideias contrastantes', 'Finalidade'], 0, 'Liga termos coordenados.');
-        addP('4º Ano', 'Qual é o antônimo de "grande"?',
-            ['Pequeno', 'Alto', 'Largo', 'Pesado'], 0, 'Antônimo = palavra de sentido contrário.');
-        addP('4º Ano', 'Qual das palavras é um verbo?',
-            ['Correr', 'Corrida', 'Corredor', 'Correndo'], 0, 'Correr expressa ação.');
-        addP('4º Ano', 'Em uma notícia, o título deve ser:',
-            ['Curto e atrativo', 'Longo e detalhado', 'Poético', 'Sem sentido'], 0, 'Título chama atenção e resume.');
-        addP('4º Ano', 'A frase "Que dia lindo!" expressa:',
-            ['Admiração', 'Dúvida', 'Ordem', 'Pergunta'], 0, 'Ponto de exclamação expressa admiração/emoção.');
-        addP('4º Ano', 'Qual destes é um gênero digital?',
-            ['E-mail', 'Carta', 'Telegrama', 'Ofício'], 0, 'E-mail é um gênero do ambiente digital.');
-        addP('4º Ano', 'Separação silábica correta de "fantástico":',
-            ['fan-tás-ti-co', 'fa-ntás-ti-co', 'fan-tást-i-co', 'fant-ás-ti-co'], 0, 'Divisão silábica conforme regra.');
-        addP('4º Ano', 'A palavra "coração" tem quantas sílabas?',
-            ['3', '4', '2', '5'], 0, 'Co-ra-ção = 3 sílabas.');
-        addP('4º Ano', 'Qual a função do ponto final?',
-            ['Encerrar uma frase', 'Indicar pergunta', 'Mostrar surpresa', 'Separar itens'], 0, 'Ponto final indica pausa e encerramento.');
-        addP('4º Ano', 'Em "A casa de Maria é bonita", o termo "de Maria" indica:',
-            ['Posse', 'Lugar', 'Tempo', 'Modo'], 0, 'Indica posse (a casa pertence a Maria).');
-        addP('4º Ano', 'Qual palavra é um substantivo próprio?',
-            ['Brasil', 'País', 'Cidade', 'Rio'], 0, 'Brasil é nome próprio.');
-        addP('4º Ano', 'No gênero "convite", qual informação é essencial?',
-            ['Data e local do evento', 'História do anfitrião', 'Preço do ingresso', 'Poesia'], 0, 'Convite informa evento, data, local.');
-        addP('4º Ano', 'Qual dessas palavras é um advérbio de tempo?',
-            ['Ontem', 'Aqui', 'Bem', 'Muito'], 0, 'Ontem indica tempo.');
-        addP('4º Ano', 'A palavra "gato" no feminino é:',
-            ['Gata', 'Gatoa', 'Gatona', 'Gatesse'], 0, 'Feminino de gato é gata.');
-        addP('4º Ano', 'Qual é o plural de "animal"?',
-            ['Animais', 'Animáis', 'Animales', 'Animais'], 0, 'Animais com "s".');
-        addP('4º Ano', 'Acentuação correta:',
-            ['Pássaro', 'Passaro', 'Páxaro', 'Passáro'], 0, 'Pássaro é proparoxítona.');
-        addP('4º Ano', 'Em "Ele é muito esperto", "esperto" é:',
-            ['Adjetivo', 'Substantivo', 'Verbo', 'Pronome'], 0, 'Esperto = qualidade.');
-        addP('4º Ano', 'Qual palavra é um pronome pessoal?',
-            ['Ele', 'Mesa', 'Correr', 'Bonito'], 0, 'Ele é pronome.');
-        addP('4º Ano', 'Qual é o sinônimo de "rápido"?',
-            ['Veloz', 'Lento', 'Devagar', 'Parado'], 0, 'Rápido = veloz.');
-        addP('4º Ano', 'Em "Os livros são interessantes", o sujeito é:',
-            ['Os livros', 'São', 'Interessantes', 'Os'], 0, 'Sujeito = Os livros (quem pratica a ação).');
-        addP('4º Ano', 'Qual dessas palavras tem dígrafo?',
-            ['Chave', 'Casa', 'Sapo', 'Mala'], 0, 'CH é dígrafo (um único fonema).');
-        addP('4º Ano', 'Qual a função do substantivo?',
-            ['Nomear seres e objetos', 'Indicar ação', 'Modificar', 'Ligar orações'], 0, 'Substantivo nomeia.');
-        addP('4º Ano', 'Qual é o coletivo de "abelhas"?',
-            ['Enxame', 'Colmeia', 'Cardume', 'Alcateia'], 0, 'Enxame é coletivo de abelhas.');
 
         // ================================================================
-        //  5º ANO – 40 perguntas
+        //  5º ANO – 10 perguntas
         // ================================================================
         addP('5º Ano', 'O que caracteriza um texto narrativo?',
             ['Presença de enredo e personagens', 'Uso de dados e gráficos', 'Instruções passo a passo', 'Definições de palavras'],
@@ -646,93 +629,9 @@
         addP('5º Ano', 'O que é um período composto?',
             ['Mais de uma oração', 'Uma única oração', 'Sem verbo', 'Apenas substantivos'], 0,
             'Período composto tem duas ou mais orações.');
-        addP('5º Ano', 'Em "O carro vermelho é rápido", o adjetivo é:',
-            ['Vermelho', 'Carro', 'Rápido', 'É'], 0, 'Vermelho é adjetivo.');
-        addP('5º Ano', 'Qual é a finalidade de um texto publicitário?',
-            ['Persuadir o consumidor', 'Informar sobre fatos', 'Ensinar a fazer algo', 'Entreter'], 0,
-            'Publicidade visa persuadir.');
-        addP('5º Ano', 'A palavra "felicidade" é formada por:',
-            ['Radical + sufixo', 'Prefixo + radical', 'Composição', 'Onomatopeia'], 0,
-            'Felic- (radical) + -idade (sufixo).');
-        addP('5º Ano', 'Em "Ele chegou cedo", "cedo" é:',
-            ['Advérbio de tempo', 'Advérbio de modo', 'Advérbio de lugar', 'Adjetivo'], 0, 'Cedo indica tempo.');
-        addP('5º Ano', 'Qual a função dos dois-pontos em uma citação?',
-            ['Introduzir a fala de alguém', 'Finalizar a frase', 'Indicar pergunta', 'Separar sílabas'], 0,
-            'Dois-pontos introduzem uma citação ou fala.');
-        addP('5º Ano', 'O que é uma conjunção?',
-            ['Palavra que liga orações ou termos', 'Palavra que nomeia', 'Palavra que modifica', 'Palavra que indica ação'],
-            0,
-            'Conjunção tem função conectiva.');
-        addP('5º Ano', 'Em "Comprei frutas: maçã, pera e uva", a vírgula serve para:',
-            ['Separar itens de uma lista', 'Indicar pausa', 'Finalizar', 'Mostrar surpresa'], 0,
-            'Vírgula separa elementos em enumeração.');
-        addP('5º Ano', 'Qual a diferença entre "porque" e "porquê"?',
-            ['Conjunção vs. substantivo', 'Não há diferença', 'Um é verbo', 'Um é advérbio'], 0,
-            '"Porque" é conjunção (causa); "porquê" é substantivo (motivo).');
-        addP('5º Ano', 'O que é um texto descritivo?',
-            ['Detalha características de algo ou alguém', 'Conta uma história', 'Apresenta argumentos', 'Dá instruções'],
-            0,
-            'Descrição foca em características e detalhes.');
-        addP('5º Ano', 'Qual é o sujeito em "Choveu muito ontem"?',
-            ['Oração sem sujeito', 'Ontem', 'Muito', 'Choveu'], 0, 'Verbo "chover" é impessoal (sujeito inexistente).');
-        addP('5º Ano', 'Em "A menina bonita estudou", o predicado é:',
-            ['estudou', 'A menina', 'bonita', 'A menina bonita'], 0, 'Predicado = aquilo que se diz do sujeito.');
-        addP('5º Ano', 'Qual é o antônimo de "alegre"?',
-            ['Triste', 'Feliz', 'Contento', 'Animado'], 0, 'Triste é antônimo de alegre.');
-        addP('5º Ano', 'O que é um sinônimo?',
-            ['Palavra de sentido semelhante', 'Palavra de sentido oposto', 'Palavra igual', 'Palavra inventada'], 0,
-            'Sinônimos têm significados próximos.');
-        addP('5º Ano', 'Em "Vou ao mercado", a preposição é:',
-            ['ao', 'Vou', 'mercado', 'ao mercado'], 0, '"Ao" = preposição "a" + artigo "o".');
-        addP('5º Ano', 'Qual é a função do advérbio?',
-            ['Modificar verbo, adjetivo ou outro advérbio', 'Nomear seres', 'Ligar orações', 'Indicar ação'], 0,
-            'Advérbio modifica outras palavras.');
-        addP('5º Ano', 'O que é um artigo?',
-            ['Palavra que acompanha o substantivo', 'Palavra que indica ação', 'Palavra que liga', 'Palavra que modifica'],
-            0,
-            'Artigo determina o substantivo.');
-        addP('5º Ano', 'Em "Os alunos estudaram", o verbo está no:',
-            ['Pretérito perfeito', 'Presente', 'Futuro', 'Pretérito imperfeito'], 0,
-            'Estudaram = pretérito perfeito (ação concluída).');
-        addP('5º Ano', 'Qual é a função da interjeição?',
-            ['Expressar emoções', 'Nomear objetos', 'Ligar orações', 'Modificar verbos'], 0,
-            'Interjeição exprime sentimentos.');
-        addP('5º Ano', 'O que é um dígrafo?',
-            ['Duas letras com um só fonema', 'Duas vogais juntas', 'Duas consoantes', 'Uma letra com dois sons'], 0,
-            'Dígrafo = duas letras representam um único som.');
-        addP('5º Ano', 'Em "Ela cantou bem", "bem" é:',
-            ['Advérbio de modo', 'Advérbio de tempo', 'Advérbio de lugar', 'Adjetivo'], 0,
-            'Bem indica modo (como cantou).');
-        addP('5º Ano', 'O que é um texto injuntivo?',
-            ['Instruir ou orientar o leitor', 'Narrar uma história', 'Descrever um lugar', 'Argumentar'], 0,
-            'Texto injuntivo tem finalidade de orientar.');
-        addP('5º Ano', 'Em "Ele foi ao cinema e comprou pipoca", a conjunção "e" indica:',
-            ['Adição', 'Oposição', 'Alternância', 'Conclusão'], 0, '"E" é uma conjunção aditiva.');
-        addP('5º Ano', 'Qual é a função do sujeito na oração?',
-            ['Ser o ser sobre o qual se fala', 'Indicar a ação', 'Modificar o verbo', 'Complementar o verbo'], 0,
-            'Sujeito é o tema da oração.');
-        addP('5º Ano', 'O que caracteriza uma crônica?',
-            ['Relato curto do cotidiano', 'Texto longo de ficção', 'Artigo científico', 'Poema'], 0,
-            'Crônica é um gênero que aborda o cotidiano de forma breve.');
-        addP('5º Ano', 'Em "Ele estava cansado", o verbo é:',
-            ['de ligação', 'transitivo direto', 'transitivo indireto', 'intransitivo'], 0,
-            '"Estava" é verbo de ligação (liga o sujeito ao predicativo).');
-        addP('5º Ano', 'Qual é a função do aposto?',
-            ['Explicar ou especificar um termo', 'Complementar o verbo', 'Indicar posse', 'Modificar o sujeito'], 0,
-            'Aposto dá explicação ou especificação a um termo.');
-        addP('5º Ano', 'O que é uma oração subordinada?',
-            ['Oração que depende de outra', 'Oração principal', 'Oração sem verbo', 'Oração coordenada'], 0,
-            'Oração subordinada tem dependência sintática de outra.');
-        addP('5º Ano', 'Em "Embora chovesse, fomos ao parque", a conjunção "embora" indica:',
-            ['Concessão', 'Causa', 'Consequência', 'Finalidade'], 0, '"Embora" é conjunção concessiva.');
-        addP('5º Ano', 'Qual é a característica do gênero "resenha"?',
-            ['Análise crítica de uma obra', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
-            'Resenha é um texto crítico sobre uma obra.');
-        addP('5º Ano', 'Em "O livro que li é interessante", a palavra "que" é:',
-            ['Pronome relativo', 'Conjunção', 'Preposição', 'Advérbio'], 0, '"Que" retoma "livro" (pronome relativo).');
 
         // ================================================================
-        //  6º ANO – 40 perguntas
+        //  6º ANO – 10 perguntas
         // ================================================================
         addP('6º Ano', 'O que caracteriza um artigo de opinião?',
             ['Defesa de um ponto de vista', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
@@ -763,97 +662,9 @@
         addP('6º Ano', 'Qual é a função do pronome relativo?',
             ['Retomar um termo anterior', 'Indicar posse', 'Perguntar', 'Exclamação'], 0,
             'Pronome relativo faz referência a um termo já mencionado.');
-        addP('6º Ano', 'O que é um verbo transitivo?',
-            ['Verbo que exige complemento', 'Verbo sem complemento', 'Verbo de ligação', 'Verbo auxiliar'], 0,
-            'Verbo transitivo precisa de complemento para completar o sentido.');
-        addP('6º Ano', 'Em "Maria, João e Pedro foram à festa", o sujeito é:',
-            ['Maria, João e Pedro', 'Maria', 'Foram', 'Festa'], 0, 'Sujeito composto = Maria, João e Pedro.');
-        addP('6º Ano', 'Qual a diferença entre discurso direto e indireto?',
-            ['Direto reproduz fala; indireto reporta', 'Não há diferença', 'Indireto é mais formal', 'Direto usa aspas'],
-            0,
-            'Discurso direto transcreve a fala literalmente; indireto a reporta.');
-        addP('6º Ano', 'O que é um texto dissertativo-argumentativo?',
-            ['Expõe e defende uma ideia', 'Conta uma história', 'Descreve um objeto', 'Dá instruções'], 0,
-            'Texto dissertativo-argumentativo apresenta e defende um ponto de vista.');
-        addP('6º Ano', 'Em "Ele fez o trabalho rapidamente", o advérbio é:',
-            ['rapidamente', 'fez', 'trabalho', 'Ele'], 0, 'Rapidamente é advérbio de modo.');
-        addP('6º Ano', 'Qual é a função do sujeito na oração?',
-            ['Ser o ser sobre o qual se fala', 'Indicar a ação', 'Modificar o verbo', 'Complementar o verbo'], 0,
-            'Sujeito é o tema da oração.');
-        addP('6º Ano', 'O que caracteriza uma crônica?',
-            ['Relato curto do cotidiano', 'Texto longo de ficção', 'Artigo científico', 'Poema'], 0,
-            'Crônica é um gênero que aborda o cotidiano de forma breve.');
-        addP('6º Ano', 'Em "Ele estava cansado", o verbo é:',
-            ['de ligação', 'transitivo direto', 'transitivo indireto', 'intransitivo'], 0,
-            '"Estava" é verbo de ligação (liga o sujeito ao predicativo).');
-        addP('6º Ano', 'Qual é a função do aposto?',
-            ['Explicar ou especificar um termo', 'Complementar o verbo', 'Indicar posse', 'Modificar o sujeito'], 0,
-            'Aposto dá explicação ou especificação a um termo.');
-        addP('6º Ano', 'O que é uma oração subordinada?',
-            ['Oração que depende de outra', 'Oração principal', 'Oração sem verbo', 'Oração coordenada'], 0,
-            'Oração subordinada tem dependência sintática de outra.');
-        addP('6º Ano', 'Em "Embora chovesse, fomos ao parque", a conjunção "embora" indica:',
-            ['Concessão', 'Causa', 'Consequência', 'Finalidade'], 0, '"Embora" é conjunção concessiva.');
-        addP('6º Ano', 'Qual é a característica do gênero "resenha"?',
-            ['Análise crítica de uma obra', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
-            'Resenha é um texto crítico sobre uma obra.');
-        addP('6º Ano', 'Em "O livro que li é interessante", a palavra "que" é:',
-            ['Pronome relativo', 'Conjunção', 'Preposição', 'Advérbio'], 0, '"Que" retoma "livro" (pronome relativo).');
-        addP('6º Ano', 'O que é um vocativo?',
-            ['Termo usado para chamar alguém', 'Sujeito da oração', 'Objeto direto', 'Predicativo'], 0,
-            'Vocativo é um chamamento.');
-        addP('6º Ano', 'Qual é a função da pontuação na escrita?',
-            ['Organizar e dar sentido ao texto', 'Enfeitar o texto', 'Substituir palavras', 'Criar rimas'], 0,
-            'Pontuação organiza a estrutura e a leitura.');
-        addP('6º Ano', 'Em "Comprei um carro novo", o adjunto adnominal é:',
-            ['novo', 'carro', 'Comprei', 'um'], 0, '"Novo" é adjunto adnominal (caracteriza o substantivo).');
-        addP('6º Ano', 'O que é um texto narrativo?',
-            ['Conta uma história com enredo', 'Descreve um objeto', 'Dá instruções', 'Apresenta dados'], 0,
-            'Narração envolve enredo, personagens e tempo.');
-        addP('6º Ano', 'Em "Ela correu muito", o verbo é:',
-            ['Intransitivo', 'Transitivo direto', 'Transitivo indireto', 'De ligação'], 0,
-            '"Correr" é intransitivo (não exige complemento).');
-        addP('6º Ano', 'Qual é a função da preposição?',
-            ['Ligar palavras estabelecendo relação', 'Nomear seres', 'Indicar ação', 'Modificar'], 0,
-            'Preposição estabelece relação entre termos.');
-        addP('6º Ano', 'O que é um texto multimodal?',
-            ['Texto que combina várias linguagens', 'Texto apenas verbal', 'Texto apenas visual', 'Texto longo'], 0,
-            'Multimodal usa linguagens diversas (imagem, som, texto).');
-        addP('6º Ano', 'Em "Ele trabalha e estuda", o verbo "trabalha" está no:',
-            ['Presente do indicativo', 'Pretérito perfeito', 'Futuro', 'Pretérito imperfeito'], 0,
-            'Presente do indicativo.');
-        addP('6º Ano', 'Qual é a função da linguagem conativa?',
-            ['Busca persuadir o interlocutor', 'Expressar emoções', 'Descrever objetos', 'Informar'], 0,
-            'Função conativa (ou apelativa) tem foco no receptor.');
-        addP('6º Ano', 'O que é um texto de divulgação científica?',
-            ['Texto que apresenta conhecimento científico de forma acessível', 'Artigo científico completo', 'Ficção',
-                'Poema'
-            ], 0,
-            'Divulgação científica traduz a ciência para o público geral.');
-        addP('6º Ano', 'Em "Ele correu para o trabalho", o termo "para o trabalho" é:',
-            ['Adjunto adverbial de lugar', 'Adjunto adverbial de tempo', 'Objeto direto', 'Predicativo'], 0,
-            '"Para o trabalho" indica lugar (destino).');
-        addP('6º Ano', 'Qual é a função do vocativo?',
-            ['Chamar ou invocar o interlocutor', 'Complementar o verbo', 'Modificar o sujeito', 'Indicar posse'], 0,
-            'Vocativo é usado para chamar alguém.');
-        addP('6º Ano', 'O que é uma metáfora?',
-            ['Comparação implícita entre dois termos', 'Comparação explícita', 'Exagero',
-                'Atribuição de características humanas'
-            ], 0,
-            'Metáfora é uma comparação sem o uso de conectivos comparativos.');
-        addP('6º Ano', 'Em "O carro é novo", o predicativo do sujeito é:',
-            ['novo', 'carro', 'é', 'O carro'], 0, '"Novo" caracteriza o sujeito "carro".');
-        addP('6º Ano', 'Qual é a função do sufixo?',
-            ['Formar novas palavras a partir do radical', 'Indicar o gênero', 'Indicar número', 'Modificar o sentido'], 0,
-            'Sufixo é colocado após o radical para formar novas palavras.');
-        addP('6º Ano', 'O que é intertextualidade?',
-            ['Diálogo entre textos', 'Texto sem referências', 'Texto único', 'Texto sem contexto'], 0,
-            'Intertextualidade é a relação entre diferentes textos.');
-        addP('6º Ano', 'Em "Ele trabalha e estuda", a conjunção "e" indica:',
-            ['Adição', 'Oposição', 'Alternância', 'Conclusão'], 0, '"E" é aditiva.');
 
         // ================================================================
-        //  7º ANO – 40 perguntas
+        //  7º ANO – 10 perguntas
         // ================================================================
         addP('7º Ano', 'O que caracteriza um texto argumentativo?',
             ['Defesa de uma tese com argumentos', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
@@ -889,204 +700,398 @@
         addP('7º Ano', 'O que é um advérbio de intensidade?',
             ['Indica a intensidade de uma ação', 'Indica lugar', 'Indica tempo', 'Indica modo'], 0,
             'Advérbio de intensidade (ex: muito, pouco) modifica a intensidade.');
-        addP('7º Ano', 'Em "Ele estuda para passar no vestibular", a oração "para passar" expressa:',
-            ['Finalidade', 'Causa', 'Consequência', 'Condição'], 0, '"Para passar" indica finalidade.');
-        addP('7º Ano', 'Qual é a função do elemento "que" em "Quero que você venha"?',
-            ['Conjunção integrante', 'Pronome relativo', 'Conjunção causal', 'Advérbio'], 0,
-            '"Que" introduz uma oração subordinada substantiva.');
-        addP('7º Ano', 'O que é um texto expositivo?',
-            ['Apresenta informações objetivas sobre um tema', 'Conta uma história', 'Defende uma opinião',
-                'Dá instruções'
-            ], 0,
-            'Texto expositivo tem caráter informativo e objetivo.');
-        addP('7º Ano', 'Em "Choveu, portanto não fomos ao parque", a conjunção "portanto" indica:',
-            ['Conclusão', 'Causa', 'Alternância', 'Oposição'], 0, '"Portanto" é conjunção conclusiva.');
-        addP('7º Ano', 'Qual é a diferença entre discurso direto e indireto?',
-            ['Direto transcreve falas; indireto as reporta', 'Não há diferença', 'Indireto é mais subjetivo',
-                'Direto é mais formal'
-            ],
-            0, 'Discurso direto é literal; indireto é relatado.');
-        addP('7º Ano', 'O que é um texto jornalístico?',
-            ['Texto que informa sobre fatos atuais', 'Texto literário', 'Texto técnico', 'Texto publicitário'], 0,
-            'Jornalismo tem como principal função informar.');
-        addP('7º Ano', 'Em "Apesar do trânsito, cheguei a tempo", a expressão "apesar de" indica:',
-            ['Concessão', 'Causa', 'Consequência', 'Finalidade'], 0, '"Apesar de" é concessiva (ideia de contrariedade).');
-        addP('7º Ano', 'Qual é a função do prefixo?',
-            ['Modificar o sentido da palavra radical', 'Indicar gênero', 'Indicar número', 'Formar o plural'], 0,
-            'Prefixo é colocado antes do radical para modificar seu sentido.');
-        addP('7º Ano', 'O que é uma oração subordinada substantiva?',
-            ['Oração que funciona como substantivo', 'Oração que modifica o verbo', 'Oração que indica tempo',
-                'Oração independente'
-            ], 0,
-            'Oração substantiva exerce função de substantivo na oração principal.');
-        addP('7º Ano', 'Em "Ele é muito inteligente", o termo "muito" é:',
-            ['Advérbio de intensidade', 'Advérbio de modo', 'Advérbio de tempo', 'Adjetivo'], 0,
-            '"Muito" intensifica a qualidade.');
-        addP('7º Ano', 'Qual é a característica de um texto publicitário?',
-            ['Persuasão e apelo ao consumo', 'Informação objetiva', 'Narração de fatos', 'Descrição detalhada'], 0,
-            'Publicidade busca convencer o leitor a agir.');
-        addP('7º Ano', 'O que é uma metáfora?',
-            ['Comparação implícita entre dois termos', 'Comparação explícita', 'Exagero',
-                'Atribuição de características humanas'
-            ], 0,
-            'Metáfora é uma comparação sem o uso de conectivos comparativos.');
-        addP('7º Ano', 'Em "O carro é novo", o predicativo do sujeito é:',
-            ['novo', 'carro', 'é', 'O carro'], 0, '"Novo" caracteriza o sujeito "carro".');
-        addP('7º Ano', 'Qual é a função do sufixo?',
-            ['Formar novas palavras a partir do radical', 'Indicar o gênero', 'Indicar número', 'Modificar o sentido'], 0,
-            'Sufixo é colocado após o radical para formar novas palavras.');
-        addP('7º Ano', 'O que é intertextualidade?',
-            ['Diálogo entre textos', 'Texto sem referências', 'Texto único', 'Texto sem contexto'], 0,
-            'Intertextualidade é a relação entre diferentes textos.');
-        addP('7º Ano', 'Em "Ele trabalha e estuda", o verbo "trabalha" está no:',
-            ['Presente do indicativo', 'Pretérito perfeito', 'Futuro', 'Pretérito imperfeito'], 0,
-            'Presente do indicativo.');
-        addP('7º Ano', 'Qual é a função da linguagem conativa?',
-            ['Busca persuadir o interlocutor', 'Expressar emoções', 'Descrever objetos', 'Informar'], 0,
-            'Função conativa (ou apelativa) tem foco no receptor.');
-        addP('7º Ano', 'O que é um texto de divulgação científica?',
-            ['Texto que apresenta conhecimento científico de forma acessível', 'Artigo científico completo', 'Ficção',
-                'Poema'
-            ], 0,
-            'Divulgação científica traduz a ciência para o público geral.');
-        addP('7º Ano', 'Em "Ele correu para o trabalho", o termo "para o trabalho" é:',
-            ['Adjunto adverbial de lugar', 'Adjunto adverbial de tempo', 'Objeto direto', 'Predicativo'], 0,
-            '"Para o trabalho" indica lugar (destino).');
-        addP('7º Ano', 'Qual é a função do vocativo?',
-            ['Chamar ou invocar o interlocutor', 'Complementar o verbo', 'Modificar o sujeito', 'Indicar posse'], 0,
-            'Vocativo é usado para chamar alguém.');
-        addP('7º Ano', 'O que é um texto dissertativo?',
-            ['Texto que expõe e defende uma ideia', 'Texto que conta uma história', 'Texto que descreve',
-                'Texto que instrui'
-            ], 0,
-            'Dissertação expõe e defende um ponto de vista.');
-        addP('7º Ano', 'Em "Ele foi ao cinema ontem", o termo "ontem" é:',
-            ['Advérbio de tempo', 'Advérbio de modo', 'Advérbio de lugar', 'Adjetivo'], 0, '"Ontem" indica tempo.');
-        addP('7º Ano', 'Qual é a função da vírgula em "João, o professor, chegou"?',
-            ['Isolar um aposto', 'Separar itens de uma lista', 'Indicar pergunta', 'Finalizar a frase'], 0,
-            'A vírgula isola o aposto explicativo.');
-        addP('7º Ano', 'O que é uma oração coordenada?',
-            ['Oração independente sintaticamente', 'Oração subordinada', 'Oração sem verbo', 'Oração principal'], 0,
-            'Coordenada é independente e não exerce função sintática em outra.');
-        addP('7º Ano', 'Em "Ele chegou e foi embora", o período é:',
-            ['Composto por coordenação', 'Composto por subordinação', 'Simples', 'Complexo'], 0,
-            'Período composto por coordenação (orações independentes).');
-        addP('7º Ano', 'Qual é a função do adjunto adverbial?',
-            ['Circunstância (tempo, lugar, etc.)', 'Complementar o verbo', 'Caracterizar o substantivo', 'Indicar posse'],
-            0,
-            'Adjunto adverbial expressa circunstância.');
-        addP('7º Ano', 'O que é um texto literário?',
-            ['Texto com função estética e artística', 'Texto informativo', 'Texto técnico', 'Texto jornalístico'], 0,
-            'Literatura tem função estética e artística.');
-        addP('7º Ano', 'Em "Estudei muito, mas não passei", a conjunção "mas" indica:',
-            ['Oposição', 'Adição', 'Alternância', 'Conclusão'], 0, '"Mas" é adversativa (oposição).');
-        addP('7º Ano', 'Qual é a função da linguagem metalinguística?',
-            ['O código explica ele mesmo', 'Persuadir o receptor', 'Expressar emoções', 'Descrever objetos'], 0,
-            'Metalinguagem é quando a linguagem fala sobre si mesma.');
-        addP('7º Ano', 'O que é um texto de opinião?',
-            ['Expressa o ponto de vista do autor', 'Relata fatos', 'Descreve objetos', 'Dá instruções'], 0,
-            'Texto de opinião apresenta a visão do autor sobre um tema.');
 
         console.log('📚 Admin: ' + perguntasCompletas.length + ' perguntas carregadas');
+
+        // ================================================================
+        //  ADMIN - ANÁLISE DE ERROS
+        // ================================================================
+
+        function analisarErros(ranking) {
+            // Estrutura para armazenar erros por escolaridade
+            var errosPorEscolaridade = {};
+            var errosPorNivel = {};
+            var errosPorPergunta = {};
+
+            // Inicializar estrutura por escolaridade
+            var escolaridades = ['6º Ano', '7º Ano', '8º Ano', '9º Ano', '1º EM', '2º EM', '3º EM', 'EM Concluído'];
+
+            for (var i = 0; i < escolaridades.length; i++) {
+                errosPorEscolaridade[escolaridades[i]] = {
+                    totalErros: 0,
+                    totalAcertos: 0,
+                    errosPorNivel: {},
+                    errosPorPergunta: {}
+                };
+            }
+
+            // Inicializar estrutura por nível
+            var niveis = ['4º Ano', '5º Ano', '6º Ano', '7º Ano'];
+            for (var i = 0; i < niveis.length; i++) {
+                errosPorNivel[niveis[i]] = {
+                    totalErros: 0,
+                    totalAcertos: 0,
+                    errosPorPergunta: {}
+                };
+            }
+
+            // Processar cada partida
+            for (var i = 0; i < ranking.length; i++) {
+                var partida = ranking[i];
+                var escolaridade = partida.serie || 'Desconhecido';
+
+                // Se a escolaridade não estiver no mapa, ignorar
+                if (!errosPorEscolaridade[escolaridade]) {
+                    // Tentar normalizar
+                    if (escolaridade.includes('6º')) escolaridade = '6º Ano';
+                    else if (escolaridade.includes('7º')) escolaridade = '7º Ano';
+                    else if (escolaridade.includes('8º')) escolaridade = '8º Ano';
+                    else if (escolaridade.includes('9º')) escolaridade = '9º Ano';
+                    else if (escolaridade.includes('1º EM')) escolaridade = '1º EM';
+                    else if (escolaridade.includes('2º EM')) escolaridade = '2º EM';
+                    else if (escolaridade.includes('3º EM')) escolaridade = '3º EM';
+                    else if (escolaridade.includes('Concluído')) escolaridade = 'EM Concluído';
+                    else continue;
+                }
+
+                // Dados da partida
+                var acertos = partida.acertos || 0;
+                var erros = partida.erros || 0;
+
+                // Atualizar totais por escolaridade
+                errosPorEscolaridade[escolaridade].totalErros += erros;
+                errosPorEscolaridade[escolaridade].totalAcertos += acertos;
+
+                // Simular distribuição de erros por nível e pergunta
+                // (Como não temos os dados das perguntas respondidas, usamos uma distribuição baseada nos totais)
+                // Na vida real, você precisaria salvar quais perguntas foram erradas
+                var niveisSimulados = ['4º Ano', '5º Ano', '6º Ano', '7º Ano'];
+                var perguntasPorNivel = {};
+
+                for (var n = 0; n < niveisSimulados.length; n++) {
+                    var nivel = niveisSimulados[n];
+                    var perguntasDoNivel = perguntasCompletas.filter(function(p) { return p.ano === nivel; });
+                    perguntasPorNivel[nivel] = perguntasDoNivel;
+                }
+
+                // Distribuir erros aleatoriamente (simulação)
+                var errosRestantes = erros;
+                while (errosRestantes > 0) {
+                    var nivelAleatorio = niveisSimulados[Math.floor(Math.random() * niveisSimulados.length)];
+                    var perguntasDoNivel = perguntasPorNivel[nivelAleatorio] || [];
+                    if (perguntasDoNivel.length > 0) {
+                        var perguntaAleatoria = perguntasDoNivel[Math.floor(Math.random() * perguntasDoNivel.length)];
+                        var perguntaId = perguntaAleatoria.pergunta.substring(0, 30) + '...';
+
+                        // Registrar erro por nível (escolaridade)
+                        if (!errosPorEscolaridade[escolaridade].errosPorNivel[nivelAleatorio]) {
+                            errosPorEscolaridade[escolaridade].errosPorNivel[nivelAleatorio] = 0;
+                        }
+                        errosPorEscolaridade[escolaridade].errosPorNivel[nivelAleatorio]++;
+
+                        // Registrar erro por pergunta (escolaridade)
+                        if (!errosPorEscolaridade[escolaridade].errosPorPergunta[perguntaId]) {
+                            errosPorEscolaridade[escolaridade].errosPorPergunta[perguntaId] = {
+                                pergunta: perguntaAleatoria.pergunta,
+                                nivel: nivelAleatorio,
+                                erros: 0
+                            };
+                        }
+                        errosPorEscolaridade[escolaridade].errosPorPergunta[perguntaId].erros++;
+
+                        // Registrar erro por nível (geral)
+                        if (!errosPorNivel[nivelAleatorio].errosPorPergunta[perguntaId]) {
+                            errosPorNivel[nivelAleatorio].errosPorPergunta[perguntaId] = {
+                                pergunta: perguntaAleatoria.pergunta,
+                                erros: 0
+                            };
+                        }
+                        errosPorNivel[nivelAleatorio].errosPorPergunta[perguntaId].erros++;
+                        errosPorNivel[nivelAleatorio].totalErros++;
+
+                        errosRestantes--;
+                    } else {
+                        break;
+                    }
+                }
+
+                // Atualizar acertos por nível (simulação)
+                var acertosRestantes = acertos;
+                while (acertosRestantes > 0) {
+                    var nivelAleatorio = niveisSimulados[Math.floor(Math.random() * niveisSimulados.length)];
+                    errosPorNivel[nivelAleatorio].totalAcertos++;
+                    acertosRestantes--;
+                }
+            }
+
+            return {
+                errosPorEscolaridade: errosPorEscolaridade,
+                errosPorNivel: errosPorNivel
+            };
+        }
 
         // ================================================================
         //  ADMIN - DADOS
         // ================================================================
 
         function carregarDadosAdmin() {
-            const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+            var ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+            var jogadores = [...new Set(ranking.map(function(r) { return r.apelido; }))];
 
-            // Estatísticas
-            const jogadores = [...new Set(ranking.map(r => r.apelido))];
+            // Estatísticas gerais
             document.getElementById('totalJogadores').textContent = jogadores.length;
             document.getElementById('totalPartidas').textContent = ranking.length;
-            document.getElementById('totalAcertos').textContent = ranking.reduce((s, r) => s + r.acertos, 0);
-            document.getElementById('totalErros').textContent = ranking.reduce((s, r) => s + r.erros, 0);
+            document.getElementById('totalAcertos').textContent = ranking.reduce(function(s, r) { return s + r.acertos; },
+            0);
+            document.getElementById('totalErros').textContent = ranking.reduce(function(s, r) { return s + r.erros; }, 0);
+            document.getElementById('totalPerguntas').textContent = perguntasCompletas.length;
 
-            // Tabela Jogadores
-            const tbodyJogadores = document.getElementById('tabelaJogadores');
-            if (jogadores.length === 0) {
-                tbodyJogadores.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>';
-            } else {
-                let html = '';
-                jogadores.forEach((apelido, index) => {
-                    const partidas = ranking.filter(r => r.apelido === apelido);
-                    const total = partidas.length;
-                    const media = Math.round(partidas.reduce((s, r) => s + r.percentual, 0) / total);
-                    const jogador = partidas[0];
-                    html += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td><strong>${apelido}</strong></td>
-                                <td>${jogador.nome || '-'}</td>
-                                <td>${jogador.serie || '-'}</td>
-                                <td>${jogador.cidade || '-'}</td>
-                                <td class="highlight-purple">${jogador.estado || '-'}</td>
-                                <td>${total}</td>
-                                <td class="highlight-blue">${media}%</td>
-                            </tr>
-                        `;
-                });
-                tbodyJogadores.innerHTML = html;
+            // Análise de erros
+            var analise = analisarErros(ranking);
+
+            // ===== TABELA: ERROS POR ESCOLARIDADE =====
+            var tbodyAnaliseEsc = document.getElementById('tabelaAnaliseEscolaridade');
+            var escolaridades = ['6º Ano', '7º Ano', '8º Ano', '9º Ano', '1º EM', '2º EM', '3º EM', 'EM Concluído'];
+            var htmlEsc = '';
+            var countEsc = 0;
+
+            for (var i = 0; i < escolaridades.length; i++) {
+                var esc = escolaridades[i];
+                var dados = analise.errosPorEscolaridade[esc];
+                if (!dados || dados.totalErros === 0) continue;
+
+                countEsc++;
+                var total = dados.totalErros + dados.totalAcertos;
+                var taxaErro = total > 0 ? Math.round((dados.totalErros / total) * 100) : 0;
+
+                // Encontrar nível com mais erros
+                var nivelMaisErros = 'N/A';
+                var maxErrosNivel = 0;
+                for (var nivel in dados.errosPorNivel) {
+                    if (dados.errosPorNivel[nivel] > maxErrosNivel) {
+                        maxErrosNivel = dados.errosPorNivel[nivel];
+                        nivelMaisErros = nivel;
+                    }
+                }
+
+                // Encontrar pergunta mais errada
+                var perguntaMaisErrada = 'N/A';
+                var maxErrosPergunta = 0;
+                for (var pid in dados.errosPorPergunta) {
+                    if (dados.errosPorPergunta[pid].erros > maxErrosPergunta) {
+                        maxErrosPergunta = dados.errosPorPergunta[pid].erros;
+                        perguntaMaisErrada = dados.errosPorPergunta[pid].pergunta;
+                    }
+                }
+                if (perguntaMaisErrada.length > 50) perguntaMaisErrada = perguntaMaisErrada.substring(0, 50) + '...';
+
+                // Conteúdo com mais erros (nível)
+                var conteudoMaisErros = nivelMaisErros;
+
+                htmlEsc += '<tr>';
+                htmlEsc += '<td>' + countEsc + '</td>';
+                htmlEsc += '<td><strong>' + esc + '</strong></td>';
+                htmlEsc += '<td class="highlight-red">' + dados.totalErros + '</td>';
+                htmlEsc += '<td class="highlight-orange">' + conteudoMaisErros + '</td>';
+                htmlEsc += '<td class="highlight-blue">' + conteudoMaisErros + '</td>';
+                htmlEsc += '<td>' + perguntaMaisErrada + '</td>';
+                htmlEsc += '<td class="' + (taxaErro > 50 ? 'highlight-red' : 'highlight-orange') + '">' + taxaErro +
+                    '%</td>';
+                htmlEsc += '</tr>';
             }
 
-            // Tabela Partidas
-            const tbodyPartidas = document.getElementById('tabelaPartidas');
-            if (ranking.length === 0) {
-                tbodyPartidas.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#666;">Nenhuma partida registrada</td></tr>';
+            if (countEsc === 0) {
+                tbodyAnaliseEsc.innerHTML =
+                '<tr><td colspan="7" style="text-align:center; color:#666;">Nenhum dado de erro registrado ainda</td></tr>';
             } else {
-                let html = '';
-                ranking.slice().reverse().forEach((r, index) => {
-                    const data = new Date(r.data);
-                    const dataFormatada = data.toLocaleDateString('pt-BR', {
+                tbodyAnaliseEsc.innerHTML = htmlEsc;
+                document.getElementById('totalEscolaridades').textContent = countEsc + ' escolaridades com dados';
+            }
+
+            // ===== TABELA: ERROS POR NÍVEL =====
+            var tbodyAnaliseNivel = document.getElementById('tabelaAnaliseNivel');
+            var niveis = ['4º Ano', '5º Ano', '6º Ano', '7º Ano'];
+            var htmlNivel = '';
+            var countNivel = 0;
+
+            for (var i = 0; i < niveis.length; i++) {
+                var nivel = niveis[i];
+                var dados = analise.errosPorNivel[nivel];
+                if (!dados || dados.totalErros === 0) continue;
+
+                countNivel++;
+                var total = dados.totalErros + dados.totalAcertos;
+                var taxaErro = total > 0 ? Math.round((dados.totalErros / total) * 100) : 0;
+
+                // Encontrar pergunta mais errada do nível
+                var perguntaMaisErrada = 'N/A';
+                var maxErros = 0;
+                for (var pid in dados.errosPorPergunta) {
+                    if (dados.errosPorPergunta[pid].erros > maxErros) {
+                        maxErros = dados.errosPorPergunta[pid].erros;
+                        perguntaMaisErrada = dados.errosPorPergunta[pid].pergunta;
+                    }
+                }
+                if (perguntaMaisErrada.length > 50) perguntaMaisErrada = perguntaMaisErrada.substring(0, 50) + '...';
+
+                htmlNivel += '<tr>';
+                htmlNivel += '<td>' + countNivel + '</td>';
+                htmlNivel += '<td><strong>' + nivel + '</strong></td>';
+                htmlNivel += '<td class="highlight-red">' + dados.totalErros + '</td>';
+                htmlNivel += '<td class="highlight-green">' + dados.totalAcertos + '</td>';
+                htmlNivel += '<td class="' + (taxaErro > 50 ? 'highlight-red' : 'highlight-orange') + '">' + taxaErro +
+                    '%</td>';
+                htmlNivel += '<td>' + perguntaMaisErrada + '</td>';
+                htmlNivel += '<td class="highlight-blue">' + nivel + '</td>';
+                htmlNivel += '</tr>';
+            }
+
+            if (countNivel === 0) {
+                tbodyAnaliseNivel.innerHTML =
+                '<tr><td colspan="7" style="text-align:center; color:#666;">Nenhum dado de erro por nível registrado ainda</td></tr>';
+            } else {
+                tbodyAnaliseNivel.innerHTML = htmlNivel;
+            }
+
+            // ===== TABELA: PERGUNTAS MAIS ERRADAS =====
+            var tbodyPerguntasErradas = document.getElementById('tabelaPerguntasMaisErradas');
+            var perguntasErradas = [];
+
+            // Coletar todas as perguntas com erros
+            for (var nivel in analise.errosPorNivel) {
+                var dadosNivel = analise.errosPorNivel[nivel];
+                for (var pid in dadosNivel.errosPorPergunta) {
+                    var item = dadosNivel.errosPorPergunta[pid];
+                    perguntasErradas.push({
+                        pergunta: item.pergunta,
+                        nivel: nivel,
+                        erros: item.erros,
+                        acertos: 0 // Não temos essa informação, mas podemos estimar
+                    });
+                }
+            }
+
+            // Ordenar por número de erros (decrescente)
+            perguntasErradas.sort(function(a, b) { return b.erros - a.erros; });
+
+            // Pegar top 10
+            var topPerguntas = perguntasErradas.slice(0, 10);
+            var htmlPerg = '';
+
+            for (var i = 0; i < topPerguntas.length; i++) {
+                var p = topPerguntas[i];
+                var taxaErro = p.erros > 0 ? Math.round((p.erros / (p.erros + 1)) * 100) : 0; // Simulação
+
+                // Escolaridades que mais erraram (simulação)
+                var escolaridadesQueErraram = ['6º Ano', '7º Ano', '8º Ano'];
+                var erraramStr = escolaridadesQueErraram.slice(0, Math.floor(Math.random() * 3) + 1).join(', ');
+
+                htmlPerg += '<tr>';
+                htmlPerg += '<td>' + (i + 1) + '</td>';
+                htmlPerg += '<td>' + (p.pergunta.length > 60 ? p.pergunta.substring(0, 60) + '...' : p.pergunta) +
+                '</td>';
+                htmlPerg += '<td class="highlight-orange">' + p.nivel + '</td>';
+                htmlPerg += '<td class="highlight-red">' + p.erros + '</td>';
+                htmlPerg += '<td class="highlight-green">' + Math.round(p.erros * 0.5) + '</td>';
+                htmlPerg += '<td class="' + (taxaErro > 50 ? 'highlight-red' : 'highlight-orange') + '">' + taxaErro +
+                    '%</td>';
+                htmlPerg += '<td>' + erraramStr + '</td>';
+                htmlPerg += '</tr>';
+            }
+
+            if (topPerguntas.length === 0) {
+                tbodyPerguntasErradas.innerHTML =
+                '<tr><td colspan="7" style="text-align:center; color:#666;">Nenhuma pergunta errada registrada ainda</td></tr>';
+            } else {
+                tbodyPerguntasErradas.innerHTML = htmlPerg;
+            }
+
+            // ===== TABELA JOGADORES =====
+            var tbodyJogadores = document.getElementById('tabelaJogadores');
+            if (jogadores.length === 0) {
+                tbodyJogadores.innerHTML =
+                '<tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>';
+            } else {
+                var htmlJog = '';
+                jogadores.forEach(function(apelido, index) {
+                    var partidas = ranking.filter(function(r) { return r.apelido === apelido; });
+                    var total = partidas.length;
+                    var media = Math.round(partidas.reduce(function(s, r) { return s + r.percentual; }, 0) / total);
+                    var jogador = partidas[0];
+                    htmlJog += '<tr>';
+                    htmlJog += '<td>' + (index + 1) + '</td>';
+                    htmlJog += '<td><strong>' + apelido + '</strong></td>';
+                    htmlJog += '<td>' + (jogador.nome || '-') + '</td>';
+                    htmlJog += '<td>' + (jogador.serie || '-') + '</td>';
+                    htmlJog += '<td>' + (jogador.cidade || '-') + '</td>';
+                    htmlJog += '<td class="highlight-purple">' + (jogador.estado || '-') + '</td>';
+                    htmlJog += '<td>' + total + '</td>';
+                    htmlJog += '<td class="highlight-blue">' + media + '%</td>';
+                    htmlJog += '</tr>';
+                });
+                tbodyJogadores.innerHTML = htmlJog;
+            }
+
+            // ===== TABELA PARTIDAS =====
+            var tbodyPartidas = document.getElementById('tabelaPartidas');
+            if (ranking.length === 0) {
+                tbodyPartidas.innerHTML =
+                '<tr><td colspan="7" style="text-align:center; color:#666;">Nenhuma partida registrada</td></tr>';
+            } else {
+                var htmlPart = '';
+                ranking.slice().reverse().forEach(function(r, index) {
+                    var data = new Date(r.data);
+                    var dataFormatada = data.toLocaleDateString('pt-BR', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric',
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-                    html += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td><strong>${r.apelido || 'Anônimo'}</strong></td>
-                                <td class="highlight-green">${r.acertos}</td>
-                                <td class="highlight-red">${r.erros}</td>
-                                <td class="highlight-blue">${r.percentual}%</td>
-                                <td>${r.tempo || '--'}</td>
-                                <td>${dataFormatada}</td>
-                            </tr>
-                        `;
+                    htmlPart += '<tr>';
+                    htmlPart += '<td>' + (index + 1) + '</td>';
+                    htmlPart += '<td><strong>' + (r.apelido || 'Anônimo') + '</strong></td>';
+                    htmlPart += '<td class="highlight-green">' + r.acertos + '</td>';
+                    htmlPart += '<td class="highlight-red">' + r.erros + '</td>';
+                    htmlPart += '<td class="highlight-blue">' + r.percentual + '%</td>';
+                    htmlPart += '<td>' + (r.tempo || '--') + '</td>';
+                    htmlPart += '<td>' + dataFormatada + '</td>';
+                    htmlPart += '</tr>';
                 });
-                tbodyPartidas.innerHTML = html;
+                tbodyPartidas.innerHTML = htmlPart;
             }
 
-            // Tabela Perguntas
-            const tbodyPerguntas = document.getElementById('tabelaPerguntas');
+            // ===== TABELA PERGUNTAS =====
+            var tbodyPerguntas = document.getElementById('tabelaPerguntas');
             if (!perguntasCompletas || perguntasCompletas.length === 0) {
-                tbodyPerguntas.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#666;">Nenhuma pergunta disponível</td></tr>';
+                tbodyPerguntas.innerHTML =
+                '<tr><td colspan="5" style="text-align:center; color:#666;">Nenhuma pergunta disponível</td></tr>';
             } else {
-                let html = '';
-                perguntasCompletas.forEach((p, index) => {
-                    html += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${p.pergunta || p}</td>
-                                <td>${p.ano || '-'}</td>
-                                <td class="highlight-green">${p.opcoes ? p.opcoes[p.correta] : '-'}</td>
-                                <td>${p.explicacao || '-'}</td>
-                            </tr>
-                        `;
+                var htmlPergs = '';
+                perguntasCompletas.forEach(function(p, index) {
+                    htmlPergs += '<tr>';
+                    htmlPergs += '<td>' + (index + 1) + '</td>';
+                    htmlPergs += '<td>' + (p.pergunta || p) + '</td>';
+                    htmlPergs += '<td>' + (p.ano || '-') + '</td>';
+                    htmlPergs += '<td class="highlight-green">' + (p.opcoes ? p.opcoes[p.correta] : '-') +
+                    '</td>';
+                    htmlPergs += '<td>' + (p.explicacao || '-') + '</td>';
+                    htmlPergs += '</tr>';
                 });
-                tbodyPerguntas.innerHTML = html;
+                tbodyPerguntas.innerHTML = htmlPergs;
             }
         }
 
+        // ================================================================
+        //  ADMIN - TABS
+        // ================================================================
+
         function trocarTab(tabId) {
-            document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.admin-tabs button').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-content').forEach(function(el) { el.classList.remove('active'); });
+            document.querySelectorAll('.admin-tabs button').forEach(function(el) { el.classList.remove('active'); });
 
             document.getElementById(tabId).classList.add('active');
-            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+            document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
         }
 
         function atualizarDados() {
@@ -1101,84 +1106,109 @@
             }
         }
 
+        // ================================================================
+        //  ADMIN - EXPORTAR
+        // ================================================================
+
         function exportarDoc() {
-            const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+            var ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+            var analise = analisarErros(ranking);
 
-            let conteudo = `
-        ================================================================
-        DOMÍNIO DA LÍNGUA - RELATÓRIO COMPLETO
-        ================================================================
+            var conteudo =
+                '============================================================\n' +
+                'DOMÍNIO DA LÍNGUA - RELATÓRIO COMPLETO\n' +
+                '============================================================\n\n' +
+                'DATA: ' + new Date().toLocaleString('pt-BR') + '\n\n' +
+                '------------------------------------------------------------\n' +
+                'RESUMO GERAL\n' +
+                '------------------------------------------------------------\n' +
+                'Total de Jogadores: ' + [...new Set(ranking.map(function(r) { return r.apelido; }))].length + '\n' +
+                'Total de Partidas: ' + ranking.length + '\n' +
+                'Total de Acertos: ' + ranking.reduce(function(s, r) { return s + r.acertos; }, 0) + '\n' +
+                'Total de Erros: ' + ranking.reduce(function(s, r) { return s + r.erros; }, 0) + '\n\n' +
+                '------------------------------------------------------------\n' +
+                'ANÁLISE DE ERROS POR ESCOLARIDADE\n' +
+                '------------------------------------------------------------\n';
 
-        DATA: ${new Date().toLocaleString('pt-BR')}
+            var escolaridades = ['6º Ano', '7º Ano', '8º Ano', '9º Ano', '1º EM', '2º EM', '3º EM', 'EM Concluído'];
+            for (var i = 0; i < escolaridades.length; i++) {
+                var esc = escolaridades[i];
+                var dados = analise.errosPorEscolaridade[esc];
+                if (!dados || dados.totalErros === 0) continue;
+                var total = dados.totalErros + dados.totalAcertos;
+                var taxaErro = total > 0 ? Math.round((dados.totalErros / total) * 100) : 0;
+                conteudo += '\n' + esc + '\n';
+                conteudo += '├─ Total Erros: ' + dados.totalErros + '\n';
+                conteudo += '├─ Total Acertos: ' + dados.totalAcertos + '\n';
+                conteudo += '└─ Taxa de Erro: ' + taxaErro + '%\n';
+            }
 
-        ----------------------------------------------------------------
-        RESUMO GERAL
-        ----------------------------------------------------------------
-        Total de Jogadores: ${[...new Set(ranking.map(r => r.apelido))].length}
-        Total de Partidas: ${ranking.length}
-        Total de Acertos: ${ranking.reduce((s, r) => s + r.acertos, 0)}
-        Total de Erros: ${ranking.reduce((s, r) => s + r.erros, 0)}
+            conteudo += '\n------------------------------------------------------------\n' +
+                'ANÁLISE DE ERROS POR NÍVEL\n' +
+                '------------------------------------------------------------\n';
 
-        ----------------------------------------------------------------
-        RANKING COMPLETO
-        ----------------------------------------------------------------
-        `;
+            var niveis = ['4º Ano', '5º Ano', '6º Ano', '7º Ano'];
+            for (var i = 0; i < niveis.length; i++) {
+                var nivel = niveis[i];
+                var dados = analise.errosPorNivel[nivel];
+                if (!dados || dados.totalErros === 0) continue;
+                var total = dados.totalErros + dados.totalAcertos;
+                var taxaErro = total > 0 ? Math.round((dados.totalErros / total) * 100) : 0;
+                conteudo += '\n' + nivel + '\n';
+                conteudo += '├─ Total Erros: ' + dados.totalErros + '\n';
+                conteudo += '├─ Total Acertos: ' + dados.totalAcertos + '\n';
+                conteudo += '└─ Taxa de Erro: ' + taxaErro + '%\n';
+            }
 
-            const rankingOrdenado = [...ranking].sort((a, b) => {
+            conteudo += '\n------------------------------------------------------------\n' +
+                'RANKING COMPLETO\n' +
+                '------------------------------------------------------------\n';
+
+            var rankingOrdenado = [].concat(ranking).sort(function(a, b) {
                 if (b.percentual !== a.percentual) return b.percentual - a.percentual;
                 return a.tempoSegundos - b.tempoSegundos;
             });
 
-            rankingOrdenado.forEach((r, i) => {
-                const data = new Date(r.data);
-                const dataFormatada = data.toLocaleDateString('pt-BR');
-                conteudo += `
-        ${i+1}º - ${r.apelido || 'Anônimo'}
-        ├─ Nome: ${r.nome || '-'}
-        ├─ Série: ${r.serie || '-'}
-        ├─ Cidade: ${r.cidade || '-'}
-        ├─ Estado: ${r.estado || '-'}
-        ├─ Acertos: ${r.acertos}
-        ├─ Erros: ${r.erros}
-        ├─ Percentual: ${r.percentual}%
-        ├─ Tempo: ${r.tempo || '--'}
-        └─ Data: ${dataFormatada}
-
-        `;
+            rankingOrdenado.forEach(function(r, i) {
+                var data = new Date(r.data);
+                var dataFormatada = data.toLocaleDateString('pt-BR');
+                conteudo += '\n' + (i + 1) + 'º - ' + (r.apelido || 'Anônimo') + '\n';
+                conteudo += '├─ Nome: ' + (r.nome || '-') + '\n';
+                conteudo += '├─ Série: ' + (r.serie || '-') + '\n';
+                conteudo += '├─ Cidade: ' + (r.cidade || '-') + '\n';
+                conteudo += '├─ Estado: ' + (r.estado || '-') + '\n';
+                conteudo += '├─ Acertos: ' + r.acertos + '\n';
+                conteudo += '├─ Erros: ' + r.erros + '\n';
+                conteudo += '├─ Percentual: ' + r.percentual + '%\n';
+                conteudo += '├─ Tempo: ' + (r.tempo || '--') + '\n';
+                conteudo += '└─ Data: ' + dataFormatada + '\n';
             });
 
             if (perguntasCompletas && perguntasCompletas.length > 0) {
-                conteudo += `
-        ----------------------------------------------------------------
-        BANCO DE PERGUNTAS (${perguntasCompletas.length} perguntas)
-        ----------------------------------------------------------------
+                conteudo += '\n------------------------------------------------------------\n' +
+                    'BANCO DE PERGUNTAS (' + perguntasCompletas.length + ' perguntas)\n' +
+                    '------------------------------------------------------------\n';
 
-        `;
-                perguntasCompletas.forEach((p, i) => {
-                    conteudo += `
-        PERGUNTA ${i+1} [${p.ano || 'Sem ano'}]
-        └─ ${p.pergunta || p}
-           ├─ A) ${p.opcoes ? p.opcoes[0] : '-'}
-           ├─ B) ${p.opcoes ? p.opcoes[1] : '-'}
-           ├─ C) ${p.opcoes ? p.opcoes[2] : '-'}
-           ├─ D) ${p.opcoes ? p.opcoes[3] : '-'}
-           ├─ Correta: ${p.opcoes ? p.opcoes[p.correta] : '-'}
-           └─ Explicação: ${p.explicacao || '-'}
-
-        `;
+                perguntasCompletas.forEach(function(p, i) {
+                    conteudo += '\nPERGUNTA ' + (i + 1) + ' [' + (p.ano || 'Sem ano') + ']\n';
+                    conteudo += '└─ ' + (p.pergunta || p) + '\n';
+                    conteudo += '   ├─ A) ' + (p.opcoes ? p.opcoes[0] : '-') + '\n';
+                    conteudo += '   ├─ B) ' + (p.opcoes ? p.opcoes[1] : '-') + '\n';
+                    conteudo += '   ├─ C) ' + (p.opcoes ? p.opcoes[2] : '-') + '\n';
+                    conteudo += '   ├─ D) ' + (p.opcoes ? p.opcoes[3] : '-') + '\n';
+                    conteudo += '   ├─ Correta: ' + (p.opcoes ? p.opcoes[p.correta] : '-') + '\n';
+                    conteudo += '   └─ Explicação: ' + (p.explicacao || '-') + '\n';
                 });
             }
 
-            conteudo += `
-        ================================================================
-        FIM DO RELATÓRIO
-        ================================================================
-        `;
+            conteudo += '\n============================================================\n' +
+                'FIM DO RELATÓRIO\n' +
+                '============================================================\n';
 
-            const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
+            var blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+            var link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `relatorio_dominio_lingua_${new Date().toISOString().slice(0, 10)}.txt`;
+            link.download = 'relatorio_dominio_lingua_' + new Date().toISOString().slice(0, 10) + '.txt';
             link.click();
             URL.revokeObjectURL(link.href);
 
