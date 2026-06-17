@@ -1,5 +1,5 @@
 // ================================================================
-//  BANCO DE DADOS – PERGUNTAS POR ANO
+//  BANCO DE DADOS – PERGUNTAS POR ANO (MESMO DE ONTEM)
 // ================================================================
 
 const perguntasPorAno = {
@@ -39,7 +39,7 @@ function embaralharOpcoes(pergunta) {
 }
 
 // ================================================================
-//  FRASES ENCORAJADORAS DE GRANDES AUTORES/EDUCADORES
+//  FRASES ENCORAJADORAS (MESMO DE ONTEM)
 // ================================================================
 
 const frasesInspiradoras = [
@@ -62,7 +62,7 @@ const frasesInspiradoras = [
 ];
 
 // ================================================================
-//  4º ANO – 40 perguntas
+//  4º ANO – 40 perguntas (MESMO DE ONTEM)
 // ================================================================
 addP('4º Ano', 'Qual gênero textual é usado para enviar um recado rápido a um amigo?',
     ['Bilhete', 'Notícia', 'Receita', 'Verbete'], 0, 'Bilhete é um gênero informal e breve.');
@@ -146,7 +146,7 @@ addP('4º Ano', 'Qual é o coletivo de "abelhas"?',
     ['Enxame', 'Colmeia', 'Cardume', 'Alcateia'], 0, 'Enxame é coletivo de abelhas.');
 
 // ================================================================
-//  5º ANO – 40 perguntas
+//  5º ANO – 40 perguntas (MESMO DE ONTEM)
 // ================================================================
 addP('5º Ano', 'O que caracteriza um texto narrativo?',
     ['Presença de enredo e personagens', 'Uso de dados e gráficos', 'Instruções passo a passo', 'Definições de palavras'], 0,
@@ -247,7 +247,7 @@ addP('5º Ano', 'Em "O livro que li é interessante", a palavra "que" é:',
     ['Pronome relativo', 'Conjunção', 'Preposição', 'Advérbio'], 0, '"Que" retoma "livro" (pronome relativo).');
 
 // ================================================================
-//  6º ANO – 40 perguntas
+//  6º ANO – 40 perguntas (MESMO DE ONTEM)
 // ================================================================
 addP('6º Ano', 'O que caracteriza um artigo de opinião?',
     ['Defesa de um ponto de vista', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
@@ -359,7 +359,7 @@ addP('6º Ano', 'Em "Ele trabalha e estuda", a conjunção "e" indica:',
     ['Adição', 'Oposição', 'Alternância', 'Conclusão'], 0, '"E" é aditiva.');
 
 // ================================================================
-//  7º ANO – 40 perguntas
+//  7º ANO – 40 perguntas (MESMO DE ONTEM)
 // ================================================================
 addP('7º Ano', 'O que caracteriza um texto argumentativo?',
     ['Defesa de uma tese com argumentos', 'Narração de fatos', 'Descrição de objetos', 'Instruções'], 0,
@@ -474,7 +474,7 @@ addP('7º Ano', 'O que é um texto de opinião?',
     'Texto de opinião apresenta a visão do autor sobre um tema.');
 
 // ================================================================
-//  LÓGICA DO JOGO
+//  LÓGICA DO JOGO (MESMO DE ONTEM)
 // ================================================================
 
 const TOTAL_PERGUNTAS = 20;
@@ -514,7 +514,6 @@ const elBtnProximo = document.getElementById('btnProximo');
 const elAcertos = document.getElementById('acertos');
 const elErros = document.getElementById('erros');
 const elQuestaoAtual = document.getElementById('questaoAtual');
-const elTotalQuestoes = document.getElementById('totalQuestoes');
 const elPercentual = document.getElementById('percentual');
 const elBadge = document.getElementById('badgeAno');
 const elBtnReset = document.getElementById('btnReset');
@@ -529,6 +528,23 @@ const badgeColors = {
     '6º Ano': 'ano-6',
     '7º Ano': 'ano-7'
 };
+
+// ================================================================
+//  CARREGAR DADOS DO JOGADOR
+// ================================================================
+
+function carregarJogador() {
+    const dados = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
+    if (dados.apelido) {
+        const avatar = document.getElementById('avatarJogador');
+        const nome = document.getElementById('nomeJogador');
+        const serie = document.getElementById('serieJogador');
+        if (avatar) avatar.textContent = dados.apelido.charAt(0).toUpperCase();
+        if (nome) nome.textContent = dados.apelido;
+        if (serie) serie.textContent = dados.serie || '4º Ano';
+    }
+    return dados;
+}
 
 // ================================================================
 //  SELECIONAR PERGUNTAS (COM OPÇÕES EMBARALHADAS)
@@ -593,7 +609,7 @@ function iniciarJogo() {
         tempoTotalSegundos = Math.floor((Date.now() - tempoInicio) / 1000);
     }, 1000);
 
-    elTotalQuestoes.textContent = TOTAL_PERGUNTAS;
+    carregarJogador();
     atualizarStats();
     exibirPergunta();
 }
@@ -787,6 +803,43 @@ function formatarTempo(segundos) {
 }
 
 // ================================================================
+//  SALVAR RESULTADO NO RANKING (COM DADOS DO JOGADOR)
+// ================================================================
+
+function salvarRanking(acertos, erros, tempoTotal, percentual) {
+    const jogador = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
+    const dados = JSON.parse(localStorage.getItem('ranking') || '[]');
+
+    const mins = Math.floor(tempoTotal / 60);
+    const secs = tempoTotal % 60;
+    const tempoFormatado = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+    const registro = {
+        data: new Date().toISOString(),
+        apelido: jogador.apelido || 'Anônimo',
+        nome: jogador.nome || '',
+        serie: jogador.serie || '',
+        cidade: jogador.cidade || '',
+        estado: jogador.estado || '',
+        acertos: acertos,
+        erros: erros,
+        total: acertos + erros,
+        tempo: tempoFormatado,
+        tempoSegundos: tempoTotal,
+        percentual: percentual
+    };
+
+    dados.push(registro);
+
+    // Manter apenas os últimos 1000 registros
+    if (dados.length > 1000) {
+        dados.splice(0, dados.length - 1000);
+    }
+
+    localStorage.setItem('ranking', JSON.stringify(dados));
+}
+
+// ================================================================
 //  GRÁFICO DE PIZZA (Geral)
 // ================================================================
 
@@ -940,6 +993,9 @@ function exibirResultado() {
     const total = acertos + erros;
     const percentualAcertos = total > 0 ? Math.round((acertos / total) * 100) : 0;
 
+    // Salvar no ranking
+    salvarRanking(acertos, erros, tempoTotalSegundos, percentualAcertos);
+
     let mensagem = '';
     if (percentualAcertos >= 80) mensagem = '🏆 Excelente! Você domina o conteúdo!';
     else if (percentualAcertos >= 60) mensagem = '👏 Bom trabalho! Continue praticando!';
@@ -950,9 +1006,7 @@ function exibirResultado() {
 
     elPergunta.textContent = '';
     
-    // ================================================================
-    //  🔥 FINALIZADO EM BRANCO PURO (#ffffff) COM BORDA BRANCA
-    // ================================================================
+    // FINALIZADO em BRANCO PURO
     elBadge.className = 'badge finalizado';
     elBadge.textContent = 'FINALIZADO';
 
@@ -964,9 +1018,6 @@ function exibirResultado() {
             <div class="sub-score">${mensagem}</div>
             <div class="big-score">${percentualAcertos}%</div>
             
-            <!-- ============================================================ -->
-            <!--  🔥 TEMPO TOTAL EM BRANCO PURO (#ffffff)                     -->
-            <!-- ============================================================ -->
             <div class="result-time">
                 ⏱ Tempo total: <span class="time-value">${tempoFormatado}</span>
             </div>
@@ -1024,7 +1075,22 @@ function exibirResultado() {
     elProgressBar.style.width = '100%';
 }
 
-// Eventos
+// ================================================================
+//  EXPORTAÇÃO DE PERGUNTAS PARA O ADMIN
+// ================================================================
+
+// Exportar perguntas para uso no admin
+window.perguntasCompletas = perguntas;
+
+// ================================================================
+//  EVENTOS E INICIALIZAÇÃO
+// ================================================================
+
+// Garantir que as perguntas estejam disponíveis para o admin
+setTimeout(() => {
+    window.perguntasCompletas = perguntas;
+}, 100);
+
 elBtnProximo.addEventListener('click', proximaPergunta);
 elBtnReset.addEventListener('click', iniciarJogo);
 
