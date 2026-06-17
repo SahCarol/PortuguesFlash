@@ -456,17 +456,17 @@
     <script>
         // ================================================================
         //  DOMÍNIO DA LÍNGUA - SCRIPT COMPLETO
-        //  20 PERGUNTAS (5 DE CADA NÍVEL)
+        //  40 PERGUNTAS (10 DE CADA NÍVEL) - 5 SORTEADAS POR PARTIDA
         // ================================================================
 
         console.log('🚀 Iniciando script completo...');
 
         // ================================================================
-        //  BANCO DE PERGUNTAS (20 PERGUNTAS - 5 POR NÍVEL)
+        //  BANCO DE PERGUNTAS (40 PERGUNTAS - 10 POR NÍVEL)
         // ================================================================
 
         var perguntas = [
-            // ===== 4º ANO (5 perguntas) =====
+            // ===== 4º ANO (10 perguntas) =====
             {
                 ano: '4º Ano',
                 pergunta: 'Qual gênero textual é usado para enviar um recado rápido a um amigo?',
@@ -502,8 +502,43 @@
                 correta: 1,
                 explicacao: 'O "?" é usado em perguntas diretas.'
             },
+            {
+                ano: '4º Ano',
+                pergunta: 'Em uma carta, a saudação final como "Atenciosamente" é chamada de:',
+                opcoes: ['Introdução', 'Despedida', 'Assunto', 'Data'],
+                correta: 1,
+                explicacao: 'É o fecho ou despedida.'
+            },
+            {
+                ano: '4º Ano',
+                pergunta: 'Qual palavra está escrita corretamente?',
+                opcoes: ['Casa', 'Caza', 'Kasa', 'Cassa'],
+                correta: 0,
+                explicacao: 'Casa – com "s" sonoro.'
+            },
+            {
+                ano: '4º Ano',
+                pergunta: 'O que é um verbete?',
+                opcoes: ['Definição de palavra', 'Uma história longa', 'Um poema', 'Uma receita'],
+                correta: 0,
+                explicacao: 'Verbete é um texto de definição.'
+            },
+            {
+                ano: '4º Ano',
+                pergunta: 'Em "Os meninos brincam", a palavra "meninos" está no:',
+                opcoes: ['Singular', 'Plural', 'Feminino', 'Aumentativo'],
+                correta: 1,
+                explicacao: 'Meninos = plural (mais de um).'
+            },
+            {
+                ano: '4º Ano',
+                pergunta: 'Para que serve a vírgula em uma lista?',
+                opcoes: ['Separar itens', 'Indicar pergunta', 'Finalizar frase', 'Mostrar ênfase'],
+                correta: 0,
+                explicacao: 'Vírgula separa elementos de enumeração.'
+            },
 
-            // ===== 5º ANO (5 perguntas) =====
+            // ===== 5º ANO (10 perguntas) =====
             {
                 ano: '5º Ano',
                 pergunta: 'O que caracteriza um texto narrativo?',
@@ -543,8 +578,43 @@
                 correta: 0,
                 explicacao: 'Tese é a posição defendida pelo autor.'
             },
+            {
+                ano: '5º Ano',
+                pergunta: 'Qual destes é um gênero do jornalismo?',
+                opcoes: ['Notícia', 'Poema', 'Bilhete', 'Receita'],
+                correta: 0,
+                explicacao: 'Notícia é um gênero jornalístico.'
+            },
+            {
+                ano: '5º Ano',
+                pergunta: 'A palavra "livro" é um:',
+                opcoes: ['Substantivo concreto', 'Substantivo abstrato', 'Adjetivo', 'Advérbio'],
+                correta: 0,
+                explicacao: 'Livro é um objeto físico, substantivo concreto.'
+            },
+            {
+                ano: '5º Ano',
+                pergunta: 'Em "Ela foi à praia", o acento grave indica:',
+                opcoes: ['Crase', 'Tonicidade', 'Mudança de sentido', 'Plural'],
+                correta: 0,
+                explicacao: 'Crase = fusão da preposição "a" com o artigo "a".'
+            },
+            {
+                ano: '5º Ano',
+                pergunta: 'Qual é o plural de "pão"?',
+                opcoes: ['Pães', 'Pãos', 'Pães', 'Pãoes'],
+                correta: 0,
+                explicacao: 'O plural de pão é pães (irregular).'
+            },
+            {
+                ano: '5º Ano',
+                pergunta: 'O que é um período composto?',
+                opcoes: ['Mais de uma oração', 'Uma única oração', 'Sem verbo', 'Apenas substantivos'],
+                correta: 0,
+                explicacao: 'Período composto tem duas ou mais orações.'
+            },
 
-            // ===== 6º ANO (5 perguntas) =====
+            // ===== 6º ANO (10 perguntas) =====
             {
                 ano: '6º Ano',
                 pergunta: 'O que caracteriza um artigo de opinião?',
@@ -582,8 +652,43 @@
                 correta: 0,
                 explicacao: 'Título resume e chama a atenção.'
             },
+            {
+                ano: '6º Ano',
+                pergunta: 'Qual é a característica do texto injuntivo?',
+                opcoes: ['Instruir ou orientar o leitor', 'Narrar uma história', 'Descrever um lugar', 'Argumentar'],
+                correta: 0,
+                explicacao: 'Texto injuntivo tem finalidade de orientar.'
+            },
+            {
+                ano: '6º Ano',
+                pergunta: 'Em "Ele foi ao cinema e comprou pipoca", a conjunção "e" indica:',
+                opcoes: ['Adição', 'Oposição', 'Alternância', 'Conclusão'],
+                correta: 0,
+                explicacao: '"E" é uma conjunção aditiva.'
+            },
+            {
+                ano: '6º Ano',
+                pergunta: 'O que é um período simples?',
+                opcoes: ['Uma oração', 'Duas ou mais orações', 'Sem verbo', 'Com sujeito composto'],
+                correta: 0,
+                explicacao: 'Período simples tem apenas uma oração.'
+            },
+            {
+                ano: '6º Ano',
+                pergunta: 'Em "A prova foi difícil, mas eu passei", a conjunção "mas" indica:',
+                opcoes: ['Oposição', 'Adição', 'Alternância', 'Conclusão'],
+                correta: 0,
+                explicacao: '"Mas" é uma conjunção adversativa (oposição).'
+            },
+            {
+                ano: '6º Ano',
+                pergunta: 'Qual é a função do pronome relativo?',
+                opcoes: ['Retomar um termo anterior', 'Indicar posse', 'Perguntar', 'Exclamação'],
+                correta: 0,
+                explicacao: 'Pronome relativo faz referência a um termo já mencionado.'
+            },
 
-            // ===== 7º ANO (5 perguntas) =====
+            // ===== 7º ANO (10 perguntas) =====
             {
                 ano: '7º Ano',
                 pergunta: 'O que caracteriza um texto argumentativo?',
@@ -620,6 +725,43 @@
                 ],
                 correta: 0,
                 explicacao: 'Fato é objetivo; opinião é juízo de valor.'
+            },
+            {
+                ano: '7º Ano',
+                pergunta: 'O que é coesão referencial?',
+                opcoes: ['Uso de pronomes e sinônimos para retomar termos', 'Uso de conjunções', 'Uso de pontuação',
+                    'Uso de parágrafos'
+                ],
+                correta: 0,
+                explicacao: 'Coesão referencial usa mecanismos para retomar elementos do texto.'
+            },
+            {
+                ano: '7º Ano',
+                pergunta: 'Em "O professor, que era jovem, explicou bem", a oração "que era jovem" é:',
+                opcoes: ['Subordinada adjetiva', 'Subordinada adverbial', 'Coordenada', 'Principal'],
+                correta: 0,
+                explicacao: '"Que era jovem" é uma oração subordinada adjetiva (caracteriza).'
+            },
+            {
+                ano: '7º Ano',
+                pergunta: 'Qual é a função do parágrafo em um texto?',
+                opcoes: ['Organizar ideias em blocos de sentido', 'Enfeitar o texto', 'Criar rimas', 'Aumentar o texto'],
+                correta: 0,
+                explicacao: 'Parágrafo organiza e estrutura as ideias.'
+            },
+            {
+                ano: '7º Ano',
+                pergunta: 'Em uma dissertação, a introdução deve:',
+                opcoes: ['Apresentar o tema e a tese', 'Concluir o assunto', 'Dar exemplos', 'Descrever dados'],
+                correta: 0,
+                explicacao: 'Introdução apresenta o tema e a tese a ser defendida.'
+            },
+            {
+                ano: '7º Ano',
+                pergunta: 'O que é um advérbio de intensidade?',
+                opcoes: ['Indica a intensidade de uma ação', 'Indica lugar', 'Indica tempo', 'Indica modo'],
+                correta: 0,
+                explicacao: 'Advérbio de intensidade (ex: muito, pouco) modifica a intensidade.'
             }
         ];
 
