@@ -1,1 +1,242 @@
+/* ================================================================
+   STYLE.CSS - ESTILOS COMPARTILHADOS
+   ================================================================
 
+   Este arquivo contém estilos que podem ser usados em todas as páginas.
+   Cada página também tem seus próprios estilos embutidos para garantir
+   consistência e evitar conflitos.
+
+   OS ESTILOS ABAIXO SÃO PARA REFERÊNCIA E EXPANSÕES FUTURAS.
+   ================================================================ */
+
+/* ===== RESET BÁSICO ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== CORPO ===== */
+body {
+    min-height: 100vh;
+    background: #0d0d0d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===== SCROLLBAR PERSONALIZADA ===== */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #141414;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444444;
+}
+
+/* ===== SELEÇÃO DE TEXTO ===== */
+::selection {
+    background: #4a9eff;
+    color: #ffffff;
+}
+
+/* ===== ESTILOS GERAIS PARA BOTÕES ===== */
+button {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    cursor: pointer;
+}
+
+/* ===== ESTILOS GERAIS PARA INPUTS ===== */
+input, select, textarea {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===== ANIMAÇÕES GLOBAIS ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* ===== UTILITÁRIOS ===== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+
+.hidden { display: none !important; }
+.block { display: block !important; }
+
+/* ================================================================
+   ESTILOS COMPARTILHADOS PARA O JOGO
+   ================================================================ */
+
+/* Badge genérico */
+.badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 2px solid;
+    background: transparent;
+}
+
+/* Cores dos badges por ano */
+.badge.ano-4 {
+    color: #22c55e;
+    border-color: #22c55e;
+}
+
+.badge.ano-5 {
+    color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.badge.ano-6 {
+    color: #eab308;
+    border-color: #eab308;
+}
+
+.badge.ano-7 {
+    color: #f97316;
+    border-color: #f97316;
+}
+
+/* Badge FINALIZADO - branco puro */
+.badge.finalizado {
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 6px 32px;
+    letter-spacing: 1.5px;
+    background: transparent;
+    border-width: 2px;
+    border-style: solid;
+}
+
+/* ================================================================
+   ESTILOS PARA O RANKING
+   ================================================================ */
+
+.ranking-item {
+    animation: slideIn 0.3s ease;
+}
+
+.ranking-item:nth-child(1) { animation-delay: 0.05s; }
+.ranking-item:nth-child(2) { animation-delay: 0.10s; }
+.ranking-item:nth-child(3) { animation-delay: 0.15s; }
+.ranking-item:nth-child(4) { animation-delay: 0.20s; }
+.ranking-item:nth-child(5) { animation-delay: 0.25s; }
+.ranking-item:nth-child(6) { animation-delay: 0.30s; }
+.ranking-item:nth-child(7) { animation-delay: 0.35s; }
+.ranking-item:nth-child(8) { animation-delay: 0.40s; }
+.ranking-item:nth-child(9) { animation-delay: 0.45s; }
+.ranking-item:nth-child(10) { animation-delay: 0.50s; }
+
+/* ================================================================
+   ESTILOS PARA A ÁREA ADMIN
+   ================================================================ */
+
+.admin-table tr {
+    transition: background 0.15s ease;
+}
+
+.admin-table .highlight-green { color: #4ade80; }
+.admin-table .highlight-red { color: #f87171; }
+.admin-table .highlight-blue { color: #4a9eff; }
+.admin-table .highlight-purple { color: #8b5cf6; }
+
+/* ================================================================
+   ESTILOS PARA O RESULTADO
+   ================================================================ */
+
+.result-area {
+    animation: fadeIn 0.5s ease;
+}
+
+.result-area .big-score {
+    animation: fadeIn 0.8s ease;
+}
+
+/* ================================================================
+   RESPONSIVIDADE GLOBAL
+   ================================================================ */
+
+@media (max-width: 600px) {
+    body {
+        padding: 16px;
+    }
+
+    .badge.finalizado {
+        font-size: 0.9rem;
+        padding: 4px 20px;
+    }
+}
+
+@media (max-width: 420px) {
+    body {
+        padding: 10px;
+    }
+}
+
+/* ================================================================
+   ESTILOS PARA IMPRESSÃO
+   ================================================================ */
+
+@media print {
+    body {
+        background: #ffffff;
+        padding: 20px;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .container, .quiz-container, .ranking-container, .admin-container {
+        box-shadow: none !important;
+        border: 1px solid #cccccc !important;
+        background: #ffffff !important;
+    }
+
+    .admin-table th {
+        background: #f0f0f0 !important;
+        color: #333333 !important;
+    }
+
+    .admin-table td {
+        color: #333333 !important;
+        border-bottom: 1px solid #eeeeee !important;
+    }
+}
