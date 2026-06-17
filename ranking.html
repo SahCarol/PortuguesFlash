@@ -89,7 +89,6 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            transition: all 0.3s ease;
         }
 
         .ranking-item {
@@ -100,28 +99,12 @@
             border-radius: 10px;
             padding: 12px 18px;
             border: 1px solid #2a2a2a;
-            transition: 0.2s;
-            animation: fadeIn 0.4s ease forwards;
-            opacity: 0;
+            transition: border-color 0.2s ease;
         }
 
-        .ranking-item:nth-child(1) { animation-delay: 0.05s; }
-        .ranking-item:nth-child(2) { animation-delay: 0.10s; }
-        .ranking-item:nth-child(3) { animation-delay: 0.15s; }
-        .ranking-item:nth-child(4) { animation-delay: 0.20s; }
-        .ranking-item:nth-child(5) { animation-delay: 0.25s; }
-        .ranking-item:nth-child(6) { animation-delay: 0.30s; }
-        .ranking-item:nth-child(7) { animation-delay: 0.35s; }
-        .ranking-item:nth-child(8) { animation-delay: 0.40s; }
-        .ranking-item:nth-child(9) { animation-delay: 0.45s; }
-        .ranking-item:nth-child(10) { animation-delay: 0.50s; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        .ranking-item:hover {
+            border-color: #4a9eff;
         }
-
-        .ranking-item:hover { border-color: #4a9eff; }
 
         .ranking-item .position {
             font-size: 1.1rem;
@@ -139,14 +122,40 @@
         .ranking-item .player-name { font-size: 0.95rem; font-weight: 600; color: #e8e8e8; }
         .ranking-item .player-detail { font-size: 0.7rem; color: #666666; }
 
-        .ranking-item .player-stats { display: flex; gap: 20px; align-items: center; }
-        .ranking-item .player-stats .stat { text-align: center; }
-        .ranking-item .player-stats .stat-value { font-size: 1rem; font-weight: 700; color: #e8e8e8; }
+        .ranking-item .player-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .ranking-item .player-stats .stat {
+            text-align: center;
+        }
+
+        .ranking-item .player-stats .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e8e8e8;
+        }
+
         .ranking-item .player-stats .stat-value.green { color: #4ade80; }
         .ranking-item .player-stats .stat-value.red { color: #f87171; }
         .ranking-item .player-stats .stat-value.blue { color: #4a9eff; }
-        .ranking-item .player-stats .stat-label { font-size: 0.55rem; text-transform: uppercase; color: #666666; letter-spacing: 0.3px; }
-        .ranking-item .player-score { font-size: 1.4rem; font-weight: 800; color: #4a9eff; min-width: 60px; text-align: right; }
+
+        .ranking-item .player-stats .stat-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            color: #666666;
+            letter-spacing: 0.3px;
+        }
+
+        .ranking-item .player-score {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #4a9eff;
+            min-width: 60px;
+            text-align: right;
+        }
 
         .ranking-footer {
             margin-top: 20px;
@@ -159,8 +168,14 @@
             gap: 12px;
         }
 
-        .ranking-footer .total-text { font-size: 0.75rem; color: #666666; }
-        .ranking-footer .total-text strong { color: #aaaaaa; }
+        .ranking-footer .total-text {
+            font-size: 0.75rem;
+            color: #666666;
+        }
+
+        .ranking-footer .total-text strong {
+            color: #aaaaaa;
+        }
 
         @media (max-width: 600px) {
             .ranking-container { padding: 20px 16px; }
@@ -193,7 +208,7 @@
 
     <script>
         // ================================================================
-        //  RANKING - SEM TREMEDEIRA
+        //  RANKING - SEM ANIMAÇÕES E SEM TREMEDEIRA
         // ================================================================
 
         let ultimoRanking = '';
@@ -281,10 +296,10 @@
         // Carregar ao iniciar
         carregarRanking();
 
-        // Atualizar apenas a cada 30 segundos (em vez de 5)
+        // Atualizar a cada 30 segundos (em vez de 5)
         setInterval(carregarRanking, 30000);
 
-        // Também atualizar quando a aba ganhar foco (usuário voltar para a página)
+        // Também atualizar quando a aba ganhar foco
         document.addEventListener('visibilitychange', function() {
             if (!document.hidden) {
                 carregarRanking();
