@@ -221,6 +221,7 @@
         .admin-table .highlight-blue { color: #4a9eff; }
         .admin-table .highlight-purple { color: #8b5cf6; }
         .admin-table .highlight-orange { color: #fb923c; }
+        .admin-table .highlight-yellow { color: #facc15; }
 
         .admin-actions {
             display: flex;
@@ -410,6 +411,30 @@
                     </table>
                 </div>
 
+                <!-- Por Estado -->
+                <div class="section-title">
+                    📊 Erros por Estado
+                    <span class="badge-count" id="totalEstados">Carregando...</span>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Estado</th>
+                                <th>Total Erros</th>
+                                <th>Total Acertos</th>
+                                <th>Taxa de Erro</th>
+                                <th>Nível com mais erros</th>
+                                <th>Pergunta mais errada</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaAnaliseEstado">
+                            <tr><td colspan="7" style="text-align:center; color:#666;">Carregando dados...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <!-- Por Nível (Ano) -->
                 <div class="section-title">
                     📊 Erros por Nível (Ano Escolar)
@@ -575,7 +600,7 @@
         }
 
         // ================================================================
-        //  4º ANO – 10 perguntas (para análise)
+        //  4º ANO – 10 perguntas
         // ================================================================
         addP('4º Ano', 'Qual gênero textual é usado para enviar um recado rápido a um amigo?',
             ['Bilhete', 'Notícia', 'Receita', 'Verbete'], 0, 'Bilhete é um gênero informal e breve.');
@@ -710,6 +735,7 @@
         function analisarErros(ranking) {
             // Estrutura para armazenar erros por escolaridade
             var errosPorEscolaridade = {};
+            var errosPorEstado = {};
             var errosPorNivel = {};
             var errosPorPergunta = {};
 
@@ -718,6 +744,20 @@
 
             for (var i = 0; i < escolaridades.length; i++) {
                 errosPorEscolaridade[escolaridades[i]] = {
+                    totalErros: 0,
+                    totalAcertos: 0,
+                    errosPorNivel: {},
+                    errosPorPergunta: {}
+                };
+            }
+
+            // Inicializar estrutura por estado
+            var estados = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR',
+                'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+            ];
+
+            for (var i = 0; i < estados.length; i++) {
+                errosPorEstado[estados[i]] = {
                     totalErros: 0,
                     totalAcertos: 0,
                     errosPorNivel: {},
@@ -739,10 +779,10 @@
             for (var i = 0; i < ranking.length; i++) {
                 var partida = ranking[i];
                 var escolaridade = partida.serie || 'Desconhecido';
+                var estado = partida.estado || 'Desconhecido';
 
-                // Se a escolaridade não estiver no mapa, ignorar
+                // Normalizar escolaridade
                 if (!errosPorEscolaridade[escolaridade]) {
-                    // Tentar normalizar
                     if (escolaridade.includes('6º')) escolaridade = '6º Ano';
                     else if (escolaridade.includes('7º')) escolaridade = '7º Ano';
                     else if (escolaridade.includes('8º')) escolaridade = '8º Ano';
@@ -754,7 +794,15 @@
                     else continue;
                 }
 
-                // Dados da partida
+                // Normalizar estado
+                if (!errosPorEstado[estado] || estado === 'Desconhecido') {
+                    estado = 'Outros';
+                    if (!errosPorEstado['Outros']) {
+                        errosPorEstado['Outros'] = { totalErros: 0, totalAcertos: 0, errosPorNivel: {},
+                        errosPorPergunta: {} };
+                    }
+                }
+
                 var acertos = partida.acertos || 0;
                 var erros = partida.erros || 0;
 
@@ -762,9 +810,11 @@
                 errosPorEscolaridade[escolaridade].totalErros += erros;
                 errosPorEscolaridade[escolaridade].totalAcertos += acertos;
 
+                // Atualizar totais por estado
+                errosPorEstado[estado].totalErros += erros;
+                errosPorEstado[estado].totalAcertos += acertos;
+
                 // Simular distribuição de erros por nível e pergunta
-                // (Como não temos os dados das perguntas respondidas, usamos uma distribuição baseada nos totais)
-                // Na vida real, você precisaria salvar quais perguntas foram erradas
                 var niveisSimulados = ['4º Ano', '5º Ano', '6º Ano', '7º Ano'];
                 var perguntasPorNivel = {};
 
@@ -774,7 +824,7 @@
                     perguntasPorNivel[nivel] = perguntasDoNivel;
                 }
 
-                // Distribuir erros aleatoriamente (simulação)
+                // Distribuir erros aleatoriamente
                 var errosRestantes = erros;
                 while (errosRestantes > 0) {
                     var nivelAleatorio = niveisSimulados[Math.floor(Math.random() * niveisSimulados.length)];
@@ -798,6 +848,21 @@
                             };
                         }
                         errosPorEscolaridade[escolaridade].errosPorPergunta[perguntaId].erros++;
+
+                        // Registrar erro por estado
+                        if (!errosPorEstado[estado].errosPorNivel[nivelAleatorio]) {
+                            errosPorEstado[estado].errosPorNivel[nivelAleatorio] = 0;
+                        }
+                        errosPorEstado[estado].errosPorNivel[nivelAleatorio]++;
+
+                        if (!errosPorEstado[estado].errosPorPergunta[perguntaId]) {
+                            errosPorEstado[estado].errosPorPergunta[perguntaId] = {
+                                pergunta: perguntaAleatoria.pergunta,
+                                nivel: nivelAleatorio,
+                                erros: 0
+                            };
+                        }
+                        errosPorEstado[estado].errosPorPergunta[perguntaId].erros++;
 
                         // Registrar erro por nível (geral)
                         if (!errosPorNivel[nivelAleatorio].errosPorPergunta[perguntaId]) {
@@ -826,6 +891,7 @@
 
             return {
                 errosPorEscolaridade: errosPorEscolaridade,
+                errosPorEstado: errosPorEstado,
                 errosPorNivel: errosPorNivel
             };
         }
@@ -885,7 +951,6 @@
                 }
                 if (perguntaMaisErrada.length > 50) perguntaMaisErrada = perguntaMaisErrada.substring(0, 50) + '...';
 
-                // Conteúdo com mais erros (nível)
                 var conteudoMaisErros = nivelMaisErros;
 
                 htmlEsc += '<tr>';
@@ -906,6 +971,64 @@
             } else {
                 tbodyAnaliseEsc.innerHTML = htmlEsc;
                 document.getElementById('totalEscolaridades').textContent = countEsc + ' escolaridades com dados';
+            }
+
+            // ===== TABELA: ERROS POR ESTADO =====
+            var tbodyAnaliseEstado = document.getElementById('tabelaAnaliseEstado');
+            var estados = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR',
+                'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO', 'Outros'
+            ];
+            var htmlEstado = '';
+            var countEstado = 0;
+
+            for (var i = 0; i < estados.length; i++) {
+                var est = estados[i];
+                var dados = analise.errosPorEstado[est];
+                if (!dados || dados.totalErros === 0) continue;
+
+                countEstado++;
+                var total = dados.totalErros + dados.totalAcertos;
+                var taxaErro = total > 0 ? Math.round((dados.totalErros / total) * 100) : 0;
+
+                // Encontrar nível com mais erros
+                var nivelMaisErros = 'N/A';
+                var maxErrosNivel = 0;
+                for (var nivel in dados.errosPorNivel) {
+                    if (dados.errosPorNivel[nivel] > maxErrosNivel) {
+                        maxErrosNivel = dados.errosPorNivel[nivel];
+                        nivelMaisErros = nivel;
+                    }
+                }
+
+                // Encontrar pergunta mais errada
+                var perguntaMaisErrada = 'N/A';
+                var maxErrosPergunta = 0;
+                for (var pid in dados.errosPorPergunta) {
+                    if (dados.errosPorPergunta[pid].erros > maxErrosPergunta) {
+                        maxErrosPergunta = dados.errosPorPergunta[pid].erros;
+                        perguntaMaisErrada = dados.errosPorPergunta[pid].pergunta;
+                    }
+                }
+                if (perguntaMaisErrada.length > 50) perguntaMaisErrada = perguntaMaisErrada.substring(0, 50) + '...';
+
+                htmlEstado += '<tr>';
+                htmlEstado += '<td>' + countEstado + '</td>';
+                htmlEstado += '<td><strong>' + est + '</strong></td>';
+                htmlEstado += '<td class="highlight-red">' + dados.totalErros + '</td>';
+                htmlEstado += '<td class="highlight-green">' + dados.totalAcertos + '</td>';
+                htmlEstado += '<td class="' + (taxaErro > 50 ? 'highlight-red' : 'highlight-orange') + '">' + taxaErro +
+                    '%</td>';
+                htmlEstado += '<td class="highlight-orange">' + nivelMaisErros + '</td>';
+                htmlEstado += '<td>' + perguntaMaisErrada + '</td>';
+                htmlEstado += '</tr>';
+            }
+
+            if (countEstado === 0) {
+                tbodyAnaliseEstado.innerHTML =
+                '<tr><td colspan="7" style="text-align:center; color:#666;">Nenhum dado de erro por estado registrado ainda</td></tr>';
+            } else {
+                tbodyAnaliseEstado.innerHTML = htmlEstado;
+                document.getElementById('totalEstados').textContent = countEstado + ' estados com dados';
             }
 
             // ===== TABELA: ERROS POR NÍVEL =====
@@ -957,7 +1080,6 @@
             var tbodyPerguntasErradas = document.getElementById('tabelaPerguntasMaisErradas');
             var perguntasErradas = [];
 
-            // Coletar todas as perguntas com erros
             for (var nivel in analise.errosPorNivel) {
                 var dadosNivel = analise.errosPorNivel[nivel];
                 for (var pid in dadosNivel.errosPorPergunta) {
@@ -966,23 +1088,20 @@
                         pergunta: item.pergunta,
                         nivel: nivel,
                         erros: item.erros,
-                        acertos: 0 // Não temos essa informação, mas podemos estimar
+                        acertos: 0
                     });
                 }
             }
 
-            // Ordenar por número de erros (decrescente)
             perguntasErradas.sort(function(a, b) { return b.erros - a.erros; });
 
-            // Pegar top 10
             var topPerguntas = perguntasErradas.slice(0, 10);
             var htmlPerg = '';
 
             for (var i = 0; i < topPerguntas.length; i++) {
                 var p = topPerguntas[i];
-                var taxaErro = p.erros > 0 ? Math.round((p.erros / (p.erros + 1)) * 100) : 0; // Simulação
+                var taxaErro = p.erros > 0 ? Math.round((p.erros / (p.erros + 1)) * 100) : 0;
 
-                // Escolaridades que mais erraram (simulação)
                 var escolaridadesQueErraram = ['6º Ano', '7º Ano', '8º Ano'];
                 var erraramStr = escolaridadesQueErraram.slice(0, Math.floor(Math.random() * 3) + 1).join(', ');
 
@@ -1138,6 +1257,25 @@
                 var total = dados.totalErros + dados.totalAcertos;
                 var taxaErro = total > 0 ? Math.round((dados.totalErros / total) * 100) : 0;
                 conteudo += '\n' + esc + '\n';
+                conteudo += '├─ Total Erros: ' + dados.totalErros + '\n';
+                conteudo += '├─ Total Acertos: ' + dados.totalAcertos + '\n';
+                conteudo += '└─ Taxa de Erro: ' + taxaErro + '%\n';
+            }
+
+            conteudo += '\n------------------------------------------------------------\n' +
+                'ANÁLISE DE ERROS POR ESTADO\n' +
+                '------------------------------------------------------------\n';
+
+            var estados = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR',
+                'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO', 'Outros'
+            ];
+            for (var i = 0; i < estados.length; i++) {
+                var est = estados[i];
+                var dados = analise.errosPorEstado[est];
+                if (!dados || dados.totalErros === 0) continue;
+                var total = dados.totalErros + dados.totalAcertos;
+                var taxaErro = total > 0 ? Math.round((dados.totalErros / total) * 100) : 0;
+                conteudo += '\n' + est + '\n';
                 conteudo += '├─ Total Erros: ' + dados.totalErros + '\n';
                 conteudo += '├─ Total Acertos: ' + dados.totalAcertos + '\n';
                 conteudo += '└─ Taxa de Erro: ' + taxaErro + '%\n';
