@@ -4,14 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Domínio da Língua · Jogo</title>
-    
-    <!-- ===== FAVICON ===== -->
-    <link rel="icon" type="image/png" href="https://i.imgur.com/dApUYOU.png" />
-    <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/dApUYOU.png" />
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
-        /* ===== TODOS OS ESTILOS AQUI DENTRO ===== */
         * {
             margin: 0;
             padding: 0;
@@ -114,12 +108,8 @@
             color: #e8e8e8;
         }
 
-        .jogo-stats .stat-value.acert {
-            color: #4ade80;
-        }
-        .jogo-stats .stat-value.err {
-            color: #f87171;
-        }
+        .jogo-stats .stat-value.acert { color: #4ade80; }
+        .jogo-stats .stat-value.err { color: #f87171; }
 
         .stat-divider {
             width: 1px;
@@ -136,9 +126,6 @@
             font-size: 0.75rem;
             color: #888888;
             margin-bottom: 6px;
-        }
-        .progress-label {
-            font-weight: 500;
         }
         .progress-percent {
             font-weight: 600;
@@ -185,7 +172,6 @@
             color: #cccccc;
             min-width: 42px;
             text-align: right;
-            font-variant-numeric: tabular-nums;
         }
 
         .timer-bar-fill.blue { background: #4a9eff; }
@@ -335,7 +321,7 @@
         .inspirational-quote .author { display: block; margin-top: 8px; font-style: normal; font-weight: 600; color: #4a9eff; font-size: 0.85rem; }
         .result-sub { font-size: 0.85rem; color: #888888; margin-top: 10px; }
 
-        /* ===== RANKING NO FINAL - TOP 20 COM ACERTOS E TEMPO ===== */
+        /* ===== RANKING NO FINAL ===== */
         .result-ranking { margin: 20px auto 16px; padding: 16px 20px; background: #141414; border-radius: 12px; border: 1px solid #2a2a2a; max-width: 100%; }
         .result-ranking-title { font-size: 0.85rem; font-weight: 600; color: #aaaaaa; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; text-align: center; }
         .result-ranking-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-bottom: 1px solid #1a1a1a; font-size: 0.85rem; gap: 6px; }
@@ -460,15 +446,14 @@
 
     <script>
         // ================================================================
-        //  DOMÍNIO DA LÍNGUA - SCRIPT COMPLETO (EMBUTIDO)
-        //  VERSÃO FUNCIONAL - TUDO EM UM ÚNICO ARQUIVO
+        //  DOMÍNIO DA LÍNGUA - SCRIPT MÍNIMO FUNCIONAL
+        //  APENAS 4 PERGUNTAS PARA TESTE
         // ================================================================
 
-        console.log('🚀 Iniciando jogo (versão embutida)...');
+        console.log('🚀 Iniciando script mínimo...');
 
         // ================================================================
-        //  BANCO DE PERGUNTAS - VERSÃO REDUZIDA PARA TESTE (20 PERGUNTAS)
-        //  DEPOIS PODEMOS EXPANDIR PARA AS 160
+        //  PERGUNTAS (4 perguntas, uma de cada ano)
         // ================================================================
 
         var perguntas = [{
@@ -478,30 +463,6 @@
             correta: 0,
             explicacao: 'Bilhete é um gênero informal e breve.'
         }, {
-            ano: '4º Ano',
-            pergunta: 'Em uma notícia, qual parte responde "o que aconteceu"?',
-            opcoes: ['Título', 'Lead', 'Corpo', 'Assinatura'],
-            correta: 1,
-            explicacao: 'O lead contém as informações principais.'
-        }, {
-            ano: '4º Ano',
-            pergunta: 'Qual destes textos tem a finalidade de ensinar a fazer algo?',
-            opcoes: ['Instrucional', 'Narrativo', 'Poético', 'Descritivo'],
-            correta: 0,
-            explicacao: 'Textos instrucionais apresentam procedimentos.'
-        }, {
-            ano: '4º Ano',
-            pergunta: 'Em "O gato pulou do muro", a palavra "do" é a junção de:',
-            opcoes: ['de + o', 'da + o', 'de + a', 'em + o'],
-            correta: 0,
-            explicacao: '"Do" = preposição "de" + artigo "o".'
-        }, {
-            ano: '4º Ano',
-            pergunta: 'Qual sinal de pontuação indica uma pergunta?',
-            opcoes: ['Ponto final', 'Interrogação', 'Exclamação', 'Vírgula'],
-            correta: 1,
-            explicacao: 'O "?" é usado em perguntas diretas.'
-        }, {
             ano: '5º Ano',
             pergunta: 'O que caracteriza um texto narrativo?',
             opcoes: ['Presença de enredo e personagens', 'Uso de dados e gráficos', 'Instruções passo a passo',
@@ -510,95 +471,17 @@
             correta: 0,
             explicacao: 'Narração envolve história, personagens e conflito.'
         }, {
-            ano: '5º Ano',
-            pergunta: 'Qual a função da linguagem em um poema?',
-            opcoes: ['Poética', 'Referencial', 'Conativa', 'Fática'],
-            correta: 0,
-            explicacao: 'Função poética valoriza a forma e a estética.'
-        }, {
-            ano: '5º Ano',
-            pergunta: 'Em "Maria estuda muito", o verbo é:',
-            opcoes: ['Estuda', 'Maria', 'Muito', 'estuda'],
-            correta: 0,
-            explicacao: 'Estuda expressa ação.'
-        }, {
-            ano: '5º Ano',
-            pergunta: 'Qual é a diferença entre fato e opinião?',
-            opcoes: ['Fato é verificável; opinião é subjetiva', 'Não há diferença', 'Opinião é sempre verdadeira',
-                'Fato é subjetivo'
-            ],
-            correta: 0,
-            explicacao: 'Fato é objetivo e comprovável; opinião é juízo de valor.'
-        }, {
-            ano: '5º Ano',
-            pergunta: 'Em um texto argumentativo, o que é uma tese?',
-            opcoes: ['Ideia principal que se defende', 'O título do texto', 'A conclusão', 'Um exemplo'],
-            correta: 0,
-            explicacao: 'Tese é a posição defendida pelo autor.'
-        }, {
             ano: '6º Ano',
             pergunta: 'O que caracteriza um artigo de opinião?',
             opcoes: ['Defesa de um ponto de vista', 'Narração de fatos', 'Descrição de objetos', 'Instruções'],
             correta: 0,
             explicacao: 'Artigo de opinião apresenta argumentos para defender uma tese.'
         }, {
-            ano: '6º Ano',
-            pergunta: 'Em "Se eu estudasse, passaria", a oração destacada expressa:',
-            opcoes: ['Condição', 'Causa', 'Consequência', 'Finalidade'],
-            correta: 0,
-            explicacao: '"Se eu estudasse" é uma oração condicional.'
-        }, {
-            ano: '6º Ano',
-            pergunta: 'Qual é a diferença entre linguagem verbal e não verbal?',
-            opcoes: ['Verbal usa palavras; não verbal usa imagens/sons', 'Não há diferença',
-                'Verbal é mais importante', 'Não verbal é só desenho'
-            ],
-            correta: 0,
-            explicacao: 'Linguagem verbal utiliza palavras; não verbal usa outros signos.'
-        }, {
-            ano: '6º Ano',
-            pergunta: 'O que é coesão textual?',
-            opcoes: ['Conexão entre as partes do texto', 'O tema do texto', 'O título', 'A conclusão'],
-            correta: 0,
-            explicacao: 'Coesão refere-se aos elementos que conectam o texto.'
-        }, {
-            ano: '6º Ano',
-            pergunta: 'Em uma notícia, qual é a função do título?',
-            opcoes: ['Sintetizar e atrair o leitor', 'Dar detalhes', 'Concluir', 'Apresentar opinião'],
-            correta: 0,
-            explicacao: 'Título resume e chama a atenção.'
-        }, {
             ano: '7º Ano',
             pergunta: 'O que caracteriza um texto argumentativo?',
             opcoes: ['Defesa de uma tese com argumentos', 'Narração de fatos', 'Descrição de objetos', 'Instruções'],
             correta: 0,
             explicacao: 'Texto argumentativo defende um ponto de vista com argumentos.'
-        }, {
-            ano: '7º Ano',
-            pergunta: 'Em um artigo de opinião, a tese é:',
-            opcoes: ['A ideia central defendida', 'A conclusão', 'O título', 'Um exemplo'],
-            correta: 0,
-            explicacao: 'Tese é a posição defendida pelo autor.'
-        }, {
-            ano: '7º Ano',
-            pergunta: 'O que é uma falácia argumentativa?',
-            opcoes: ['Um argumento inválido ou enganoso', 'Um argumento válido', 'Uma opinião', 'Um fato'],
-            correta: 0,
-            explicacao: 'Falácia é um raciocínio aparentemente válido, mas incorreto.'
-        }, {
-            ano: '7º Ano',
-            pergunta: 'Em uma resenha, o que é analisado?',
-            opcoes: ['A obra em si (livro, filme, etc.)', 'A opinião do autor', 'O preço da obra', 'A editora'],
-            correta: 0,
-            explicacao: 'Resenha analisa criticamente uma obra.'
-        }, {
-            ano: '7º Ano',
-            pergunta: 'Qual é a diferença entre fato e opinião em um texto?',
-            opcoes: ['Fato é comprovável; opinião é subjetiva', 'Não há diferença', 'Opinião é sempre falsa',
-                'Fato é subjetivo'
-            ],
-            correta: 0,
-            explicacao: 'Fato é objetivo; opinião é juízo de valor.'
         }];
 
         console.log('📚 ' + perguntas.length + ' perguntas carregadas');
@@ -607,9 +490,8 @@
         //  VARIÁVEIS DO JOGO
         // ================================================================
 
-        var TOTAL_PERGUNTAS = 20;
+        var TOTAL_PERGUNTAS = 4;
         var TEMPO_POR_QUESTAO = 20;
-        var PERGUNTAS_POR_ANO = 5;
 
         var perguntasJogo = [];
         var indiceAtual = 0;
@@ -650,22 +532,14 @@
         var elTimerText = document.getElementById('timerText');
         var elProgressBar = document.getElementById('progressBar');
 
-        if (elBtnReset) {
-            elBtnReset.style.display = 'none';
-        }
-
-        var badgeColors = {
-            '4º Ano': 'ano-4',
-            '5º Ano': 'ano-5',
-            '6º Ano': 'ano-6',
-            '7º Ano': 'ano-7'
-        };
-
-        console.log('✅ Elementos DOM:', {
+        console.log('✅ Elementos DOM encontrados:', {
             pergunta: !!elPergunta,
             opcoes: !!elOpcoes,
             feedback: !!elFeedback,
-            btnProximo: !!elBtnProximo
+            btnProximo: !!elBtnProximo,
+            badge: !!elBadge,
+            timerBar: !!elTimerBar,
+            timerText: !!elTimerText
         });
 
         // ================================================================
@@ -754,7 +628,7 @@
                 var ano = anos[a];
                 var questoesDoAno = getPerguntasPorAno(ano);
                 var shuffled = shuffle([].concat(questoesDoAno));
-                var selecionadasAno = shuffled.slice(0, PERGUNTAS_POR_ANO);
+                var selecionadasAno = shuffled.slice(0, 1);
                 for (var i = 0; i < selecionadasAno.length; i++) {
                     embaralharOpcoes(selecionadasAno[i]);
                 }
@@ -762,40 +636,6 @@
             }
 
             return shuffle(selecionadas);
-        }
-
-        // ================================================================
-        //  SALVAR RANKING
-        // ================================================================
-
-        function salvarRanking(acertos, erros, tempoTotal, percentual) {
-            try {
-                var jogador = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
-                var dados = JSON.parse(localStorage.getItem('ranking') || '[]');
-
-                var mins = Math.floor(tempoTotal / 60);
-                var secs = tempoTotal % 60;
-                var tempoFormatado = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
-
-                var registro = {
-                    data: new Date().toISOString(),
-                    apelido: jogador.apelido || 'Anônimo',
-                    nome: jogador.nome || '',
-                    serie: jogador.serie || '',
-                    cidade: jogador.cidade || '',
-                    estado: jogador.estado || '',
-                    acertos: acertos,
-                    erros: erros,
-                    total: acertos + erros,
-                    tempo: tempoFormatado,
-                    tempoSegundos: tempoTotal,
-                    percentual: percentual
-                };
-
-                dados.push(registro);
-                if (dados.length > 1000) dados.splice(0, dados.length - 1000);
-                localStorage.setItem('ranking', JSON.stringify(dados));
-            } catch (e) {}
         }
 
         // ================================================================
@@ -865,17 +705,22 @@
                 return;
             }
 
+            // Atualizar badge
             if (elBadge) {
                 elBadge.className = 'badge';
-                var corClasse = badgeColors[q.ano] || 'ano-4';
-                elBadge.classList.add(corClasse);
+                if (q.ano === '4º Ano') elBadge.classList.add('ano-4');
+                else if (q.ano === '5º Ano') elBadge.classList.add('ano-5');
+                else if (q.ano === '6º Ano') elBadge.classList.add('ano-6');
+                else if (q.ano === '7º Ano') elBadge.classList.add('ano-7');
                 elBadge.textContent = q.ano;
             }
 
+            // Atualizar pergunta
             if (elPergunta) {
                 elPergunta.textContent = q.pergunta;
             }
 
+            // Renderizar opções
             if (elOpcoes) {
                 var letras = ['A', 'B', 'C', 'D'];
                 elOpcoes.innerHTML = '';
@@ -892,11 +737,13 @@
                 }
             }
 
+            // Resetar feedback
             if (elFeedback) {
                 elFeedback.className = 'feedback';
                 elFeedback.textContent = '';
             }
 
+            // Resetar botão próximo
             if (elBtnProximo) {
                 elBtnProximo.classList.remove('show');
             }
@@ -1074,199 +921,6 @@
         }
 
         // ================================================================
-        //  GRÁFICOS
-        // ================================================================
-
-        function desenharGraficoPizza(acertos, erros) {
-            var canvas = document.getElementById('pizzaChart');
-            if (!canvas) return;
-
-            var ctx = canvas.getContext('2d');
-            var width = canvas.width;
-            var height = canvas.height;
-            var radius = Math.min(width, height) / 2 - 10;
-            var centerX = width / 2;
-            var centerY = height / 2;
-
-            ctx.clearRect(0, 0, width, height);
-
-            var total = acertos + erros;
-            if (total === 0) {
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-                ctx.fillStyle = '#333333';
-                ctx.fill();
-                ctx.fillStyle = '#888888';
-                ctx.font = '14px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('Aguardando...', centerX, centerY);
-                return;
-            }
-
-            var acertosPercent = acertos / total;
-            var errosPercent = erros / total;
-
-            var startAngle = -Math.PI / 2;
-            var acertosAngle = acertosPercent * 2 * Math.PI;
-            var errosAngle = errosPercent * 2 * Math.PI;
-
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, startAngle, startAngle + acertosAngle);
-            ctx.closePath();
-            ctx.fillStyle = '#4ade80';
-            ctx.fill();
-            ctx.strokeStyle = '#1a1a1a';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, startAngle + acertosAngle, startAngle + acertosAngle + errosAngle);
-            ctx.closePath();
-            ctx.fillStyle = '#f87171';
-            ctx.fill();
-            ctx.strokeStyle = '#1a1a1a';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-            ctx.strokeStyle = '#333333';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            ctx.fillStyle = '#e8e8e8';
-            ctx.font = 'bold 22px Inter, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            var percentualAcertos = Math.round(acertosPercent * 100);
-            ctx.fillText(percentualAcertos + '%', centerX, centerY - 6);
-
-            ctx.fillStyle = '#888888';
-            ctx.font = '11px Inter, sans-serif';
-            ctx.fillText('acertos', centerX, centerY + 20);
-        }
-
-        function desenharGraficoPorNivel() {
-            var container = document.getElementById('levelChartContainer');
-            if (!container) return;
-
-            var anos = ['4º Ano', '5º Ano', '6º Ano', '7º Ano'];
-            var labels = {
-                '4º Ano': '4º',
-                '5º Ano': '5º',
-                '6º Ano': '6º',
-                '7º Ano': '7º'
-            };
-
-            var html = '<div class="level-chart"><div class="level-chart-title">📊 Desempenho por nível</div><div class="level-bar-group">';
-
-            for (var a = 0; a < anos.length; a++) {
-                var ano = anos[a];
-                var stats = statsPorNivel[ano] || { acertos: 0, erros: 0 };
-                var total = stats.acertos + stats.erros;
-                var percAcertos = total > 0 ? (stats.acertos / total) * 100 : 0;
-                var percErros = total > 0 ? (stats.erros / total) * 100 : 0;
-
-                html += '<div class="level-bar-row">';
-                html += '<div class="level-bar-label"><span class="' + ano.replace(' ', '-').toLowerCase() +
-                    '-label">' + labels[ano] + '</span></div>';
-                html += '<div class="level-bar-track">';
-                html += '<div class="level-bar-fill-acertos" style="width: ' + percAcertos + '%;"></div>';
-                html += '<div class="level-bar-fill-erros" style="width: ' + percErros + '%;"></div>';
-                html += '</div>';
-                html += '<div class="level-bar-numbers"><span class="acert-count">' + stats.acertos +
-                    '</span>/<span class="err-count">' + stats.erros + '</span><span style="color:#666; font-weight:400;">(' +
-                    total + ')</span></div>';
-                html += '</div>';
-            }
-
-            html += '</div></div>';
-            container.innerHTML = html;
-        }
-
-        // ================================================================
-        //  RANKING NO FINAL - TOP 20 COM ACERTOS E TEMPO
-        // ================================================================
-
-        function desenharRankingFinal() {
-            var container = document.getElementById('rankingFinalContainer');
-            if (!container) return;
-
-            try {
-                var dados = JSON.parse(localStorage.getItem('ranking') || '[]');
-
-                if (dados.length === 0) {
-                    container.innerHTML = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 20</div><div class="result-ranking-empty">Nenhuma partida registrada ainda</div></div>';
-                    return;
-                }
-
-                var ranking = [].concat(dados).sort(function(a, b) {
-                    if (b.percentual !== a.percentual) return b.percentual - a.percentual;
-                    return a.tempoSegundos - b.tempoSegundos;
-                });
-
-                var top = ranking.slice(0, 20);
-
-                var html = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 20</div>';
-
-                for (var i = 0; i < top.length; i++) {
-                    var item = top[i];
-                    var pos = i + 1;
-                    var posClass = '';
-                    var posEmoji = '';
-
-                    if (pos === 1) { posClass = 'gold';
-                        posEmoji = '🥇'; } else if (pos === 2) { posClass = 'silver';
-                        posEmoji = '🥈'; } else if (pos === 3) { posClass = 'bronze';
-                        posEmoji = '🥉'; }
-
-                    var acertosTexto = item.acertos + '/' + (item.total || 20);
-                    var tempoTexto = item.tempo || '--:--';
-
-                    html += '<div class="result-ranking-item">';
-                    html += '<span class="rank-pos ' + posClass + '">' + (posEmoji || '#' + pos) + '</span>';
-                    html += '<span class="rank-name">' + (item.apelido || 'Anônimo') + '</span>';
-                    html += '<span class="rank-stats">';
-                    html += '<span class="rank-acertos">' + acertosTexto + '</span>';
-                    html += '<span class="rank-tempo">⏱ ' + tempoTexto + '</span>';
-                    html += '</span>';
-                    html += '<span class="rank-score">' + item.percentual + '%</span>';
-                    html += '</div>';
-                }
-
-                html += '<div class="result-ranking-total">' +
-                    dados.length + ' partidas registradas · Top 20 exibidos</div>';
-                html += '</div>';
-                container.innerHTML = html;
-            } catch (e) {
-                container.innerHTML = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 20</div><div class="result-ranking-empty">Erro ao carregar ranking</div></div>';
-            }
-        }
-
-        // ================================================================
-        //  FRASES INSPIRADORAS
-        // ================================================================
-
-        var frasesInspiradoras = [
-            { frase: 'A leitura é uma fonte inesgotável de prazer, mas por incrível que pareça, a quase totalidade não sente esta sede.',
-                autor: 'Carlos Drummond de Andrade' },
-            { frase: 'Ler é sonhar pela mão de outrem. Ler mal e por alto é libertar-se da mão que nos conduz. A leitura superficial é a preguiça de sonhar.',
-                autor: 'Fernando Pessoa' },
-            { frase: 'A educação é a arma mais poderosa que você pode usar para mudar o mundo.',
-                autor: 'Nelson Mandela' },
-            { frase: 'Educar é semear com sabedoria e colher com paciência.', autor: 'Augusto Cury' },
-            { frase: 'O importante não é vencer todos os dias, mas lutar sempre.', autor: 'Waldemar Valle Martins' },
-            { frase: 'A mente que se abre a uma nova ideia jamais voltará ao seu tamanho original.',
-                autor: 'Albert Einstein' },
-            { frase: 'O conhecimento é a única coisa que ninguém pode tirar de você.', autor: 'Sócrates' },
-            { frase: 'Não basta saber, é preciso aplicar. Não basta querer, é preciso fazer.',
-                autor: 'Johann Wolfgang von Goethe' }
-        ];
-
-        // ================================================================
         //  EXIBIR RESULTADO
         // ================================================================
 
@@ -1295,15 +949,11 @@
             var total = acertos + erros;
             var percentualAcertos = total > 0 ? Math.round((acertos / total) * 100) : 0;
 
-            salvarRanking(acertos, erros, tempoTotalSegundos, percentualAcertos);
-
             var mensagem = '';
             if (percentualAcertos >= 80) mensagem = '🏆 Excelente! Você domina o conteúdo!';
             else if (percentualAcertos >= 60) mensagem = '👏 Bom trabalho! Continue praticando!';
             else if (percentualAcertos >= 40) mensagem = '📚 Estude mais e tente novamente!';
             else mensagem = '💪 Não desista! Revisando os conteúdos você melhora!';
-
-            var fraseEscolhida = frasesInspiradoras[Math.floor(Math.random() * frasesInspiradoras.length)];
 
             if (elPergunta) elPergunta.textContent = '';
 
@@ -1325,27 +975,9 @@
                     '<div><div class="label">Erros</div><div class="value red">' + erros + '</div></div>' +
                     '<div><div class="label">Total</div><div class="value yellow">' + total + '</div></div>' +
                     '</div>' +
-                    '<div class="chart-container">' +
-                    '<canvas id="pizzaChart" width="200" height="200"></canvas>' +
-                    '<div class="chart-legend">' +
-                    '<div class="legend-item"><span class="legend-color" style="background: #4ade80;"></span><span class="legend-text">Acertos: ' +
-                    acertos + ' (' + (total > 0 ? Math.round((acertos / total) * 100) : 0) + '%)</span></div>' +
-                    '<div class="legend-item"><span class="legend-color" style="background: #f87171;"></span><span class="legend-text">Erros: ' +
-                    erros + ' (' + (total > 0 ? Math.round((erros / total) * 100) : 0) + '%)</span></div>' +
-                    '</div></div>' +
-                    '<div id="levelChartContainer"></div>' +
-                    '<div id="rankingFinalContainer"></div>' +
-                    '<div class="inspirational-quote">"' + fraseEscolhida.frase + '"<span class="author">— ' +
-                    fraseEscolhida.autor + '</span></div>' +
-                    '<div class="result-sub">' + TOTAL_PERGUNTAS + ' questões · 5 de cada ano (4º ao 7º)</div>' +
+                    '<div class="result-sub">' + TOTAL_PERGUNTAS + ' questões · 1 de cada ano (4º ao 7º)</div>' +
                     '</div>';
             }
-
-            setTimeout(function() {
-                desenharGraficoPizza(acertos, erros);
-                desenharGraficoPorNivel();
-                desenharRankingFinal();
-            }, 50);
 
             if (elFeedback) {
                 elFeedback.className = 'feedback';
