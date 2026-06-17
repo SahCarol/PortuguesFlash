@@ -641,7 +641,7 @@
             margin-top: 10px;
         }
 
-        /* ===== RANKING NO FINAL ===== */
+        /* ===== RANKING NO FINAL - TOP 20 ===== */
         .result-ranking {
             margin: 20px auto 16px;
             padding: 16px 20px;
@@ -673,7 +673,8 @@
         .result-ranking-item .rank-pos {
             color: #666666;
             font-weight: 700;
-            min-width: 30px;
+            min-width: 40px;
+            text-align: left;
         }
         .result-ranking-item .rank-pos.gold {
             color: #facc15;
@@ -700,6 +701,14 @@
             color: #666666;
             font-size: 0.85rem;
             padding: 10px 0;
+        }
+        .result-ranking-total {
+            text-align: center;
+            color: #666666;
+            font-size: 0.75rem;
+            padding-top: 8px;
+            border-top: 1px solid #1a1a1a;
+            margin-top: 8px;
         }
 
         @media (max-width: 600px) {
@@ -765,6 +774,9 @@
             .result-ranking-item {
                 font-size: 0.75rem;
                 padding: 4px 6px;
+            }
+            .result-ranking-item .rank-pos {
+                min-width: 30px;
             }
         }
     </style>
@@ -844,7 +856,7 @@
     <script>
         // ================================================================
         //  DOMÍNIO DA LÍNGUA - SCRIPT COMPLETO
-        //  VERSÃO COM 160 PERGUNTAS, GRÁFICOS E RANKING
+        //  VERSÃO COM 160 PERGUNTAS, GRÁFICOS E RANKING TOP 20
         // ================================================================
 
         console.log('🚀 Carregando script completo...');
@@ -1895,7 +1907,7 @@
         }
 
         // ================================================================
-        //  RANKING NO FINAL
+        //  RANKING NO FINAL - TOP 20
         // ================================================================
 
         function desenharRankingFinal() {
@@ -1906,39 +1918,47 @@
                 var dados = JSON.parse(localStorage.getItem('ranking') || '[]');
 
                 if (dados.length === 0) {
-                    container.innerHTML = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking</div><div class="result-ranking-empty">Nenhuma partida registrada ainda</div></div>';
+                    container.innerHTML = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 20</div><div class="result-ranking-empty">Nenhuma partida registrada ainda</div></div>';
                     return;
                 }
 
+                // Ordenar por percentual (maior) e tempo (menor) para desempate
                 var ranking = [].concat(dados).sort(function(a, b) {
                     if (b.percentual !== a.percentual) return b.percentual - a.percentual;
                     return a.tempoSegundos - b.tempoSegundos;
                 });
 
-                var top = ranking.slice(0, 5);
-                var html =
-                    '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 5</div>';
+                // Pegar os top 20 (ou menos se não houver 20)
+                var top = ranking.slice(0, 20);
+
+                var html = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 20</div>';
 
                 for (var i = 0; i < top.length; i++) {
                     var item = top[i];
                     var pos = i + 1;
                     var posClass = '';
-                    if (pos === 1) posClass = 'gold';
-                    else if (pos === 2) posClass = 'silver';
-                    else if (pos === 3) posClass = 'bronze';
+                    var posEmoji = '';
+
+                    if (pos === 1) { posClass = 'gold';
+                        posEmoji = '🥇'; } else if (pos === 2) { posClass = 'silver';
+                        posEmoji = '🥈'; } else if (pos === 3) { posClass = 'bronze';
+                        posEmoji = '🥉'; }
 
                     html += '<div class="result-ranking-item">';
-                    html += '<span class="rank-pos ' + posClass + '">#' + pos + '</span>';
+                    html += '<span class="rank-pos ' + posClass + '">' + (posEmoji || '#' + pos) + '</span>';
                     html += '<span class="rank-name">' + (item.apelido || 'Anônimo') + '</span>';
                     html += '<span class="rank-score">' + item.percentual + '%</span>';
                     html += '</div>';
                 }
 
+                // Mostrar total de registros
+                html += '<div class="result-ranking-total">' +
+                    dados.length + ' partidas registradas · Top 20 exibidos</div>';
+
                 html += '</div>';
                 container.innerHTML = html;
             } catch (e) {
-                container.innerHTML =
-                '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking</div><div class="result-ranking-empty">Erro ao carregar ranking</div></div>';
+                container.innerHTML = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 20</div><div class="result-ranking-empty">Erro ao carregar ranking</div></div>';
             }
         }
 
