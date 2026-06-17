@@ -208,10 +208,8 @@
 
     <script>
         // ================================================================
-        //  RANKING - SEM ANIMAÇÕES E SEM TREMEDEIRA
+        //  RANKING - SEM TREMEDEIRA (CARREGA UMA ÚNICA VEZ)
         // ================================================================
-
-        let ultimoRanking = '';
 
         function carregarRanking() {
             try {
@@ -219,10 +217,8 @@
                 const container = document.getElementById('rankingList');
                 const totalRegistros = document.getElementById('totalRegistros');
 
-                let novoHTML = '';
-
                 if (dados.length === 0) {
-                    novoHTML = `
+                    container.innerHTML = `
                         <div class="ranking-empty">
                             <span class="empty-icon">📊</span>
                             <div class="empty-text">Nenhum jogo registrado ainda</div>
@@ -277,31 +273,24 @@
                         `;
                     });
 
-                    novoHTML = `<div class="ranking-list">${items}</div>`;
+                    container.innerHTML = `<div class="ranking-list">${items}</div>`;
                 }
 
                 totalRegistros.textContent = dados.length;
-
-                // Só atualizar se houve mudança real
-                if (novoHTML !== ultimoRanking) {
-                    container.innerHTML = novoHTML;
-                    ultimoRanking = novoHTML;
-                }
 
             } catch (e) {
                 console.error('Erro ao carregar ranking:', e);
             }
         }
 
-        // Carregar ao iniciar
+        // Carregar ao iniciar (UMA ÚNICA VEZ)
         carregarRanking();
 
-        // Atualizar a cada 30 segundos (em vez de 5)
-        setInterval(carregarRanking, 30000);
-
-        // Também atualizar quando a aba ganhar foco
+        // NÃO HÁ setInterval - a página NÃO vai tremer!
+        // Atualiza apenas se o usuário voltar para a aba (e olhe lá)
         document.addEventListener('visibilitychange', function() {
             if (!document.hidden) {
+                // Recarrega apenas quando o usuário volta para a aba
                 carregarRanking();
             }
         });
