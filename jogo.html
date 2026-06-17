@@ -929,7 +929,7 @@
             <span>Baseado na BNCC · Currículo PE</span>
             <div class="footer-buttons">
                 <button class="btn-reset menu-btn" id="btnMenu">🏠 Menu</button>
-                <button class="btn-reset" id="btnReset">↻ Reiniciar</button>
+                <button class="btn-reset" id="btnReset" style="display:none;">↻ Reiniciar</button>
             </div>
         </div>
     </div>
@@ -1470,6 +1470,11 @@
         var elTimerText = document.getElementById('timerText');
         var elProgressBar = document.getElementById('progressBar');
 
+        // 🔥 Garantir que o botão Reiniciar comece oculto
+        if (elBtnReset) {
+            elBtnReset.style.display = 'none';
+        }
+
         var badgeColors = {
             '4º Ano': 'ano-4',
             '5º Ano': 'ano-5',
@@ -1609,6 +1614,11 @@
 
         function iniciarJogo() {
             console.log('🔄 Iniciando jogo...');
+
+            // 🔥 Ocultar botão Reiniciar durante o jogo
+            if (elBtnReset) {
+                elBtnReset.style.display = 'none';
+            }
 
             if (timerInterval) {
                 clearInterval(timerInterval);
@@ -2076,6 +2086,11 @@
         function exibirResultado() {
             console.log('🏁 Exibindo resultado final');
             jogoFinalizado = true;
+
+            // 🔥 Mostrar botão Reiniciar apenas no final
+            if (elBtnReset) {
+                elBtnReset.style.display = 'block';
+            }
 
             if (cronometroInterval) {
                 clearInterval(cronometroInterval);
