@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Domínio da Língua · Admin</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0d0d0d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .admin-container {
+            max-width: 960px;
+            width: 100%;
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 32px 36px 28px;
+            border: 1px solid #333333;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #2a2a2a;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e8e8e8;
+        }
+
+        .admin-header h1 span { color: #8b5cf6; }
+
+        .admin-header .back-btn {
+            background: transparent;
+            border: 1.5px solid #333333;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #888888;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-header .back-btn:hover {
+            border-color: #555555;
+            color: #cccccc;
+        }
+
+        /* ===== LOGIN ===== */
+        .admin-login {
+            max-width: 400px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .admin-login .lock-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+        .admin-login h2 { color: #e8e8e8; font-size: 1.3rem; margin-bottom: 8px; }
+        .admin-login p { color: #666666; font-size: 0.9rem; margin-bottom: 20px; }
+
+        .admin-login .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .admin-login .form-group label {
+            display: block;
+            color: #888888;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .admin-login .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #141414;
+            border: 1.5px solid #333333;
+            border-radius: 10px;
+            color: #e8e8e8;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+        }
+
+        .admin-login .form-group input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        .admin-login .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #8b5cf6;
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-login .btn-login:hover {
+            background: #7c3aed;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        .admin-login .error-msg {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* ===== CONTEÚDO ADMIN ===== */
+        .admin-content { display: none; }
+
+        .admin-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-tabs button {
+            padding: 10px 20px;
+            background: #252525;
+            border: 1.5px solid #333333;
+            border-radius: 10px;
+            color: #888888;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-tabs button:hover {
+            border-color: #555555;
+            color: #cccccc;
+        }
+
+        .admin-tabs button.active {
+            background: #2a2a2a;
+            border-color: #8b5cf6;
+            color: #8b5cf6;
+        }
+
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; }
+
+        .admin-table-wrap {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .admin-table th {
+            background: #141414;
+            color: #888888;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .admin-table td {
+            padding: 10px 14px;
+            color: #cccccc;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .admin-table tr:hover td {
+            background: #141414;
+        }
+
+        .admin-table .highlight-green { color: #4ade80; }
+        .admin-table .highlight-red { color: #f87171; }
+        .admin-table .highlight-blue { color: #4a9eff; }
+        .admin-table .highlight-purple { color: #8b5cf6; }
+
+        .admin-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .admin-actions button {
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-actions .btn-doc {
+            background: #4a9eff;
+            color: #ffffff;
+        }
+
+        .admin-actions .btn-doc:hover {
+            background: #3a8eef;
+            box-shadow: 0 4px 16px rgba(74, 158, 255, 0.3);
+        }
+
+        .admin-actions .btn-clear {
+            background: #252525;
+            color: #f87171;
+            border: 1.5px solid #333333;
+        }
+
+        .admin-actions .btn-clear:hover {
+            background: #2a0a0a;
+            border-color: #ef4444;
+        }
+
+        .admin-actions .btn-refresh {
+            background: #252525;
+            color: #888888;
+            border: 1.5px solid #333333;
+        }
+
+        .admin-actions .btn-refresh:hover {
+            border-color: #555555;
+            color: #cccccc;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .admin-stats-grid .stat-card {
+            background: #141414;
+            border-radius: 10px;
+            padding: 16px 20px;
+            border: 1px solid #2a2a2a;
+            text-align: center;
+        }
+
+        .admin-stats-grid .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e8e8e8;
+        }
+
+        .admin-stats-grid .stat-card .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #666666;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .admin-stats-grid .stat-card .number.green { color: #4ade80; }
+        .admin-stats-grid .stat-card .number.red { color: #f87171; }
+        .admin-stats-grid .stat-card .number.blue { color: #4a9eff; }
+        .admin-stats-grid .stat-card .number.purple { color: #8b5cf6; }
+
+        .admin-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666666;
+        }
+
+        .admin-empty .empty-icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+
+        @media (max-width: 600px) {
+            .admin-container { padding: 20px 16px; }
+            .admin-tabs button { font-size: 0.75rem; padding: 8px 14px; }
+            .admin-table { font-size: 0.75rem; }
+            .admin-table th, .admin-table td { padding: 8px 10px; }
+            .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- HEADER -->
+        <div class="admin-header">
+            <h1>🔒 <span>Administração</span></h1>
+            <a href="index.html" class="back-btn">← Voltar</a>
+        </div>
+
+        <!-- ===== LOGIN ===== -->
+        <div class="admin-login" id="adminLogin">
+            <span class="lock-icon">🔐</span>
+            <h2>Acesso Restrito</h2>
+            <p>Digite a senha para acessar a área administrativa</p>
+            <div class="form-group">
+                <label>Senha</label>
+                <input type="password" id="inputSenha" placeholder="Digite a senha..." />
+            </div>
+            <button class="btn-login" onclick="fazerLogin()">🔓 Entrar</button>
+            <div class="error-msg" id="erroLogin">Senha incorreta. Tente novamente.</div>
+        </div>
+
+        <!-- ===== CONTEÚDO ADMIN ===== -->
+        <div class="admin-content" id="adminContent">
+            <!-- Estatísticas -->
+            <div class="admin-stats-grid" id="adminStats">
+                <div class="stat-card">
+                    <div class="number blue" id="totalJogadores">0</div>
+                    <div class="label">Jogadores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number purple" id="totalPartidas">0</div>
+                    <div class="label">Partidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number green" id="totalAcertos">0</div>
+                    <div class="label">Total Acertos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number red" id="totalErros">0</div>
+                    <div class="label">Total Erros</div>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div class="admin-tabs">
+                <button class="active" data-tab="tabJogadores" onclick="trocarTab('tabJogadores')">👤 Jogadores</button>
+                <button data-tab="tabPartidas" onclick="trocarTab('tabPartidas')">📊 Partidas</button>
+                <button data-tab="tabPerguntas" onclick="trocarTab('tabPerguntas')">📝 Perguntas</button>
+            </div>
+
+            <!-- TAB JOGADORES (COM ESTADO) -->
+            <div class="admin-tab-content active" id="tabJogadores">
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Apelido</th>
+                                <th>Nome</th>
+                                <th>Série</th>
+                                <th>Cidade</th>
+                                <th>Estado</th>
+                                <th>Partidas</th>
+                                <th>Média</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaJogadores">
+                            <tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB PARTIDAS -->
+            <div class="admin-tab-content" id="tabPartidas">
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Jogador</th>
+                                <th>Acertos</th>
+                                <th>Erros</th>
+                                <th>%</th>
+                                <th>Tempo</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaPartidas">
+                            <tr><td colspan="7" style="text-align:center; color:#666;">Nenhuma partida registrada</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB PERGUNTAS -->
+            <div class="admin-tab-content" id="tabPerguntas">
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Pergunta</th>
+                                <th>Ano</th>
+                                <th>Resposta Correta</th>
+                                <th>Explicação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaPerguntas">
+                            <tr><td colspan="5" style="text-align:center; color:#666;">Carregando perguntas...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- AÇÕES -->
+            <div class="admin-actions">
+                <button class="btn-doc" onclick="exportarDoc()">📄 Exportar para DOC</button>
+                <button class="btn-refresh" onclick="atualizarDados()">🔄 Atualizar</button>
+                <button class="btn-clear" onclick="limparDados()">🗑️ Limpar Dados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  ADMIN - LOGIN
+        // ================================================================
+
+        const SENHA_ADMIN = 'LL2026';
+
+        function fazerLogin() {
+            const senha = document.getElementById('inputSenha').value;
+            const erro = document.getElementById('erroLogin');
+
+            if (senha === SENHA_ADMIN) {
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                carregarDadosAdmin();
+            } else {
+                erro.style.display = 'block';
+                setTimeout(() => { erro.style.display = 'none'; }, 3000);
+            }
+        }
+
+        document.getElementById('inputSenha').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') fazerLogin();
+        });
+
+        // ================================================================
+        //  ADMIN - DADOS
+        // ================================================================
+
+        function carregarDadosAdmin() {
+            const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+
+            // Estatísticas
+            const jogadores = [...new Set(ranking.map(r => r.apelido))];
+            document.getElementById('totalJogadores').textContent = jogadores.length;
+            document.getElementById('totalPartidas').textContent = ranking.length;
+            document.getElementById('totalAcertos').textContent = ranking.reduce((s, r) => s + r.acertos, 0);
+            document.getElementById('totalErros').textContent = ranking.reduce((s, r) => s + r.erros, 0);
+
+            // Tabela Jogadores (COM ESTADO)
+            const tbodyJogadores = document.getElementById('tabelaJogadores');
+            if (jogadores.length === 0) {
+                tbodyJogadores.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>';
+            } else {
+                let html = '';
+                jogadores.forEach((apelido, index) => {
+                    const partidas = ranking.filter(r => r.apelido === apelido);
+                    const total = partidas.length;
+                    const media = Math.round(partidas.reduce((s, r) => s + r.percentual, 0) / total);
+                    const jogador = partidas[0];
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><strong>${apelido}</strong></td>
+                            <td>${jogador.nome || '-'}</td>
+                            <td>${jogador.serie || '-'}</td>
+                            <td>${jogador.cidade || '-'}</td>
+                            <td class="highlight-purple">${jogador.estado || '-'}</td>
+                            <td>${total}</td>
+                            <td class="highlight-blue">${media}%</td>
+                        </tr>
+                    `;
+                });
+                tbodyJogadores.innerHTML = html;
+            }
+
+            // Tabela Partidas
+            const tbodyPartidas = document.getElementById('tabelaPartidas');
+            if (ranking.length === 0) {
+                tbodyPartidas.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#666;">Nenhuma partida registrada</td></tr>';
+            } else {
+                let html = '';
+                ranking.slice().reverse().forEach((r, index) => {
+                    const data = new Date(r.data);
+                    const dataFormatada = data.toLocaleDateString('pt-BR', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><strong>${r.apelido || 'Anônimo'}</strong></td>
+                            <td class="highlight-green">${r.acertos}</td>
+                            <td class="highlight-red">${r.erros}</td>
+                            <td class="highlight-blue">${r.percentual}%</td>
+                            <td>${r.tempo || '--'}</td>
+                            <td>${dataFormatada}</td>
+                        </tr>
+                    `;
+                });
+                tbodyPartidas.innerHTML = html;
+            }
+
+            // Tabela Perguntas
+            const tbodyPerguntas = document.getElementById('tabelaPerguntas');
+            // As perguntas são carregadas do script.js
+            const perguntas = window.perguntasCompletas || [];
+            if (!perguntas || perguntas.length === 0) {
+                tbodyPerguntas.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#666;">Nenhuma pergunta disponível</td></tr>';
+            } else {
+                let html = '';
+                perguntas.forEach((p, index) => {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${p.pergunta || p}</td>
+                            <td>${p.ano || '-'}</td>
+                            <td class="highlight-green">${p.opcoes ? p.opcoes[p.correta] : '-'}</td>
+                            <td>${p.explicacao || '-'}</td>
+                        </tr>
+                    `;
+                });
+                tbodyPerguntas.innerHTML = html;
+            }
+        }
+
+        function trocarTab(tabId) {
+            document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.admin-tabs button').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        function atualizarDados() {
+            carregarDadosAdmin();
+        }
+
+        function limparDados() {
+            if (confirm('⚠️ Tem certeza que deseja LIMPAR TODOS OS DADOS do ranking?')) {
+                localStorage.removeItem('ranking');
+                carregarDadosAdmin();
+                alert('Dados limpos com sucesso!');
+            }
+        }
+
+        function exportarDoc() {
+            const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+            const perguntas = window.perguntasCompletas || [];
+
+            let conteudo = `
+        ================================================================
+        DOMÍNIO DA LÍNGUA - RELATÓRIO COMPLETO
+        ================================================================
+
+        DATA: ${new Date().toLocaleString('pt-BR')}
+
+        ----------------------------------------------------------------
+        RESUMO GERAL
+        ----------------------------------------------------------------
+        Total de Jogadores: ${[...new Set(ranking.map(r => r.apelido))].length}
+        Total de Partidas: ${ranking.length}
+        Total de Acertos: ${ranking.reduce((s, r) => s + r.acertos, 0)}
+        Total de Erros: ${ranking.reduce((s, r) => s + r.erros, 0)}
+
+        ----------------------------------------------------------------
+        RANKING COMPLETO
+        ----------------------------------------------------------------
+        `;
+
+            const rankingOrdenado = [...ranking].sort((a, b) => {
+                if (b.percentual !== a.percentual) return b.percentual - a.percentual;
+                return a.tempoSegundos - b.tempoSegundos;
+            });
+
+            rankingOrdenado.forEach((r, i) => {
+                const data = new Date(r.data);
+                const dataFormatada = data.toLocaleDateString('pt-BR');
+                conteudo += `
+        ${i+1}º - ${r.apelido || 'Anônimo'}
+        ├─ Nome: ${r.nome || '-'}
+        ├─ Série: ${r.serie || '-'}
+        ├─ Cidade: ${r.cidade || '-'}
+        ├─ Estado: ${r.estado || '-'}
+        ├─ Acertos: ${r.acertos}
+        ├─ Erros: ${r.erros}
+        ├─ Percentual: ${r.percentual}%
+        ├─ Tempo: ${r.tempo || '--'}
+        └─ Data: ${dataFormatada}
+
+        `;
+            });
+
+            if (perguntas && perguntas.length > 0) {
+                conteudo += `
+        ----------------------------------------------------------------
+        BANCO DE PERGUNTAS (${perguntas.length} perguntas)
+        ----------------------------------------------------------------
+
+        `;
+                perguntas.forEach((p, i) => {
+                    conteudo += `
+        PERGUNTA ${i+1} [${p.ano || 'Sem ano'}]
+        └─ ${p.pergunta || p}
+           ├─ A) ${p.opcoes ? p.opcoes[0] : '-'}
+           ├─ B) ${p.opcoes ? p.opcoes[1] : '-'}
+           ├─ C) ${p.opcoes ? p.opcoes[2] : '-'}
+           ├─ D) ${p.opcoes ? p.opcoes[3] : '-'}
+           ├─ Correta: ${p.opcoes ? p.opcoes[p.correta] : '-'}
+           └─ Explicação: ${p.explicacao || '-'}
+
+        `;
+                });
+            }
+
+            conteudo += `
+        ================================================================
+        FIM DO RELATÓRIO
+        ================================================================
+        `;
+
+            const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `relatorio_dominio_lingua_${new Date().toISOString().slice(0,10)}.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+
+            alert('📄 Relatório exportado com sucesso!');
+        }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
