@@ -34,4 +34,10 @@ function request(url, options, callback) {
     };
 }
 
-export default { request };
+// O foguete-firebase é CommonJS: ele chama require('https') e module.exports.
+// Como scripts clássicos resolvem esses nomes em window, expomos aqui.
+window.httpsShim = { request: request };
+window.module = { exports: {} };
+window.require = function() {
+    return window.httpsShim;
+};

@@ -2,7 +2,8 @@
 //  CONEXÃO FIREBASE (foguete-firebase)
 // ================================================================
 
-import FogueteFirebase from 'foguete-firebase';
+// O pacote é CommonJS: https-shim.js expõe require/module globais.
+const FogueteFirebase = window.module.exports;
 
 const db = new FogueteFirebase({ url: 'https://prreijwjfeiw-default-rtdb.firebaseio.com' });
 
