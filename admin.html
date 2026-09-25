@@ -494,6 +494,7 @@
                                 <th>Apelido</th>
                                 <th>Nome</th>
                                 <th>Série</th>
+                                <th>Rede</th>
                                 <th>Cidade</th>
                                 <th>Estado</th>
                                 <th>Partidas</th>
@@ -501,7 +502,7 @@
                             </tr>
                         </thead>
                         <tbody id="tabelaJogadores">
-                            <tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>
+                            <tr><td colspan="9" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1129,7 +1130,7 @@
             var tbodyJogadores = document.getElementById('tabelaJogadores');
             if (jogadores.length === 0) {
                 tbodyJogadores.innerHTML =
-                '<tr><td colspan="8" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>';
+                '<tr><td colspan="9" style="text-align:center; color:#666;">Nenhum jogador registrado</td></tr>';
             } else {
                 var htmlJog = '';
                 jogadores.forEach(function(apelido, index) {
@@ -1142,6 +1143,7 @@
                     htmlJog += '<td><strong>' + apelido + '</strong></td>';
                     htmlJog += '<td>' + (jogador.nome || '-') + '</td>';
                     htmlJog += '<td>' + (jogador.serie || '-') + '</td>';
+                    htmlJog += '<td>' + (jogador.rede || '-') + '</td>';
                     htmlJog += '<td>' + (jogador.cidade || '-') + '</td>';
                     htmlJog += '<td class="highlight-purple">' + (jogador.estado || '-') + '</td>';
                     htmlJog += '<td>' + total + '</td>';
@@ -1313,6 +1315,7 @@
                 conteudo += '\n' + (i + 1) + 'º - ' + (r.apelido || 'Anônimo') + '\n';
                 conteudo += '├─ Nome: ' + (r.nome || '-') + '\n';
                 conteudo += '├─ Série: ' + (r.serie || '-') + '\n';
+                conteudo += '├─ Rede: ' + (r.rede || '-') + '\n';
                 conteudo += '├─ Cidade: ' + (r.cidade || '-') + '\n';
                 conteudo += '├─ Estado: ' + (r.estado || '-') + '\n';
                 conteudo += '├─ Acertos: ' + r.acertos + '\n';

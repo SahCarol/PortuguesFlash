@@ -392,6 +392,15 @@
                     <option value="EM Concluído">Ensino Médio Concluído</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label>Rede de Ensino <span class="required">*</span></label>
+                <select id="inputRede">
+                    <option value="">Selecione...</option>
+                    <option value="Pública">Pública</option>
+                    <option value="Privada">Privada</option>
+                </select>
+            </div>
+
 
             <div class="form-row">
                 <div class="form-group">
@@ -457,10 +466,11 @@
             const apelido = document.getElementById('inputApelido').value.trim();
             const nome = document.getElementById('inputNome').value.trim();
             const serie = document.getElementById('inputSerie').value;
+            const rede = document.getElementById('inputRede').value;
             const cidade = document.getElementById('inputCidade').value.trim();
             const estado = document.getElementById('inputEstado').value;
 
-            if (!apelido || !nome || !serie || !cidade || !estado) {
+            if (!apelido || !nome || !serie || !rede || !cidade || !estado) {
                 alert('⚠️ Por favor, preencha todos os campos!');
                 return;
             }
@@ -469,6 +479,7 @@
                 apelido: apelido,
                 nome: nome,
                 serie: serie,
+                rede: rede,
                 cidade: cidade,
                 estado: estado,
                 dataCadastro: new Date().toISOString()

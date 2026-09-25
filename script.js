@@ -587,6 +587,7 @@ function salvarRanking(acertos, erros, tempoTotal, percentual) {
         apelido: jogador.apelido || 'Anônimo',
         nome: jogador.nome || '',
         serie: jogador.serie || '',
+        rede: jogador.rede || '',
         cidade: jogador.cidade || '',
         estado: jogador.estado || '',
         acertos: acertos,
