@@ -10,6 +10,15 @@
     <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/dApUYOU.png" />
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script type="importmap">
+        {
+            "imports": {
+                "foguete-firebase": "./node_modules/foguete-firebase/index.mjs",
+                "https": "./https-shim.js"
+            }
+        }
+    </script>
+    <script type="module" src="db.js"></script>
     <style>
         * {
             margin: 0;
@@ -901,8 +910,8 @@
         //  ADMIN - DADOS
         // ================================================================
 
-        function carregarDadosAdmin() {
-            var ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+        async function carregarDadosAdmin() {
+            var ranking = await lerRanking();
             var jogadores = [...new Set(ranking.map(function(r) { return r.apelido; }))];
 
             // Estatísticas gerais
@@ -1219,9 +1228,9 @@
             carregarDadosAdmin();
         }
 
-        function limparDados() {
+        async function limparDados() {
             if (confirm('⚠️ Tem certeza que deseja LIMPAR TODOS OS DADOS do ranking?')) {
-                localStorage.removeItem('ranking');
+                await salvarNoFirebase('ranking', null);
                 carregarDadosAdmin();
                 alert('Dados limpos com sucesso!');
             }
@@ -1231,8 +1240,8 @@
         //  ADMIN - EXPORTAR
         // ================================================================
 
-        function exportarDoc() {
-            var ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+        async function exportarDoc() {
+            var ranking = await lerRanking();
             var analise = analisarErros(ranking);
 
             var conteudo =

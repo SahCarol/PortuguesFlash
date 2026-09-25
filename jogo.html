@@ -10,6 +10,15 @@
     <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/dApUYOU.png" />
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script type="importmap">
+        {
+            "imports": {
+                "foguete-firebase": "./node_modules/foguete-firebase/index.mjs",
+                "https": "./https-shim.js"
+            }
+        }
+    </script>
+    <script type="module" src="db.js"></script>
     <style>
         /* ===== TODOS OS ESTILOS AQUI DENTRO ===== */
         * {
@@ -844,7 +853,7 @@
 
         function carregarJogador() {
             try {
-                var dados = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
+                var dados = JSON.parse(sessionStorage.getItem('jogadorAtual') || '{}');
                 if (dados.apelido) {
                     var nome = document.getElementById('nomeJogador');
                     var serie = document.getElementById('serieJogador');
@@ -922,10 +931,11 @@
         //  SALVAR RANKING
         // ================================================================
 
-        function salvarRanking(acertos, erros, tempoTotal, percentual) {
+        var salvamentoPartida = null;
+
+        async function salvarRanking(acertos, erros, tempoTotal, percentual) {
             try {
-                var jogador = JSON.parse(localStorage.getItem('jogadorAtual') || '{}');
-                var dados = JSON.parse(localStorage.getItem('ranking') || '[]');
+                var jogador = JSON.parse(sessionStorage.getItem('jogadorAtual') || '{}');
 
                 var mins = Math.floor(tempoTotal / 60);
                 var secs = tempoTotal % 60;
@@ -947,10 +957,10 @@
                     percentual: percentual
                 };
 
-                dados.push(registro);
-                if (dados.length > 1000) dados.splice(0, dados.length - 1000);
-                localStorage.setItem('ranking', JSON.stringify(dados));
-            } catch (e) {}
+                await salvarNoFirebase('ranking/' + Date.now(), registro);
+            } catch (e) {
+                console.error('Erro ao salvar no Firebase:', e);
+            }
         }
 
         // ================================================================
@@ -1353,12 +1363,13 @@
         //  RANKING NO FINAL
         // ================================================================
 
-        function desenharRankingFinal() {
+        async function desenharRankingFinal() {
             var container = document.getElementById('rankingFinalContainer');
             if (!container) return;
 
             try {
-                var dados = JSON.parse(localStorage.getItem('ranking') || '[]');
+                if (salvamentoPartida) await salvamentoPartida;
+                var dados = await lerRanking();
 
                 if (dados.length === 0) {
                     container.innerHTML = '<div class="result-ranking"><div class="result-ranking-title">🏆 Ranking - Top 20</div><div class="result-ranking-empty">Nenhuma partida registrada ainda</div></div>';
@@ -1457,7 +1468,7 @@
             var total = acertos + erros;
             var percentualAcertos = total > 0 ? Math.round((acertos / total) * 100) : 0;
 
-            salvarRanking(acertos, erros, tempoTotalSegundos, percentualAcertos);
+            salvamentoPartida = salvarRanking(acertos, erros, tempoTotalSegundos, percentualAcertos);
 
             var mensagem = '';
             if (percentualAcertos >= 80) mensagem = '🏆 Excelente! Você domina o conteúdo!';

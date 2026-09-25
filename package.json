@@ -1,0 +1,7 @@
+{
+  "name": "portugues-flash",
+  "private": true,
+  "dependencies": {
+    "foguete-firebase": "^2.1.0"
+  }
+}

@@ -10,6 +10,15 @@
     <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/dApUYOU.png" />
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script type="importmap">
+        {
+            "imports": {
+                "foguete-firebase": "./node_modules/foguete-firebase/index.mjs",
+                "https": "./https-shim.js"
+            }
+        }
+    </script>
+    <script type="module" src="db.js"></script>
     <style>
         /* ===== ESTILOS DO MENU ===== */
         * {
@@ -462,7 +471,7 @@
             document.getElementById('modalCadastro').classList.remove('active');
         }
 
-        function iniciarJogo() {
+        async function iniciarJogo() {
             const apelido = document.getElementById('inputApelido').value.trim();
             const nome = document.getElementById('inputNome').value.trim();
             const serie = document.getElementById('inputSerie').value;
@@ -485,7 +494,14 @@
                 dataCadastro: new Date().toISOString()
             };
 
-            localStorage.setItem('jogadorAtual', JSON.stringify(jogador));
+            sessionStorage.setItem('jogadorAtual', JSON.stringify(jogador));
+
+            try {
+                await salvarNoFirebase('jogadores/' + apelido, jogador);
+            } catch (e) {
+                console.error('Erro ao salvar no Firebase:', e);
+            }
+
             window.location.href = 'jogo.html';
         }
 
